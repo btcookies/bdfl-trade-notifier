@@ -1,0 +1,75 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: bdfl-trade-notifier
+# app and org for use with dashboard.serverless.com
+app: bdfl-trade-notifier-app
+org: brookstaylor13
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+frameworkVersion: '2'
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
+
+resources:
+  Resources:
+    playersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: players
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S        
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 100
+          WriteCapacityUnits: 100
+
+provider:
+  name: aws
+  timeout: 300
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - 'dynamodb:DescribeTable'
+        - 'dynamodb:Query'
+        - 'dynamodb:Scan'
+        - 'dynamodb:GetItem'
+        - 'dynamodb:PutItem'
+        - 'dynamodb:UpdateItem'
+        - 'dynamodb:DeleteItem'
+      Resource:
+        - 'arn:aws:dynamodb:*:*:table/players'
+  runtime: python3.8
+  environment:
+    MFL_USERNAME: ${param:MFL_USERNAME}
+    MFL_PASSWORD: ${param:MFL_PASSWORD}
+    MFL_LEAGUEID: ${param:MFL_LEAGUEID}
+
+functions:
+  get_trades:
+    handler: get_trades.handler
+    events:
+      - schedule: rate(1 day)
+  get_players:
+    handler: get_players.handler
+    events:
+      - schedule: rate(1 day)
