@@ -8,7 +8,8 @@ def handler(event, context):
     mfl = MFL(
         os.getenv('MFL_USERNAME'),
         os.getenv('MFL_PASSWORD'),
-        os.getenv('MFL_LEAGUEID')
+        os.getenv('MFL_LEAGUEID'),
+        os.getenv('MFL_API_YEAR')
         )
     
     franchises = mfl.franchises()
