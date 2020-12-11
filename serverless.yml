@@ -42,6 +42,32 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 100
           WriteCapacityUnits: 100
+    franchisesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: franchises
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S        
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 10
+          WriteCapacityUnits: 10
+    tradesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: trades
+        AttributeDefinitions:
+          - AttributeName: timestamp
+            AttributeType: S        
+        KeySchema:
+          - AttributeName: timestamp
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 10
+          WriteCapacityUnits: 10
 
 provider:
   name: aws
@@ -58,6 +84,8 @@ provider:
         - 'dynamodb:DeleteItem'
       Resource:
         - 'arn:aws:dynamodb:*:*:table/players'
+        - 'arn:aws:dynamodb:*:*:table/franchises'
+        - 'arn:aws:dynamodb:*:*:table/trades'
   runtime: python3.8
   environment:
     MFL_USERNAME: ${param:MFL_USERNAME}
@@ -73,3 +101,5 @@ functions:
     handler: get_players.handler
     events:
       - schedule: rate(1 day)
+  get_franchises:
+    handler: get_franchises.handler

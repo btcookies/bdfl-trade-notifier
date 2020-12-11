@@ -41,13 +41,12 @@ class MFL:
             L=self._league_id
         )
         
-        return league_info.content
+        return league_info
 
     def franchises(self):
         """Returns a LeagueFranchises object containing all of the franchises for the MFL league"""
         league_info = self.league_info()
-        league_info_json = json.loads(league_info)
-        raw_list_of_franchises = league_info_json['league']['franchises']['franchise']
+        raw_list_of_franchises = league_info['league']['franchises']['franchise']
         
         league_franchises = LeagueFranchises()
         
@@ -147,5 +146,5 @@ class MFL:
             raise Exception(response)
         
         response_json = json.loads(response.content)
-        
+
         return response_json

@@ -15,8 +15,6 @@ def handler(event, context):
 
     store_players_in_dynamodb(players)
 
-
-
     body = {
         'trades': players
     }

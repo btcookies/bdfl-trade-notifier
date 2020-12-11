@@ -12,3 +12,6 @@ class LeagueFranchises():
         self._franchises[franchise.franchise_id] = franchise
 
         return self._franchises
+    
+    def get_franchises(self):
+        return self._franchises
