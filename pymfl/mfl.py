@@ -1,4 +1,3 @@
-import datetime
 import requests
 import json
 import os
@@ -8,7 +7,6 @@ from .models.player import Player
 from .models.players import Players
 
 class MFL:
-    _year = datetime.date.today().year
     _base_url = f'https://api.myfantasyleague.com/{_year}/export?'
 
     def __init__(
@@ -16,8 +14,10 @@ class MFL:
             username: str,
             password: str, 
             league_id: int,
+            year: int,
             json: bool = True):
 
+        self._year = year
         self._username = username
         self._password = password
         self._league_id = league_id
@@ -56,6 +56,14 @@ class MFL:
 
         return league_franchises
 
+    def trades(self, number_of_days: str = ""):
+
+        return self.transactions(number_of_days, 'TRADE')
+    
+    def waivers(self, number_of_days: str = ""):
+
+        return self.transactions(number_of_days, 'WAIVER')
+
     def transactions(self, number_of_days: str, transaction_type: str = "*"):
         """Returns list of completed transactions over previous designated number of days"""
 
@@ -68,10 +76,6 @@ class MFL:
         )
         
         return transactions['transactions']['transaction']
-
-    def trades(self, number_of_days: str = ""):
-
-        return self.transactions(number_of_days, 'TRADE')
     
     def injuries(self, week: str = ""):
         injuries = self._get_request(
