@@ -8,7 +8,8 @@ def handler(event, context):
     mfl = MFL(
         os.getenv('MFL_USERNAME'),
         os.getenv('MFL_PASSWORD'),
-        os.getenv('MFL_LEAGUEID')
+        os.getenv('MFL_LEAGUEID'),
+        os.getenv('MFL_API_YEAR')
         )
     
     players = mfl.players()
@@ -38,13 +39,15 @@ def store_players_in_dynamodb(players):
             },
             ExpressionAttributeNames={
                 '#N': 'name',
-                '#P': 'position'
+                '#P': 'position',
+                '#T': 'team'
             },
             ExpressionAttributeValues={
                 ':n': format_name(player['name']) if 'name' in player.keys() else 'N/A', 
-                ':p': player['position'] if 'position' in player.keys() else 'N/A'
+                ':p': player['position'] if 'position' in player.keys() else 'N/A',
+                ':t': player['team'] if 'team' in player.keys() else 'N/A'
             },
-            UpdateExpression='SET #N=:n, #P=:p'
+            UpdateExpression='SET #N=:n, #P=:p, #T=:t'
         )
 
 def format_name(player_name):
@@ -53,4 +56,3 @@ def format_name(player_name):
     formatted_name = name_list[1].strip() + ' ' + name_list[0].strip()
 
     return formatted_name
-
