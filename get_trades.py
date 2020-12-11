@@ -9,21 +9,22 @@ def handler(event, context):
     mfl = MFL(
         os.getenv('MFL_USERNAME'),
         os.getenv('MFL_PASSWORD'),
-        os.getenv('MFL_LEAGUEID')
+        os.getenv('MFL_LEAGUEID'),
+        os.getenv('MFL_API_YEAR')
         )
     
     trades = mfl.trades()
 
-    test_object = {
-        'timestamp': 'test',
-        'comments': 'test',
-        'franchise': '0008',
-        'franchise2': '0007',
-        'franchise1_gave_up': 'DP_0_1',
-        'franchise2_gave_up': 'DP_0_2'
-    }
+    # test_object = {
+    #     'timestamp': 'test',
+    #     'comments': 'test',
+    #     'franchise': '0008',
+    #     'franchise2': '0007',
+    #     'franchise1_gave_up': 'DP_0_1',
+    #     'franchise2_gave_up': '14136,13631,FP_0004_2022_3,'
+    # }
 
-    trades.append(test_object)
+    # trades.append(test_object)
 
     new_trades_messages = store_trades_if_not_exist(trades)
 
@@ -31,21 +32,14 @@ def handler(event, context):
         'trades': new_trades_messages
     }
 
+    send_sqs_messages(new_trades_messages)
+
     response = {
         "statusCode": 200,
         "body": body
     }
 
     return response
-
-    # Use this code if you don't use the http event with the LAMBDA-PROXY
-    # integration
-    """
-    return {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "event": event
-    }
-    """
 
 def get_trades_messages(trades):
 
@@ -94,10 +88,10 @@ def create_trade_object(trade):
     trade_object = {
         'timestamp': timestamp,
         'comments': comments,
-        'franchise1_id': trade['franchise'],
-        'franchise2_id': trade['franchise2'],
-        'franchise1_gave_up': trade['franchise1_gave_up'],
-        'franchise2_gave_up': trade['franchise2_gave_up'],
+        'franchise1_id': franchise1_id,
+        'franchise2_id': franchise2_id,
+        'franchise1_gave_up': franchise1_gave_up,
+        'franchise2_gave_up': franchise2_gave_up,
         'franchise1_name':  franchise1_name,
         'franchise2_name': franchise2_name,
         'franchise1_assets': franchise1_assets,
@@ -149,29 +143,39 @@ def get_name_from_id(table_name, primary_id):
         }
     )
 
-    print(item)
-
     name = item['Item']['name']
 
     return name
 
 def format_trade_message(
-        franchise1_name, 
-        franchise1_assets, 
+        franchise1_name,  
         franchise2_name, 
+        franchise1_assets,
         franchise2_assets
     ):
+
+    assets1_str = format_asset_string(franchise1_assets)
+    assets2_str = format_asset_string(franchise2_assets)
 
     message = ('TRADE COMPLETED!\n'
     '\n'
     f'{franchise1_name} GIVES UP:\n'
-    f'{franchise1_assets}\n'
+    f'{assets1_str}'
     '\n'
     f'{franchise2_name} GIVES UP:\n'
-    f'{franchise2_assets}'
+    f'{assets2_str}'
     )
 
     return message
+
+def format_asset_string(assets):
+    indent = '    - '
+    assets_str = ''
+
+    for asset in assets:
+        assets_str += indent + asset + '\n'
+
+    return assets_str
 
 def is_blind_bid_dollars(trade_item):
 
@@ -288,3 +292,23 @@ def store_trade_in_dynamodb(trade_obj):
         },
         UpdateExpression='SET #C=:c, #FIDO=:fido, #FIDT=:fidt, #FGUO=:fguo, #FGUT=:fgut, #FNO=:fno, #FNT=:fnt, #FAO=:fao, #FAT=:fat'
     )
+
+def send_sqs_messages(messages):
+
+    for message in messages:
+        send_sqs_message('TradeMessageQueue', message)
+
+def send_sqs_message(queue_name, message):
+    sqs_client = boto3.client('sqs')
+    sqs_queue_url = sqs_client.get_queue_url(QueueName=queue_name)['QueueUrl']
+    
+    try:
+        msg = sqs_client.send_message(
+            QueueUrl=sqs_queue_url,
+            MessageBody=message
+        )
+    except Exception as e:
+        print(e)
+        return None
+    
+    return msg
