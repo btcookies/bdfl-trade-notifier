@@ -7,7 +7,7 @@ from .models.player import Player
 from .models.players import Players
 
 class MFL:
-    _base_url = f'https://api.myfantasyleague.com/{_year}/export?'
+    _base_url = 'https://api.myfantasyleague.com/'
 
     def __init__(
             self, 
@@ -23,6 +23,7 @@ class MFL:
         self._league_id = league_id
         self._json = '1' if json else '0'
         self._api = requests.Session()
+        self._base_url += f'{self._year}/export?'
 
     def login(self):
         login = self._get_request(
