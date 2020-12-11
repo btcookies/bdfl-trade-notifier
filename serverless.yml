@@ -28,7 +28,9 @@ custom:
     dockerizePip: non-linux
 
 resources:
+
   Resources:
+
     playersTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -42,6 +44,7 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 100
           WriteCapacityUnits: 100
+
     franchisesTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -55,6 +58,7 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 10
           WriteCapacityUnits: 10
+
     tradesTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -68,6 +72,26 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 10
           WriteCapacityUnits: 10
+
+    waiversTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: waivers
+        AttributeDefinitions:
+          - AttributeName: key
+            AttributeType: S
+        KeySchema:
+          - AttributeName: key
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 10
+          WriteCapacityUnits: 10
+
+    BDFLMessageQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: BDFLMessageQueue
+        VisibilityTimeout: 600
 
 provider:
   name: aws
@@ -86,20 +110,52 @@ provider:
         - 'arn:aws:dynamodb:*:*:table/players'
         - 'arn:aws:dynamodb:*:*:table/franchises'
         - 'arn:aws:dynamodb:*:*:table/trades'
+        - 'arn:aws:dynamodb:*:*:table/waivers'
+    - Effect: 'Allow'
+      Action:
+        - 'sqs:SendMessage'
+        - 'sqs:ReceiveMessage'
+        - 'sqs:DeleteMessage'
+        - 'sqs:GetQueueUrl'
+      Resource:
+        - 'arn:aws:sqs:*:*:BDFLMessageQueue'
   runtime: python3.8
   environment:
     MFL_USERNAME: ${param:MFL_USERNAME}
     MFL_PASSWORD: ${param:MFL_PASSWORD}
     MFL_LEAGUEID: ${param:MFL_LEAGUEID}
+    MFL_API_YEAR: ${param:MFL_API_YEAR}
+    GROUPME_API_TOKEN: ${param:GROUPME_API_TOKEN}
+    GROUPME_BOT_ID: ${param:GROUPME_BOT_ID}
+
 
 functions:
-  get_trades:
+
+  getTrades:
     handler: get_trades.handler
     events:
-      - schedule: rate(1 day)
-  get_players:
+      - schedule: cron(30 0,14 * * ? *)
+
+  getWaivers:
+    handler: get_waivers.handler
+    events:
+      - schedule: cron(0 0,14 * * ? *)
+
+  getPlayers:
     handler: get_players.handler
     events:
-      - schedule: rate(1 day)
-  get_franchises:
+      - schedule: cron(0 11 * * ? *)
+
+  getFranchises:
     handler: get_franchises.handler
+    events:
+      - schedule: cron(0 11 1 1-12 ? *)
+  
+  sendBDFLMessages:
+    handler: send_bdfl_messages.handler
+    events:
+      - sqs: 
+          arn:
+            Fn::GetAtt:
+              - BDFLMessageQueue
+              - Arn
