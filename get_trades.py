@@ -23,8 +23,6 @@ def handler(event, context):
         'franchise2_gave_up': 'DP_0_2'
     }
 
-    print('')
-
     trades.append(test_object)
 
     new_trades_messages = store_trades_if_not_exist(trades)
