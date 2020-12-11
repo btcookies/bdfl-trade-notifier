@@ -51,4 +51,3 @@ def store_franchises_in_dynamodb(franchises):
             },
             UpdateExpression='SET #N=:n, #D=:d, #B=:b'
         )
-
