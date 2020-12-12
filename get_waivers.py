@@ -13,30 +13,30 @@ def handler(event, context):
     
     waivers = mfl.waivers()
 
-    # test_object = {
-    #     'timestamp': 'test1',
-    #     'franchise': '0008',
-    #     'transaction': '8670,|1.00|13988,',
-    #     'type': 'BBID_WAIVER'
-    # }
+    test_object = {
+        'timestamp': 'test1',
+        'franchise': '0008',
+        'transaction': '8670,|1.00|13988,',
+        'type': 'BBID_WAIVER'
+    }
 
-    # test2_object = {
-    #     'timestamp': 'test2',
-    #     'franchise': '0002',
-    #     'transaction': '8670,|2.00|13988,',
-    #     'type': 'BBID_WAIVER'
-    # }
+    test2_object = {
+        'timestamp': 'test2',
+        'franchise': '0002',
+        'transaction': '8670,|2.00|13988,',
+        'type': 'BBID_WAIVER'
+    }
 
-    # test3_object = {
-    #     'timestamp': 'test3',
-    #     'franchise': '0011',
-    #     'transaction': '8670,|3.00|',
-    #     'type': 'BBID_WAIVER'
-    # }
+    test3_object = {
+        'timestamp': 'test3',
+        'franchise': '0011',
+        'transaction': '8670,|3.00|',
+        'type': 'BBID_WAIVER'
+    }
 
-    # waivers.append(test_object)
-    # waivers.append(test2_object)
-    # waivers.append(test3_object)
+    waivers.append(test_object)
+    waivers.append(test2_object)
+    waivers.append(test3_object)
 
     new_waivers_messages = store_waivers_if_not_exist(waivers)
 
@@ -65,8 +65,8 @@ def store_waivers_if_not_exist(waivers):
         'type': t_type
     }
     """
-
-    new_waivers = ['WAIVER CLAIMS COMPLETED:\n']
+    base_string = 'WAIVER CLAIMS COMPLETED:\n'
+    new_waivers = [base_string]
 
     for waiver in waivers:
         waiver_obj = create_waiver_object(waiver)
@@ -78,7 +78,10 @@ def store_waivers_if_not_exist(waivers):
             )
             new_waivers.append(waiver_message)
 
-    new_waivers_message = ['\n'.join(new_waivers)]
+    new_waivers_message = []
+    if len(new_waivers) > 1:
+        new_waivers_message = ['\n'.join(new_waivers)]
+        
     return new_waivers_message
 
 def create_waiver_object(waiver):
@@ -88,7 +91,7 @@ def create_waiver_object(waiver):
     t_type = waiver['type']
 
     # get franchise names from ids
-    franchise_name = get_name_from_id('franchises', franchise_id)
+    franchise_name = get_field_from_id('franchises', 'name', franchise_id)
 
     # get asset names from gave up statement
     formatted_transaction = format_transaction(transaction)
@@ -105,7 +108,7 @@ def create_waiver_object(waiver):
 
     return waiver_object
 
-def get_name_from_id(table_name, primary_id):
+def get_field_from_id(table_name, field, primary_id):
 
     dynamodb = boto3.resource('dynamodb')
 
@@ -117,7 +120,7 @@ def get_name_from_id(table_name, primary_id):
         }
     )
 
-    name = item['Item']['name']
+    name = item['Item'][field]
 
     return name
 
@@ -126,22 +129,32 @@ def format_transaction(transaction):
     split_transaction = transaction.split(',')
 
     player_added_id = split_transaction[0]
-    player_added_name = get_name_from_id('players', player_added_id)
+    player_added_name = get_field_from_id('players', 'name', player_added_id)
+    player_added_team = get_field_from_id('players', 'team', player_added_id)
+    player_added_position = get_field_from_id('players', 'position', player_added_id)
+    player_added_string = (
+        f'{player_added_name}, {player_added_team} {player_added_position}'
+    )
 
     bid_and_drop = split_transaction[1].split('|')
     bid = '$' + bid_and_drop[1]
 
     player_dropped_id = bid_and_drop[2] if len(bid_and_drop) == 3 else None
-    player_dropped_name = None
+    player_dropped_string = None
     if player_dropped_id:
-        player_dropped_name = get_name_from_id('players', player_dropped_id)
+        player_dropped_name = get_field_from_id('players', 'name', player_dropped_id)
+        player_dropped_team = get_field_from_id('players', 'team', player_dropped_id)
+        player_dropped_position = get_field_from_id('players', 'position', player_dropped_id)
+        player_dropped_string = (
+            f'{player_dropped_name}, {player_dropped_team} {player_dropped_position}'
+        )
 
-    formatted_transaction = [bid, player_added_name, player_dropped_name]
+    formatted_transaction = [bid, player_added_string, player_dropped_string]
 
     return formatted_transaction
 
 def create_waivers_table_key(timestamp, player_added_name):
-    return timestamp + '-' + player_added_name.replace(' ', '-')
+    return timestamp + '-' + player_added_name.replace(' ', '-').replace(',','')
 
 def is_new_waiver(waiver):
     return not exists_in_dynamodb('key', waiver['key'], 'waivers')
