@@ -15,16 +15,16 @@ def handler(event, context):
     
     trades = mfl.trades()
 
-    # test_object = {
-    #     'timestamp': 'test',
-    #     'comments': 'test',
-    #     'franchise': '0008',
-    #     'franchise2': '0007',
-    #     'franchise1_gave_up': 'DP_0_1',
-    #     'franchise2_gave_up': '14136,13631,FP_0004_2022_3,'
-    # }
+    test_object = {
+        'timestamp': 'test',
+        'comments': 'test',
+        'franchise': '0008',
+        'franchise2': '0007',
+        'franchise1_gave_up': 'DP_0_1',
+        'franchise2_gave_up': '14136,13631,FP_0004_2022_3,'
+    }
 
-    # trades.append(test_object)
+    trades.append(test_object)
 
     new_trades_messages = store_trades_if_not_exist(trades)
 
@@ -78,8 +78,8 @@ def create_trade_object(trade):
     franchise2_gave_up = trade['franchise2_gave_up']
 
     # get franchise names from ids
-    franchise1_name = get_name_from_id('franchises', franchise1_id)
-    franchise2_name = get_name_from_id('franchises', franchise2_id)
+    franchise1_name = get_field_from_id('franchises', 'name', franchise1_id)
+    franchise2_name = get_field_from_id('franchises', 'name', franchise2_id)
 
     # get asset names from gave up statement
     franchise1_assets = get_assets(franchise1_gave_up)
@@ -124,14 +124,17 @@ def get_assets(assets):
 
         elif trade_item is not '':
             try:
-                player_name = get_name_from_id('players', trade_item)
-                formatted_assets.append(player_name)
+                player_name = get_field_from_id('players', 'name', trade_item)
+                player_position = get_field_from_id('players', 'position', trade_item)
+                player_team = get_field_from_id('players', 'team', trade_item)
+                player_string = f'{player_name}, {player_team} {player_position}'
+                formatted_assets.append(player_string)
             except:
                 raise Exception(f'Threw error for: {trade_item}')
     
     return formatted_assets
 
-def get_name_from_id(table_name, primary_id):
+def get_field_from_id(table_name, field, primary_id):
 
     dynamodb = boto3.resource('dynamodb')
 
@@ -143,7 +146,7 @@ def get_name_from_id(table_name, primary_id):
         }
     )
 
-    name = item['Item']['name']
+    name = item['Item'][field]
 
     return name
 
@@ -157,7 +160,7 @@ def format_trade_message(
     assets1_str = format_asset_string(franchise1_assets)
     assets2_str = format_asset_string(franchise2_assets)
 
-    message = ('TRADE COMPLETED!\n'
+    message = ('🚨TRADE COMPLETED🚨\n'
     '\n'
     f'{franchise1_name} GIVES UP:\n'
     f'{assets1_str}'
@@ -169,7 +172,7 @@ def format_trade_message(
     return message
 
 def format_asset_string(assets):
-    indent = '    - '
+    indent = '- '
     assets_str = ''
 
     for asset in assets:
@@ -203,7 +206,7 @@ def create_future_pick_message(trade_item):
     year = split[2]
     rd = split[3]
 
-    franchise_name = get_name_from_id('franchises', franchise_id)
+    franchise_name = get_field_from_id('franchises', 'name', franchise_id)
 
     return f'{franchise_name} {year} Round {rd} Draft Pick'
 
@@ -296,7 +299,7 @@ def store_trade_in_dynamodb(trade_obj):
 def send_sqs_messages(messages):
 
     for message in messages:
-        send_sqs_message('TradeMessageQueue', message)
+        send_sqs_message('BDFLMessageQueue', message)
 
 def send_sqs_message(queue_name, message):
     sqs_client = boto3.client('sqs')

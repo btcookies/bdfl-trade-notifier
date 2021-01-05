@@ -42,8 +42,8 @@ resources:
           - AttributeName: id
             KeyType: HASH
         ProvisionedThroughput:
-          ReadCapacityUnits: 100
-          WriteCapacityUnits: 100
+          ReadCapacityUnits: 22
+          WriteCapacityUnits: 22
 
     franchisesTable:
       Type: AWS::DynamoDB::Table
@@ -56,8 +56,8 @@ resources:
           - AttributeName: id
             KeyType: HASH
         ProvisionedThroughput:
-          ReadCapacityUnits: 10
-          WriteCapacityUnits: 10
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
 
     tradesTable:
       Type: AWS::DynamoDB::Table
@@ -70,8 +70,8 @@ resources:
           - AttributeName: timestamp
             KeyType: HASH
         ProvisionedThroughput:
-          ReadCapacityUnits: 10
-          WriteCapacityUnits: 10
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
 
     waiversTable:
       Type: AWS::DynamoDB::Table
@@ -84,8 +84,8 @@ resources:
           - AttributeName: key
             KeyType: HASH
         ProvisionedThroughput:
-          ReadCapacityUnits: 10
-          WriteCapacityUnits: 10
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
 
     BDFLMessageQueue:
       Type: AWS::SQS::Queue
@@ -135,6 +135,11 @@ functions:
     handler: get_trades.handler
     events:
       - schedule: cron(30 0,14 * * ? *)
+
+  # getCloseGames:
+  #   handler: get_close_games.handler
+  #   events:
+  #     - schedule: cron(30 0,4,9 ? * SUN *)
 
   getWaivers:
     handler: get_waivers.handler

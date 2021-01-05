@@ -65,6 +65,15 @@ class MFL:
 
         return self.transactions(number_of_days, 'WAIVER')
 
+    def live_scores(self):
+        transactions = self._get_request(
+            'liveScoring',
+            ['L'],
+            L=self._league_id
+        )
+        
+        return transactions['liveScoring']['matchup']
+
     def transactions(self, number_of_days: str, transaction_type: str = "*"):
         """Returns list of completed transactions over previous designated number of days"""
 

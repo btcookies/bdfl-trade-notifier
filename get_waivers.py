@@ -1,5 +1,6 @@
 import json
 import os
+import time
 import boto3
 from pymfl.mfl import MFL
 
@@ -13,30 +14,63 @@ def handler(event, context):
     
     waivers = mfl.waivers()
 
-    test_object = {
-        'timestamp': 'test1',
-        'franchise': '0008',
-        'transaction': '8670,|1.00|13988,',
-        'type': 'BBID_WAIVER'
-    }
+    # TODO: make tests for function, move to separate file
+    # test_object = {
+    #     'timestamp': str(int(time.time())),
+    #     'franchise': '0008',
+    #     'transaction': '8670,|1.00|13988,',
+    #     'type': 'BBID_WAIVER'
+    # }
 
-    test2_object = {
-        'timestamp': 'test2',
-        'franchise': '0002',
-        'transaction': '8670,|2.00|13988,',
-        'type': 'BBID_WAIVER'
-    }
+    # test2_object = {
+    #     'timestamp': '0000000002',
+    #     'franchise': '0002',
+    #     'transaction': '8670,|2.00|13988,',
+    #     'type': 'BBID_WAIVER'
+    # }
 
-    test3_object = {
-        'timestamp': 'test3',
-        'franchise': '0011',
-        'transaction': '8670,|3.00|',
-        'type': 'BBID_WAIVER'
-    }
+    # test3_object = {
+    #     'timestamp': '0000000003',
+    #     'franchise': '0011',
+    #     'transaction': '8670,|3.00|',
+    #     'type': 'BBID_WAIVER'
+    # }
 
-    waivers.append(test_object)
-    waivers.append(test2_object)
-    waivers.append(test3_object)
+    # test4_object = {
+    #     'timestamp': '0000000004',
+    #     'franchise': '0008',
+    #     'transaction': '8670,|4.00|13988,',
+    #     'type': 'BBID_WAIVER'
+    # }
+
+    # test5_object = {
+    #     'timestamp': '0000000005',
+    #     'franchise': '0002',
+    #     'transaction': '8670,|5.00|13988,',
+    #     'type': 'BBID_WAIVER'
+    # }
+
+    # test6_object = {
+    #     'timestamp': '0000000006',
+    #     'franchise': '0011',
+    #     'transaction': '8670,|6.00|',
+    #     'type': 'BBID_WAIVER'
+    # }
+
+    # test7_object = {
+    #     'timestamp': '0000000007',
+    #     'franchise': '0011',
+    #     'transaction': '8670,|7.00|',
+    #     'type': 'BBID_WAIVER'
+    # }
+
+    # waivers.append(test_object)
+    # waivers.append(test2_object)
+    # waivers.append(test3_object)
+    # waivers.append(test4_object)
+    # waivers.append(test5_object)
+    # waivers.append(test6_object)
+    # waivers.append(test7_object)
 
     new_waivers_messages = store_waivers_if_not_exist(waivers)
 
@@ -58,6 +92,7 @@ def store_waivers_if_not_exist(waivers):
     Stores new waivers that did not previously exist in db, returns waivers that were stored
     waiver_object = {
         'key': key,
+        'timestamp': timestamp,
         'franchise_id': franchise_id,
         'raw_transaction': transaction,
         'formatted_transaction': formatted_transaction,
@@ -65,7 +100,7 @@ def store_waivers_if_not_exist(waivers):
         'type': t_type
     }
     """
-    base_string = 'WAIVER CLAIMS COMPLETED:\n'
+    base_string = '✅WAIVER CLAIMS COMPLETED✅\n'
     new_waivers = [base_string]
 
     for waiver in waivers:
@@ -81,7 +116,7 @@ def store_waivers_if_not_exist(waivers):
     new_waivers_message = []
     if len(new_waivers) > 1:
         new_waivers_message = ['\n'.join(new_waivers)]
-        
+
     return new_waivers_message
 
 def create_waiver_object(waiver):
@@ -99,6 +134,7 @@ def create_waiver_object(waiver):
     key = create_waivers_table_key(timestamp, player_added_name)
     waiver_object = {
         'key': key,
+        'timestamp': timestamp,
         'franchise_id': franchise_id,
         'raw_transaction': transaction,
         'formatted_transaction': formatted_transaction,
@@ -157,9 +193,9 @@ def create_waivers_table_key(timestamp, player_added_name):
     return timestamp + '-' + player_added_name.replace(' ', '-').replace(',','')
 
 def is_new_waiver(waiver):
-    return not exists_in_dynamodb('key', waiver['key'], 'waivers')
+    return not is_in_dynamodb('key', waiver['key'], 'waivers') and is_timestamp_recent(int(waiver['timestamp']))
 
-def exists_in_dynamodb(key_name, key_value, table_name):
+def is_in_dynamodb(key_name, key_value, table_name):
 
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(table_name)
@@ -177,6 +213,17 @@ def exists_in_dynamodb(key_name, key_value, table_name):
         exists = False
     
     return exists
+
+def is_timestamp_recent(waiver_timestamp):
+    """
+    86400 seconds in a day, add 900 for 15 min max lambda run time to account for waivers that occurred during
+    previous day's lambda invocation. Timestamps that are less than this recency threshold older than the current
+    timestamp are "recent" otherwise the transaction is old and we do not report it
+    """
+    recency_threshold_in_secs = 87300
+    current_timestamp = int(time.time())
+
+    return (current_timestamp - waiver_timestamp) < recency_threshold_in_secs
 
 def store_waiver_in_dynamodb(waiver_obj):
     """
@@ -203,16 +250,18 @@ def store_waiver_in_dynamodb(waiver_obj):
             '#RT': 'raw_transaction',
             '#FT': 'formatted_transaction',
             '#FN': 'franchise_name',
-            '#T': 'type'
+            '#T': 'type',
+            '#TS': 'timestamp'
         },
         ExpressionAttributeValues={
             ':fid': waiver_obj['franchise_id'],
             ':rt': waiver_obj['raw_transaction'], 
             ':ft': waiver_obj['formatted_transaction'],
             ':fn': waiver_obj['franchise_name'], 
-            ':t': waiver_obj['type']
+            ':t': waiver_obj['type'],
+            ':ts': waiver_obj['timestamp'],
         },
-        UpdateExpression='SET #FID=:fid, #RT=:rt, #FT=:ft, #FN=:fn, #T=:t'
+        UpdateExpression='SET #FID=:fid, #RT=:rt, #FT=:ft, #FN=:fn, #T=:t, #TS=:ts'
     )
 
 def format_waiver_message(

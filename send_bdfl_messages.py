@@ -6,9 +6,15 @@ from groupme.groupme import GroupMe
 
 def handler(event, context):
 
-    messages = event['Records']
+    messages = []
+    for message_obj in event['Records']:
+        messages.append(message_obj['body'])
 
-    sent_messages = send_messages(messages)
+    groupme = GroupMe(os.getenv('GROUPME_API_KEY'))
+
+    messages_to_send = groupme.format_bdfl_messages_for_character_limit(messages)
+
+    sent_messages = send_messages(messages_to_send)
 
     print('number of sent messages: ', len(sent_messages))
     print('sent messages: ', sent_messages)
@@ -28,10 +34,8 @@ def send_messages(messages):
 
     for message in messages:
 
-        message_text = message['body']
+        print(groupme.send_message(bot_id, message))
 
-        print(groupme.send_message(bot_id, message_text))
-
-        sent_messages.append(message_text)
+        sent_messages.append(message)
     
     return sent_messages
