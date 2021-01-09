@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "python pytest"
+    "test": "python -m pytest"
   },
   "keywords": [],
   "author": "",
