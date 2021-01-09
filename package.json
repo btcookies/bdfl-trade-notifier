@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "python -m pytest"
+    "postinstall": "pip3 install -r requirements.txt",
+    "test": "pytest"
   },
   "keywords": [],
   "author": "",
