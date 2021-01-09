@@ -1,3 +1,8 @@
 zdocs.yml
 .serverless/*
 .vscode/*
+*.cover
+*.pyc
+*.py,cover
+htmlcov/*
+.coverage
