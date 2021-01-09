@@ -4,7 +4,7 @@ import time
 from moto import mock_dynamodb2, mock_sqs
 from get_waivers import *
 import sys
-sys.path.append('../src')
+sys.path.append('..')
 
 @pytest.fixture
 def setup_sqs():
