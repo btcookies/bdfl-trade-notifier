@@ -4,8 +4,6 @@ import time
 from moto import mock_dynamodb2, mock_sqs
 from get_waivers import *
 import os
-import sys
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
 
 
