@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "pip3 install -r requirements.txt",
-    "test": "pytest"
+    "test": "python -m pytest"
   },
   "keywords": [],
   "author": "",
