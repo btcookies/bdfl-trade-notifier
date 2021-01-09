@@ -11,14 +11,14 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 @pytest.fixture
 def setup_sqs():
     with mock_sqs():
-        sqs_client = boto3.client('sqs')
+        sqs_client = boto3.client('sqs', region_name='us-east-1')
         sqs_client.create_queue(QueueName='BDFLMessageQueue')
         yield sqs_client
 
 @pytest.fixture
 def setup_dynamodb():
     with mock_dynamodb2():
-        dynamodb_client = boto3.client('dynamodb')
+        dynamodb_client = boto3.client('dynamodb', region_name='us-east-1')
         dynamodb_client.create_table(
             TableName='waivers',
             AttributeDefinitions=[
@@ -63,7 +63,7 @@ def setup_dynamodb():
             ]
         )
 
-        dynamodb_resource = boto3.resource('dynamodb')
+        dynamodb_resource = boto3.resource('dynamodb', region_name='us-east-1')
 
         waivers_table = dynamodb_resource.Table('waivers')
         waivers_table.update_item(

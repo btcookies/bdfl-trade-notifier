@@ -127,7 +127,6 @@ provider:
     MFL_API_YEAR: ${param:MFL_API_YEAR}
     GROUPME_API_TOKEN: ${param:GROUPME_API_TOKEN}
     GROUPME_BOT_ID: ${param:GROUPME_BOT_ID}
-    AWS_DEFAULT_REGION: us-east-1
 
 
 functions:
