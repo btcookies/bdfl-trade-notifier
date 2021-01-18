@@ -1,7 +1,8 @@
 import requests
 
+
 class GroupMe:
-    _base_url = f'https://api.groupme.com/v3/'
+    _base_url = f"https://api.groupme.com/v3/"
     CHARACTER_LIMIT = 450
 
     def __init__(self, api_key: str):
@@ -10,14 +11,11 @@ class GroupMe:
         self._api = requests.Session()
 
     def send_message(self, bot_id, message):
-        url = self._base_url + 'bots/post'
-        body = {
-            'bot_id': bot_id,
-            'text': message
-        }
+        url = self._base_url + "bots/post"
+        body = {"bot_id": bot_id, "text": message}
 
         return self._api.post(url, body)
-    
+
     def format_bdfl_messages_for_character_limit(self, messages):
         """
         Takes in array of messages list(str) and returns list of messages
@@ -27,14 +25,14 @@ class GroupMe:
         limited_message = ""
 
         for message in messages:
-            for i in message.split('\n'):
+            for i in message.split("\n"):
                 if len(limited_message) + len(i) < self.CHARACTER_LIMIT:
-                    limited_message += i + '\n'
+                    limited_message += i + "\n"
                 else:
                     messages_to_send.append(limited_message[:-1])
-                    limited_message = i + '\n'
-            
+                    limited_message = i + "\n"
+
             if len(message) > 0:
                 messages_to_send.append(limited_message[:-1])
-        
+
         return messages_to_send
