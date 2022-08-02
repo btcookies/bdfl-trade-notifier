@@ -31,8 +31,9 @@ def send_messages(messages):
     bot_id = os.getenv("GROUPME_BOT_ID")
 
     for message in messages:
+        response = groupme.send_message(bot_id, message)
 
-        print(groupme.send_message(bot_id, message))
+        print(response.json())
 
         sent_messages.append(message)
 
