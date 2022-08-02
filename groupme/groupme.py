@@ -1,3 +1,4 @@
+import json
 import requests
 
 
@@ -14,7 +15,7 @@ class GroupMe:
         url = self._base_url + "bots/post"
         body = {"bot_id": bot_id, "text": message}
 
-        return self._api.post(url, body)
+        return self._api.post(url, json.dumps(body))
 
     def format_bdfl_messages_for_character_limit(self, messages):
         """
