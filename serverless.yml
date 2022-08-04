@@ -138,7 +138,7 @@ functions:
   getTrades:
     handler: get_trades.handler
     events:
-      - schedule: cron(30 0,14 * * ? *)
+      - schedule: cron(*/10 * * * ? *)
 
   # getCloseGames:
   #   handler: get_close_games.handler

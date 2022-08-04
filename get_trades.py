@@ -219,7 +219,7 @@ def create_current_pick_message(trade_item):
 
     year = datetime.date.today().year
     rd = int(split[1]) + 1
-    pick = int(split[2])
+    pick = int(split[2]) + 1
 
     return f"{year} Round {rd} Pick {pick}"
 
