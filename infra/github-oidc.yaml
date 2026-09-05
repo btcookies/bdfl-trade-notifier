@@ -12,14 +12,27 @@ Parameters:
     Type: String
     Default: bdfl-notifier
     Description: Must match stack_name in samconfig.toml.
+  CreateOidcProvider:
+    Type: String
+    Default: 'true'
+    AllowedValues: ['true', 'false']
+    Description: >-
+      An account can hold only one provider for token.actions.githubusercontent.com. Set to false if
+      `aws iam list-open-id-connect-providers` already lists it, and the existing one is reused.
+
+Conditions:
+  ShouldCreateProvider: !Equals [!Ref CreateOidcProvider, 'true']
 
 Resources:
   GitHubOidcProvider:
     Type: AWS::IAM::OIDCProvider
+    Condition: ShouldCreateProvider
     Properties:
       Url: https://token.actions.githubusercontent.com
       ClientIdList:
         - sts.amazonaws.com
+      # AWS ignores thumbprints for this issuer (it uses its own trust store); the property is kept
+      # only because older CloudFormation versions required it.
       ThumbprintList:
         - 6938fd4d98bab03faadb97b34396831e3780aea1
 
@@ -32,7 +45,10 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
-              Federated: !Ref GitHubOidcProvider
+              Federated: !If
+                - ShouldCreateProvider
+                - !Ref GitHubOidcProvider
+                - !Sub 'arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com'
             Action: sts:AssumeRoleWithWebIdentity
             Condition:
               StringEquals:
@@ -129,7 +145,21 @@ Resources:
                   - iam:TagRole
                   - iam:UntagRole
                   - iam:UpdateAssumeRolePolicy
+                  - iam:UpdateRole
+                  - iam:ListRolePolicies
+                  - iam:ListAttachedRolePolicies
                 Resource: !Sub 'arn:aws:iam::${AWS::AccountId}:role/${StackNamePrefix}*'
+              # This role's own name and the stack that defines it both match the prefix above.
+              # Deny beats Allow, so a compromised deploy can neither widen its permissions nor
+              # rewrite the branch-scoped trust policy.
+              - Sid: DenySelfModification
+                Effect: Deny
+                Action:
+                  - iam:*
+                  - cloudformation:*
+                Resource:
+                  - !Sub 'arn:aws:iam::${AWS::AccountId}:role/${StackNamePrefix}-github-deploy'
+                  - !Sub 'arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${AWS::StackName}/*'
 
 Outputs:
   DeployRoleArn:
