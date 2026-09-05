@@ -131,11 +131,12 @@ class TransactionStore:
         )
         return int(response["Attributes"]["notify_attempts"])
 
-    def mark_failed(self, key: str) -> None:
-        """Mark an existing row as permanently failed; raises ClientError if the row is missing."""
+    def mark_failed(self, key: str, reason: str = "") -> None:
+        """Mark an existing row as permanently failed, recording ``reason`` (truncated to 500
+        characters) in ``notify_error``; raises ClientError if the row is missing."""
         self.table.update_item(
             Key={"pk": key},
-            UpdateExpression="SET notify_state = :state",
+            UpdateExpression="SET notify_state = :state, notify_error = :reason",
             ConditionExpression="attribute_exists(pk)",
-            ExpressionAttributeValues={":state": "failed"},
+            ExpressionAttributeValues={":state": "failed", ":reason": reason[:500]},
         )

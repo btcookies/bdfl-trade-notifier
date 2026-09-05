@@ -84,6 +84,17 @@ def test_mark_failed(dynamodb_table):
     assert store.get_many(["TRADE#1"])["TRADE#1"]["notify_state"] == "failed"
 
 
+def test_mark_failed_records_the_reason(dynamodb_table):
+    resource, name = dynamodb_table
+    store = TransactionStore(name, resource=resource)
+    store.put_new(item("TRADE#1"))
+    store.mark_failed("TRADE#1", "Discord 400")
+    assert store.get_many(["TRADE#1"])["TRADE#1"]["notify_error"] == "Discord 400"
+    store.put_new(item("TRADE#2"))
+    store.mark_failed("TRADE#2")
+    assert store.get_many(["TRADE#2"])["TRADE#2"]["notify_error"] == ""
+
+
 def test_get_many_dedupes_keys_and_reads_consistently(dynamodb_table):
     resource, name = dynamodb_table
     store = TransactionStore(name, resource=resource)

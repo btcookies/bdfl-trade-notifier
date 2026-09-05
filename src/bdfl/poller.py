@@ -10,7 +10,7 @@ from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from typing import Any
 
-from botocore.exceptions import ClientError
+from botocore.exceptions import BotoCoreError, ClientError
 
 from bdfl.config import Settings
 from bdfl.discord import DiscordError, DiscordPermanentError, DiscordWebhook
@@ -40,7 +40,9 @@ MAX_ATTEMPTS = 5
 SEEN_CACHE_MAX = 2000
 FINAL_STATES = {"sent", "skipped", "failed"}
 # Discord allows roughly 5 webhook requests per 2 seconds; space posts out to stay under it.
-POST_SPACING_SECONDS = 0.4
+POST_SPACING_SECONDS = 0.5
+# Stop starting new posts this far into the 30 s Lambda budget; the next poll picks up the rest.
+RUN_TIME_BUDGET_SECONDS = 20.0
 
 log = logging.getLogger(__name__)
 
@@ -57,6 +59,8 @@ class PollResult:
     skipped: int = 0
     sent: int = 0
     failed: int = 0
+    deferred: int = 0
+    store_errors: int = 0
     backoff: bool = False
     duration_ms: int = 0
 
@@ -93,6 +97,17 @@ def make_item(record: Record, league: LeagueInfo, details: dict, state: str, now
 
 
 class Poller:
+    """One MFL poll per invocation: fetch, dedupe through the table, notify, record the outcome.
+
+    The DynamoDB table is the outbox and the only source of truth. Every warm cache on this
+    object -- ``_league``, ``_seen``, ``_webhook``, ``_backoff_until`` -- is an optimization
+    that survives between Lambda invocations on a warm container; correctness never depends
+    on any of them, and a cold start that loses them all still behaves identically, just with
+    more reads. In particular a key is remembered in ``_seen`` only after the store confirmed
+    a terminal state for it, so a write the store never acknowledged is retried by the next
+    poll rather than silently dropped.
+    """
+
     def __init__(
         self,
         settings: Settings,
@@ -113,10 +128,13 @@ class Poller:
         self._backoff_until = 0.0
         self._seen: OrderedDict[str, None] = OrderedDict()
         self._webhook: DiscordWebhook | None = None
+        self.last_result: PollResult | None = None
 
     def run(self) -> PollResult:
         started = self.clock()
         result = PollResult()
+        # Published before any work so the caller can log counts even when run() raises.
+        self.last_result = result
         try:
             if started < self._backoff_until:
                 result.backoff = True
@@ -132,32 +150,45 @@ class Poller:
 
     # --- steps --------------------------------------------------------------
 
-    def _poll(self, now: float, result: PollResult) -> None:
-        league = self._league_info(now)
+    def _poll(self, started: float, result: PollResult) -> None:
+        """``started`` is the single clock reading for this invocation: record ages, the
+        ``notified_at`` stamp, and the run-time budget are all measured against it."""
+        league, fetched_this_run = self._league_info(started)
         result.league_year = league.year
         records = parse_transactions(self.mfl.transactions(league.year))
         result.fetched = len(records)
         candidates = [r for r in records if r.key not in self._seen]
         existing = self.store.get_many([r.key for r in candidates]) if candidates else {}
         new_records = [r for r in candidates if r.key not in existing]
-        league = self._ensure_franchises(league, new_records, now)
-        to_notify = self._store_new(new_records, league, now, result)
+        league = self._ensure_franchises(league, new_records, started, fetched_this_run)
+        to_notify = self._store_new(new_records, league, started, result)
         to_notify += self._pending_existing(candidates, existing)
-        self._notify(to_notify, league, now, result)
+        to_notify.sort(key=lambda pair: pair[0].timestamp)
+        self._notify(to_notify, league, started, result)
 
-    def _league_info(self, now: float) -> LeagueInfo:
+    def _league_info(self, now: float) -> tuple[LeagueInfo, bool]:
+        """Return the league info and whether this call fetched it rather than using the cache."""
         if self._league is None or now - self._league_at > LEAGUE_TTL_SECONDS:
-            self._league = self.mfl.detect_league(datetime.fromtimestamp(now, tz=UTC))
+            league = self.mfl.detect_league(datetime.fromtimestamp(now, tz=UTC))
+            self._league = league
             self._league_at = now
-            log.info("league year %s with %s franchises", self._league.year, len(self._league.franchises))
-        return self._league
+            log.info("league year %s with %s franchises", league.year, len(league.franchises))
+            return league, True
+        return self._league, False
 
-    def _ensure_franchises(self, league: LeagueInfo, records: list[Record], now: float) -> LeagueInfo:
-        """Refresh league info when a record names an unknown franchise, at most once per run."""
+    def _ensure_franchises(
+        self, league: LeagueInfo, records: list[Record], now: float, fetched_this_run: bool
+    ) -> LeagueInfo:
+        """Refresh league info when a record names an unknown franchise, at most once per run.
+
+        A refresh is pointless when the info was already fetched this run: it would only ask
+        MFL for the same answer again.
+        """
         ids = {fid for r in records for fid in r.franchise_ids}
-        if ids - set(league.franchises) and self._league_at != now:
+        if ids - set(league.franchises) and not fetched_this_run:
             self._league = None
-            return self._league_info(now)
+            refreshed, _ = self._league_info(now)
+            return refreshed
         return league
 
     def _store_new(
@@ -190,15 +221,40 @@ class Poller:
             row = existing.get(record.key)
             if row is None:
                 continue
-            attempts = int(row.get("notify_attempts", 0))
-            if row.get("notify_state") == "pending" and attempts < MAX_ATTEMPTS:
-                to_notify.append((record, row["details"]))
-            else:
+            state = row.get("notify_state")
+            details = row.get("details")
+            if state == "pending":
+                attempts = int(row.get("notify_attempts", 0))
+                if attempts >= MAX_ATTEMPTS:
+                    log.warning(
+                        "%s is still pending after %s attempts; giving up on it this run",
+                        record.key,
+                        attempts,
+                    )
+                elif not isinstance(details, dict):
+                    log.warning(
+                        "%s has unusable details (%s); treating it as final",
+                        record.key,
+                        type(details).__name__,
+                    )
+                else:
+                    to_notify.append((record, details))
+                    continue
                 self._remember(record.key)
+                continue
+            if state not in FINAL_STATES:
+                log.warning(
+                    "%s has an unexpected notify_state %r; treating it as final", record.key, state
+                )
+            self._remember(record.key)
         return to_notify
 
     def _notify(
-        self, to_notify: list[tuple[Record, dict]], league: LeagueInfo, now: float, result: PollResult
+        self,
+        to_notify: list[tuple[Record, dict]],
+        league: LeagueInfo,
+        started: float,
+        result: PollResult,
     ) -> None:
         if not to_notify:
             return
@@ -211,8 +267,17 @@ class Poller:
         exhausted = False
         for index, (embeds, records) in enumerate(batches):
             if index:
+                if self.clock() - started > RUN_TIME_BUDGET_SECONDS:
+                    remaining = sum(len(r) for _, r in batches[index:])
+                    log.warning(
+                        "run time budget exhausted; deferring %s messages to the next poll",
+                        remaining,
+                    )
+                    # The rows are still pending, so the next poll picks them back up.
+                    result.deferred += remaining
+                    break
                 self.sleep(POST_SPACING_SECONDS)
-            if not self._deliver(embeds, records, now, result):
+            if not self._deliver(embeds, records, started, result):
                 exhausted = True
         if exhausted:
             raise NotifyFailed("some notifications exhausted their attempts; see logs")
@@ -226,34 +291,46 @@ class Poller:
         except DiscordPermanentError as exc:
             log.error("Discord rejected %s permanently: %s", [r.key for r in records], exc)
             for record in records:
-                self._store_update(self.store.mark_failed, record.key)
-                self._remember(record.key)
+                reason = f"permanent: {exc}"[:500]
+                if self._store_update(result, self.store.mark_failed, record.key, reason) is not None:
+                    self._remember(record.key)
                 result.failed += 1
             return False
         except DiscordError as exc:
             log.error("Discord post failed for %s: %s", [r.key for r in records], exc)
             healthy = True
             for record in records:
-                attempts = self._store_update(self.store.bump_attempt, record.key)
+                attempts = self._store_update(result, self.store.bump_attempt, record.key)
                 if attempts is not None and attempts >= MAX_ATTEMPTS:
-                    self._store_update(self.store.mark_failed, record.key)
-                    self._remember(record.key)
+                    reason = f"exhausted after {attempts} attempts: {exc}"[:500]
+                    if self._store_update(result, self.store.mark_failed, record.key, reason) is not None:
+                        self._remember(record.key)
                     result.failed += 1
                     healthy = False
             return healthy
         for record in records:
-            if self._store_update(self.store.mark_sent, record.key, int(now)):
-                result.sent += 1
+            outcome = self._store_update(result, self.store.mark_sent, record.key, int(now))
+            if outcome is None:
+                continue  # store failed; leave the row pending and unremembered so the next poll reconciles
             self._remember(record.key)
+            if outcome:
+                result.sent += 1
         return True
 
-    def _store_update(self, operation: Callable[..., Any], *args: Any) -> Any:
-        """Run a store update; a DynamoDB error must not abort the rest of the poll."""
+    def _store_update(self, result: PollResult, operation: Callable[..., Any], *args: Any) -> Any:
+        """Run a store update; a DynamoDB error must not abort the rest of the poll.
+
+        Returns whatever the operation returned, ``True`` when it returned ``None`` without
+        raising, and ``None`` only when the call failed -- so a caller can always tell a
+        confirmed write from an unconfirmed one.
+        """
         try:
-            return operation(*args)
-        except ClientError as exc:
+            outcome = operation(*args)
+        except (ClientError, BotoCoreError) as exc:
+            result.store_errors += 1
             log.error("store update %s failed for %s: %s", operation.__name__, args[0], exc)
             return None
+        return True if outcome is None else outcome
 
     # --- helpers ------------------------------------------------------------
 

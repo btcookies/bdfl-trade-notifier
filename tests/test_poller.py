@@ -1,3 +1,5 @@
+from collections.abc import Callable
+
 import pytest
 from botocore.exceptions import ClientError
 
@@ -10,6 +12,7 @@ from bdfl.poller import (
     LEAGUE_TTL_SECONDS,
     MAX_ATTEMPTS,
     POST_SPACING_SECONDS,
+    RUN_TIME_BUDGET_SECONDS,
     NotifyFailed,
     Poller,
 )
@@ -61,12 +64,15 @@ class FakeMfl:
 
 
 class FakeWebhook:
-    def __init__(self):
+    def __init__(self, on_post: Callable[[], None] | None = None):
         self.posts = []
         self.fail_times = 0
         self.error: Exception = DiscordError("down")
+        self.on_post = on_post
 
     def post(self, embeds):
+        if self.on_post is not None:
+            self.on_post()
         if self.fail_times > 0:
             self.fail_times -= 1
             raise self.error
@@ -281,3 +287,116 @@ def test_store_error_in_failure_path_does_not_abort_the_poll(harness):
     assert (first.sent, first.failed) == (0, 0)
     second = poller.run()
     assert second.sent == 1
+
+
+def test_mark_sent_failure_leaves_row_pending_and_unremembered(harness):
+    build, store, webhook, _ = harness
+    poller = build(FakeMfl([LEAGUE], payload(TRADE)))
+    original = store.mark_sent
+    calls = {"n": 0}
+
+    def flaky(key, at):
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise ClientError({"Error": {"Code": "ProvisionedThroughputExceededException"}}, "UpdateItem")
+        return original(key, at)
+
+    store.mark_sent = flaky
+    first = poller.run()
+    assert (first.sent, first.store_errors) == (0, 1)
+    key = f"TRADE#{NOW - 120}#0011#0005"
+    assert store.get_many([key])[key]["notify_state"] == "pending"
+    second = poller.run()
+    assert second.sent == 1
+    assert len(webhook.posts) == 2  # the accepted duplicate: posted again because the store never confirmed
+    assert store.get_many([key])[key]["notify_state"] == "sent"
+
+
+def test_connectivity_errors_in_store_updates_are_contained(harness):
+    from botocore.exceptions import EndpointConnectionError
+
+    build, store, webhook, _ = harness
+    poller = build(FakeMfl([LEAGUE], payload(TRADE, CLAIM_A)))
+    store.mark_sent = lambda key, at: (_ for _ in ()).throw(EndpointConnectionError(endpoint_url="x"))
+    result = poller.run()
+    assert len(webhook.posts) == 2
+    assert (result.sent, result.store_errors) == (0, 2)
+
+
+def test_last_result_survives_exceptions(harness):
+    build, _, _, _ = harness
+    mfl = FakeMfl([LEAGUE], payload(TRADE))
+    mfl.transactions_error = MflThrottled("429")
+    poller = build(mfl)
+    with pytest.raises(MflThrottled):
+        poller.run()
+    assert poller.last_result is not None
+    assert poller.last_result.league_year == 2026
+    assert poller.last_result.duration_ms >= 0
+
+
+def test_permanent_failure_records_reason(harness):
+    build, store, webhook, _ = harness
+    webhook.error = DiscordPermanentError("400 Invalid Form Body")
+    webhook.fail_times = 1
+    with pytest.raises(NotifyFailed):
+        build(FakeMfl([LEAGUE], payload(TRADE))).run()
+    key = f"TRADE#{NOW - 120}#0011#0005"
+    assert store.get_many([key])[key]["notify_error"].startswith("permanent: 400")
+
+
+def test_trade_failure_does_not_block_waiver_batch(harness):
+    build, store, webhook, _ = harness
+    webhook.fail_times = 1
+    result = build(FakeMfl([LEAGUE], payload(TRADE, CLAIM_A))).run()
+    assert (result.sent, result.failed) == (1, 0)
+    assert len(webhook.posts) == 1
+    assert webhook.posts[0][0]["title"].startswith("✅")
+    trade_key = f"TRADE#{NOW - 120}#0011#0005"
+    assert int(store.get_many([trade_key])[trade_key]["notify_attempts"]) == 1
+
+
+def test_notifications_are_ordered_by_timestamp(harness):
+    build, _, webhook, _ = harness
+    older_trade = {**TRADE, "timestamp": str(NOW - 600)}
+    newer_claim = {**CLAIM_A, "timestamp": str(NOW - 30)}
+    build(FakeMfl([LEAGUE], payload(newer_claim, older_trade))).run()
+    assert [embeds[0]["title"][:1] for embeds in webhook.posts] == ["🚨", "✅"]
+
+
+def test_run_time_budget_defers_remaining_messages(harness):
+    build, store, webhook, clock = harness
+    webhook.on_post = lambda: setattr(clock, "now", clock.now + RUN_TIME_BUDGET_SECONDS + 1)
+    trades = [{**TRADE, "timestamp": str(NOW - 120 - i), "franchise": f"00{i + 1}1"} for i in range(3)]
+    result = build(FakeMfl([LEAGUE], payload(*trades))).run()
+    assert len(webhook.posts) == 1
+    assert (result.sent, result.deferred) == (1, 2)
+    pending = [row for row in store.get_many([t and f"TRADE#{t['timestamp']}#{t['franchise']}#0005" for t in trades]).values() if row["notify_state"] == "pending"]
+    assert len(pending) == 2
+
+
+def test_unknown_state_row_is_remembered_with_warning(harness, caplog):
+    import logging
+
+    build, store, webhook, _ = harness
+    poller = build(FakeMfl([LEAGUE], payload(TRADE)))
+    key = f"TRADE#{NOW - 120}#0011#0005"
+    store.put_new({"pk": key, "notify_state": "weird", "details": {"sides": [], "comments": ""}})
+    with caplog.at_level(logging.WARNING):
+        result = poller.run()
+    assert result.sent == 0 and webhook.posts == []
+    assert "weird" in caplog.text
+
+
+def test_league_not_found_propagates_and_does_not_poison_cache(harness):
+    from bdfl.mfl import LeagueNotFound
+
+    build, _, _, _ = harness
+    mfl = FakeMfl([LEAGUE], payload(TRADE))
+    poller = build(mfl)
+    original = mfl.detect_league
+    mfl.detect_league = lambda now: (_ for _ in ()).throw(LeagueNotFound("none"))
+    with pytest.raises(LeagueNotFound):
+        poller.run()
+    mfl.detect_league = original
+    assert poller.run().sent == 1
