@@ -137,6 +137,11 @@ def test_network_errors_never_include_the_webhook_url():
     assert "abc" not in str(info.value)
     assert "webhooks" not in str(info.value)
     assert info.value.__cause__ is None
+    assert info.value.__context__ is None
+    import traceback
+
+    rendered = "".join(traceback.format_exception(info.value))
+    assert "abc" not in rendered and "webhooks" not in rendered
     assert "ConnectTimeout" in str(info.value)
 
 

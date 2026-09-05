@@ -14,7 +14,7 @@ MAX_RETRY_AFTER_SECONDS = 5.0
 
 
 class DiscordError(Exception):
-    pass
+    """The post failed for a reason that may clear; the caller may retry later."""
 
 
 class DiscordPermanentError(DiscordError):
@@ -74,7 +74,9 @@ class DiscordWebhook:
             )
         except requests.RequestException as exc:
             # requests puts the full URL, including the webhook token, in its messages.
-            raise DiscordError(f"Discord request failed: {type(exc).__name__}") from None
+            # Raise outside the except block so neither __cause__ nor __context__ keeps it.
+            failure = type(exc).__name__
+        raise DiscordError(f"Discord request failed: {failure}") from None
 
     @staticmethod
     def _retry_after(response: requests.Response) -> float:
