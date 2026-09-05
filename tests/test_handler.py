@@ -1,3 +1,4 @@
+import json
 import logging
 
 import pytest
@@ -42,8 +43,8 @@ def test_handler_builds_poller_once_and_returns_result(monkeypatch, caplog):
     assert fake.runs == 2
     assert len(built) == 1
     assert built[0].table_name == "tbl"
-    summaries = [r.msg for r in caplog.records if isinstance(r.msg, dict)]
-    assert [s["event"] for s in summaries] == ["poll", "poll"]
+    summaries = [r for r in caplog.records if getattr(r, "event", None) == "poll"]
+    assert len(summaries) == 2
 
 
 def test_handler_logs_summary_even_when_run_raises(monkeypatch, caplog):
@@ -60,9 +61,8 @@ def test_handler_logs_summary_even_when_run_raises(monkeypatch, caplog):
     monkeypatch.setattr(handler, "_poller", None)
     with caplog.at_level(logging.INFO), pytest.raises(RuntimeError):
         handler.handler({}, None)
-    summary = [r.msg for r in caplog.records if isinstance(r.msg, dict)][-1]
-    assert summary["event"] == "poll"
-    assert summary["fetched"] == 3
+    summary = [r for r in caplog.records if getattr(r, "event", None) == "poll"][-1]
+    assert summary.fetched == 3
 
 
 def test_build_poller_wires_real_components_without_network(monkeypatch):
@@ -108,3 +108,26 @@ def test_handler_does_not_raise_root_or_botocore_log_level(monkeypatch):
     assert logging.getLogger("bdfl").level == logging.DEBUG
     assert logging.getLogger("botocore").level == logging.WARNING
     assert logging.getLogger("urllib3").level == logging.WARNING
+
+
+def lambda_json_line(record):
+    """Serialize a record the way Lambda's JSON log format does: message stringified, extras top-level."""
+    standard = set(logging.LogRecord("x", logging.INFO, "p", 1, "m", None, None).__dict__) | {"message", "asctime"}
+    extras = {k: v for k, v in record.__dict__.items() if k not in standard}
+    return json.dumps({"timestamp": "t", "level": record.levelname, "message": record.getMessage(), **extras})
+
+
+def test_summary_fields_are_top_level_json_keys_for_the_metric_filters(monkeypatch, caplog):
+    fake = FakePoller()
+    monkeypatch.setenv("TABLE_NAME", "tbl")
+    monkeypatch.setattr(handler, "build_poller", lambda settings: fake)
+    monkeypatch.setattr(handler, "_poller", None)
+    with caplog.at_level(logging.INFO):
+        handler.handler({}, None)
+    record = [r for r in caplog.records if getattr(r, "event", None) == "poll"][-1]
+    line = json.loads(lambda_json_line(record))
+    assert line["message"] == "poll"
+    assert line["event"] == "poll"
+    assert line["store_errors"] == 0 and isinstance(line["store_errors"], int)
+    assert line["failed"] == 0 and isinstance(line["failed"], int)
+    assert line["fetched"] == 2

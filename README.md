@@ -44,7 +44,7 @@ You need the AWS CLI and SAM CLI (`brew install awscli aws-sam-cli`) and Python 
 
    A value that is present but malformed is worse: it fails with `ConfigError` on every poll until it is fixed, which trips the errors alarm.
 
-4. Build and deploy. The first deploy is guided. Accept the defaults except `AlertEmail`, which has no default: enter an address, or leave it blank only if you accept having no alarms at all. Without it the stack creates no alarms and every failure is silent.
+4. Build and deploy. The first deploy is guided. Accept the defaults except `AlertEmail`: enter an address there. Leave it blank only if you accept having no alarms at all, because without it the stack creates no alarms and every failure is silent.
 
    ```bash
    sam build && sam deploy --guided
@@ -71,7 +71,7 @@ You need the AWS CLI and SAM CLI (`brew install awscli aws-sam-cli`) and Python 
    sam logs --stack-name bdfl-notifier --name PollFunction --tail
    ```
 
-   The function uses Lambda's JSON log format, so each run logs one record whose `message` holds the summary: `"message": {"event": "poll", "league_year": 2026, "fetched": 12, "new": 0, ...}`.
+   The function uses Lambda's JSON log format, so each run logs one record with the summary as top-level fields: `{"level": "INFO", "message": "poll", "event": "poll", "league_year": 2026, "fetched": 12, "new": 0, ...}`.
 
 6. Once Discord posts look right, delete the old Serverless Framework stack from the CloudFormation console. It is probably named `bdfl-trade-notifier-dev`; confirm the name first:
 

@@ -15,6 +15,7 @@ Parameters:
     AllowedPattern: '^/.+'
   AlertEmail:
     Type: String
+    Default: ''
     Description: >-
       Email to notify when the poll function keeps failing, stops running, drops a notification,
       or cannot write to DynamoDB. Leave empty only if you accept having no alarms at all.
@@ -72,10 +73,12 @@ Resources:
         Project: bdfl-notifier
       LoggingConfig:
         LogGroup: !Ref PollLogGroup
-        # JSON format makes each log line a JSON object; the poll summary dict lands under message.
+        # JSON format makes each log line a JSON object; the handler passes the poll summary as
+        # `extra` fields, which become top-level keys the metric filters below read.
+        # ApplicationLogLevel must be at or below the LOG_LEVEL env var or the summary line is dropped.
         LogFormat: JSON
         ApplicationLogLevel: INFO
-        SystemLogLevel: WARN
+        SystemLogLevel: INFO
       Environment:
         Variables:
           LEAGUE_ID: !Ref LeagueId
@@ -120,22 +123,22 @@ Resources:
     Type: AWS::Logs::MetricFilter
     Properties:
       LogGroupName: !Ref PollLogGroup
-      FilterPattern: '{ $.message.event = "poll" && $.message.store_errors > 0 }'
+      FilterPattern: '{ $.event = "poll" && $.store_errors > 0 }'
       MetricTransformations:
         - MetricNamespace: !Ref AWS::StackName
           MetricName: StoreErrors
-          MetricValue: $.message.store_errors
+          MetricValue: $.store_errors
           DefaultValue: 0
 
   FailedNotificationsMetric:
     Type: AWS::Logs::MetricFilter
     Properties:
       LogGroupName: !Ref PollLogGroup
-      FilterPattern: '{ $.message.event = "poll" && $.message.failed > 0 }'
+      FilterPattern: '{ $.event = "poll" && $.failed > 0 }'
       MetricTransformations:
         - MetricNamespace: !Ref AWS::StackName
           MetricName: FailedNotifications
-          MetricValue: $.message.failed
+          MetricValue: $.failed
           DefaultValue: 0
 
   AlertTopic:

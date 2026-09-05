@@ -39,6 +39,6 @@ def handler(event: dict, context: object) -> dict:
         return _poller.run().as_dict()
     finally:
         if _poller.last_result is not None:
-            # A dict message is serialized under "message" by Lambda's JSON log format, which the
-            # template's metric filters read as $.message.<field>.
-            log.info({"event": "poll", **_poller.last_result.as_dict()})
+            # Lambda's JSON log format stringifies the message but emits `extra` fields as top-level
+            # JSON keys, which is what the template's metric filters read ($.store_errors, $.failed).
+            log.info("poll", extra={"event": "poll", **_poller.last_result.as_dict()})
