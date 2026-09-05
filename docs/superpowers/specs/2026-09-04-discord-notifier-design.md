@@ -1,7 +1,7 @@
 # BDFL Discord Notifier: Design
 
-Date: 2026-09-04
-Status: proposed, awaiting owner review
+Date: 2026-09-04 (updated 2026-09-05 to match the implementation)
+Status: implemented on branch `discord-port`; awaiting owner deploy
 Repo: `btcookies/bdfl-trade-notifier`, branch `discord-port`
 
 ## 1. Goal
