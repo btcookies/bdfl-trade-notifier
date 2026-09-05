@@ -144,7 +144,7 @@ Waiver embed, one message per poll:
 - when the description exceeds 4096 characters the lines split across embeds titled `✅ Waiver Claims Processed (2/3)`; embeds split across messages when a message would exceed 10 embeds or the 6000-character total;
 - footer and timestamp as for trades, using the latest claim's timestamp.
 
-Discord error handling: on HTTP 429 the client sleeps for `Retry-After`, capped at 5 seconds, and retries once. Any other non-2xx or network error raises `DiscordError`, which the poller treats as a failed attempt.
+Discord error handling: the client validates the message locally first (non-empty, at most 10 embeds, at most 6000 characters) and raises `DiscordPermanentError` when it can never be delivered. On HTTP 429 it reads `Retry-After` from the header or the JSON body; when the wait is 5 seconds or less it sleeps and retries once, otherwise it raises `DiscordError` immediately and the next poll retries. Any other 4xx raises `DiscordPermanentError`; 5xx and network errors raise `DiscordError`. Network error messages never include the webhook URL, since the URL contains the secret. Timeouts are 3 seconds to connect and 7 to read, so one post always fits inside the Lambda's 30 second budget. The poller marks a record `failed` immediately on `DiscordPermanentError` and counts every `DiscordError` as one attempt.
 
 ## 9. Configuration
 
