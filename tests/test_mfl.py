@@ -265,3 +265,13 @@ def test_detect_league_strips_whitespace_from_names():
     league = make_client().detect_league(NOW)
     assert league.name == "BDFL"
     assert league.franchises == {"0007": "Free Hernandez Bad Boyz", "0008": "Franchise 0008"}
+
+
+@responses.activate
+def test_players_strips_the_id_key_too():
+    responses.get(f"{BASE_URL}/2026/export", json={"players": {"player": [
+        {"id": " 13299 ", "name": "Kittle, George", "team": "SFO", "position": "TE"},
+    ]}})
+    players = make_client().players(2026, ["13299"])
+    assert list(players) == ["13299"]
+    assert players["13299"].id == "13299"

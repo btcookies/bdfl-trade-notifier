@@ -101,8 +101,8 @@ class MflClient:
         data = self._get(year, "players", PLAYERS=",".join(wanted))
         data = self._require_ok(data, "players")
         return {
-            p["id"]: Player(
-                id=p["id"],
+            str(p["id"]).strip(): Player(
+                id=str(p["id"]).strip(),
                 name=str(p.get("name", "")).strip(),
                 team=str(p.get("team", "")).strip(),
                 position=str(p.get("position", "")).strip(),

@@ -25,3 +25,15 @@ def dynamodb_table():
         )
         table.wait_until_exists()
         yield resource, TABLE_NAME
+
+
+@pytest.fixture(autouse=True)
+def restore_logger_levels():
+    """build_poller reconfigures shared loggers; put them back so tests stay order-independent."""
+    import logging
+
+    names = ("", "bdfl", "botocore", "boto3", "urllib3")
+    saved = {name: logging.getLogger(name).level for name in names}
+    yield
+    for name, level in saved.items():
+        logging.getLogger(name).setLevel(level)

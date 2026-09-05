@@ -20,6 +20,8 @@ def build_poller(settings: Settings) -> Poller:
     # AWS SDK debug logging would print SSM response bodies, including the webhook secret.
     logging.getLogger("botocore").setLevel(logging.WARNING)
     logging.getLogger("boto3").setLevel(logging.WARNING)
+    # The HTTP transport logs request paths at DEBUG, and the webhook path is the secret.
+    logging.getLogger("urllib3").setLevel(logging.WARNING)
     mfl = MflClient(settings.league_id, settings.mfl_user_agent)
     store = TransactionStore(settings.table_name)
     return Poller(

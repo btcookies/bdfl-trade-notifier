@@ -105,3 +105,4 @@ def test_handler_does_not_raise_root_or_botocore_log_level(monkeypatch):
     assert logging.getLogger().level == root_before
     assert logging.getLogger("bdfl").level == logging.DEBUG
     assert logging.getLogger("botocore").level == logging.WARNING
+    assert logging.getLogger("urllib3").level == logging.WARNING

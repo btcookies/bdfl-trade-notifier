@@ -18,7 +18,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from bdfl.config import DEFAULT_USER_AGENT, validate_webhook_url  # noqa: E402
+from bdfl.config import DEFAULT_USER_AGENT, ConfigError, validate_webhook_url  # noqa: E402
 from bdfl.discord import DiscordError, DiscordWebhook  # noqa: E402
 from bdfl.mfl import MflClient  # noqa: E402
 from bdfl.models import parse_transactions, referenced_player_ids  # noqa: E402
@@ -52,10 +52,14 @@ def main() -> None:
           file=sys.stderr)
 
     if args.send:
-        url = os.environ.get("DISCORD_WEBHOOK_URL")
+        url = (os.environ.get("DISCORD_WEBHOOK_URL") or "").strip()
         if not url:
             sys.exit("--send requires DISCORD_WEBHOOK_URL in the environment")
-        webhook = DiscordWebhook(validate_webhook_url(url))
+        try:
+            validate_webhook_url(url)
+        except ConfigError as exc:
+            sys.exit(f"DISCORD_WEBHOOK_URL rejected: {exc}")
+        webhook = DiscordWebhook(url)
         total = len(messages)
         for index, embeds in enumerate(messages, start=1):
             if index > 1:
