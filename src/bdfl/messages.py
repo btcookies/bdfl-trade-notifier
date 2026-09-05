@@ -16,7 +16,7 @@ MAX_DESCRIPTION = 4096
 MAX_FIELD_VALUE = 1024
 MAX_COMMENTS = 1000
 MAX_MESSAGE_CHARS = 6000
-MESSAGE_CHAR_BUDGET = 5900  # slack under Discord's 6000-char total across all embeds in a message
+MESSAGE_CHAR_BUDGET = MAX_MESSAGE_CHARS - 100  # slack under Discord's total across all embeds in a message
 
 MARKDOWN_SPECIALS = re.compile(r"([\\*_~`|>\[\]])")
 
@@ -55,7 +55,11 @@ def embed_length(embed: dict) -> int:
 
 
 def group_embeds[T](pairs: list[tuple[dict, list[T]]]) -> list[tuple[list[dict], list[T]]]:
-    """Group (embed, items) pairs into messages within Discord's embed-count and character limits."""
+    """Group (embed, items) pairs into messages within Discord's embed-count and character limits.
+
+    Each embed must itself fit within MESSAGE_CHAR_BUDGET; an oversized embed is emitted alone
+    and Discord will reject that message. Callers cap descriptions and fields to guarantee this.
+    """
     messages: list[tuple[list[dict], list[T]]] = []
     embeds: list[dict] = []
     items: list[T] = []
