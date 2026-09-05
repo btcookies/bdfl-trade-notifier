@@ -141,9 +141,12 @@ class MflClient:
         if response.status_code != 200:
             raise MflError(f"MFL returned {response.status_code} for TYPE={type_}")
         try:
-            return response.json()
+            data = response.json()
         except ValueError as exc:
             raise MflError("MFL returned a non-JSON body") from exc
+        if not isinstance(data, dict):
+            raise MflError("MFL returned a non-object JSON body")
+        return data
 
     def _pace(self) -> None:
         if self._last_request_at is None:

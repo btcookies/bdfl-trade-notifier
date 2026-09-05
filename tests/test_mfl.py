@@ -82,11 +82,24 @@ def test_detect_league_prefers_current_year_even_if_history_lists_a_future_year(
 
 
 @responses.activate
-def test_detect_league_handles_single_history_entry_dict():
+def test_detect_league_handles_single_franchise_dict():
     body = league_body(2026, [2026])
-    body["league"]["history"]["league"] = body["league"]["history"]["league"][0]
+    body["league"]["franchises"]["franchise"] = {"id": "0001", "name": "Solo"}
     responses.get(f"{BASE_URL}/2026/export", json=body)
-    assert make_client().detect_league(NOW).year == 2026
+    league = make_client().detect_league(NOW)
+    assert league.year == 2026
+    assert league.franchises == {"0001": "Solo"}
+
+
+@responses.activate
+def test_non_object_json_body_raises_mfl_error():
+    responses.get(f"{BASE_URL}/2026/export", json=None)
+    with pytest.raises(MflError, match="non-object"):
+        make_client().transactions(2026)
+    responses.reset()
+    responses.get(f"{BASE_URL}/2026/export", json=[1, 2])
+    with pytest.raises(MflError, match="non-object"):
+        make_client().league(2026)
 
 
 @responses.activate

@@ -188,7 +188,7 @@ The owner's account predates the July 2025 free-tier change and keeps the legacy
 ## 12. Error handling and edge cases
 
 - MFL returns a dict for a single transaction: normalized to a list.
-- MFL 404 for the current calendar year: year detection falls back to the prior year and reads history.
+- MFL 404 or an error body for the current calendar year: year detection falls back to the prior year.
 - MFL 429: 5 minute in-memory backoff, invocation raises, no retry inside the invocation.
 - MFL 5xx or network failure: invocation raises, no retry; next minute is a fresh attempt.
 - Discord accepted the post but the `sent` write failed: the next poll posts once more. Accepted.
@@ -205,7 +205,7 @@ Unit tests with pytest on Python 3.13:
 
 - `assets`: every code type, zero-based current picks, unknown codes, name conversion, missing team or position.
 - `messages`: golden embed dictionaries for a trade with and without comments, a waiver batch, description chunking at the 4096 limit, message chunking at 10 embeds.
-- `mfl`: year detection when the current year exists, when it returns 404, when it returns an error body, and when history reveals a newer year; dict-versus-list normalization; players lookup; 429 raising `MflThrottled`; one-second spacing using an injected sleep.
+- `mfl`: year detection when the current year exists, when it returns 404, when it returns an error body, and that a future year in history is ignored; 429 and 5xx propagating out of detection; dict-versus-list normalization; players lookup; network errors wrapped; one-second spacing using an injected clock and sleep, including after a failed request.
 - `discord`: request body shape, 429 with `Retry-After` retried once, 5xx raising.
 - `store` with moto `mock_aws`: conditional put returns false on duplicates, batch get, state transitions, attempt counter.
 - `poller` with fake MFL, fake Discord, and moto: new trade is posted and marked sent; old transaction is skipped; a Discord failure leaves it pending and the next poll sends it; five failures mark it failed and raise; backoff skips MFL; cached keys skip the table.
