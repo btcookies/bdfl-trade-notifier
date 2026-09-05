@@ -102,8 +102,8 @@ def parse_transactions(payload: dict[str, Any]) -> list[Record]:
                 records.append(_parse_trade(raw))
             elif kind == "BBID_WAIVER":
                 records.append(_parse_waiver(raw))
-        except (KeyError, ValueError, TypeError, AttributeError):
-            log.warning("skipping unparsable transaction: %r", raw)
+        except (KeyError, ValueError, TypeError, AttributeError) as exc:
+            log.warning("skipping unparsable transaction: %r", raw, exc_info=exc)
     return records
 
 
@@ -122,7 +122,7 @@ def _parse_trade(raw: dict[str, Any]) -> Trade:
 def _parse_waiver(raw: dict[str, Any]) -> WaiverClaim:
     timestamp = int(raw["timestamp"])
     franchise = raw["franchise"]
-    match = WAIVER_RE.fullmatch(raw.get("transaction") or "")
+    match = WAIVER_RE.fullmatch(str(raw.get("transaction") or ""))
     if not match:
         return WaiverClaim(timestamp, franchise, "", "", None, False, raw)
     return WaiverClaim(
