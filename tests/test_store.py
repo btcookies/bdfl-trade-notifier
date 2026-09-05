@@ -95,7 +95,7 @@ def test_get_many_dedupes_keys_and_reads_consistently(dynamodb_table):
 def test_get_many_retries_unprocessed_keys_with_backoff():
     name = "tbl"
     fake = FakeResource([
-        {"Responses": {name: [{"pk": "A"}]}, "UnprocessedKeys": {name: {"Keys": [{"pk": "B"}]}}},
+        {"Responses": {name: [{"pk": "A"}]}, "UnprocessedKeys": {name: {"Keys": [{"pk": "B"}], "ConsistentRead": True}}},
         {"Responses": {name: [{"pk": "B"}]}, "UnprocessedKeys": {}},
     ])
     slept = []
@@ -104,6 +104,7 @@ def test_get_many_retries_unprocessed_keys_with_backoff():
     assert len(fake.calls) == 2
     assert fake.calls[1][name]["Keys"] == [{"pk": "B"}]
     assert fake.calls[0][name]["ConsistentRead"] is True
+    assert fake.calls[1][name]["ConsistentRead"] is True
     assert slept == [0.05]
 
 
@@ -165,3 +166,22 @@ def test_updates_on_missing_key_do_not_create_phantom_rows(dynamodb_table):
         store.mark_failed("GHOST")
     assert store.mark_sent("GHOST", at=1) is False
     assert store.get_many(["GHOST"]) == {}
+
+
+def test_put_new_keeps_non_finite_floats_as_text(dynamodb_table):
+    resource, name = dynamodb_table
+    store = TransactionStore(name, resource=resource)
+    row = item("TRADE#NF")
+    row["raw"] = {"a": float("inf"), "b": float("nan")}
+    assert store.put_new(row) is True
+    stored = store.get_many(["TRADE#NF"])["TRADE#NF"]
+    assert stored["raw"] == {"a": "inf", "b": "nan"}
+
+
+def test_mark_sent_reraises_other_client_errors(dynamodb_table):
+    resource, name = dynamodb_table
+    store = TransactionStore(name, resource=resource)
+    error = ClientError({"Error": {"Code": "ProvisionedThroughputExceededException"}}, "UpdateItem")
+    store.table.update_item = lambda **kwargs: (_ for _ in ()).throw(error)
+    with pytest.raises(ClientError):
+        store.mark_sent("TRADE#1", at=1)

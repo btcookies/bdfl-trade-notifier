@@ -17,6 +17,7 @@ arithmetic or comparing against plain numbers.
 from __future__ import annotations
 
 import logging
+import math
 import time
 from collections.abc import Callable
 from decimal import Decimal
@@ -34,6 +35,8 @@ MAX_BATCH_GET_ROUNDS = 5
 def _to_dynamo(value: Any) -> Any:
     """DynamoDB rejects floats; convert them to Decimal recursively."""
     if isinstance(value, float):
+        if not math.isfinite(value):
+            return str(value)  # DynamoDB rejects NaN and infinity; keep the text instead
         return Decimal(str(value))
     if isinstance(value, dict):
         return {k: _to_dynamo(v) for k, v in value.items()}
@@ -69,6 +72,7 @@ class TransactionStore:
                     "ConsistentRead": True,
                 }
             }
+            unprocessed: list[dict[str, str]] = []
             for attempt in range(MAX_BATCH_GET_ROUNDS):
                 response = self.resource.batch_get_item(RequestItems=request)
                 for row in response.get("Responses", {}).get(self.table_name, []):
@@ -112,7 +116,7 @@ class TransactionStore:
             raise
 
     def bump_attempt(self, key: str) -> int:
-        """Increment the row's attempt counter and return the new count."""
+        """Raises ClientError when the row does not exist. Increment the row's attempt counter and return the new count."""
         response = self.table.update_item(
             Key={"pk": key},
             UpdateExpression="SET notify_attempts = if_not_exists(notify_attempts, :zero) + :one",
@@ -123,7 +127,7 @@ class TransactionStore:
         return int(response["Attributes"]["notify_attempts"])
 
     def mark_failed(self, key: str) -> None:
-        """Mark an existing row as permanently failed."""
+        """Raises ClientError when the row does not exist. Mark an existing row as permanently failed."""
         self.table.update_item(
             Key={"pk": key},
             UpdateExpression="SET notify_state = :state",
