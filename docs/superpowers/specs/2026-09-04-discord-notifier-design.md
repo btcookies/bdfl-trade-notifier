@@ -164,12 +164,13 @@ The webhook URL is read from SSM with decryption on first use and cached for the
 
 `template.yaml` (SAM):
 
-- Parameters: `LeagueId`, `WebhookParameterName`, `AlertEmail` (default empty), `PollSchedule` (default `rate(1 minute)`), `NotifyMaxAgeSeconds` (default 43200), `MflUserAgent` (default as in section 9).
+- Parameters: `LeagueId` (digits only), `WebhookParameterName` (must start with `/`), `AlertEmail` (default empty, must look like an address when set), `PollSchedule` (default `rate(1 minute)`, must be a `rate(...)` or `cron(...)` expression), `NotifyMaxAgeSeconds` (default 43200, at least 1), `MflUserAgent` (default as in section 9). Validation happens at deploy time so a typo fails the changeset rather than the first cold start.
 - `TransactionsTable` as in section 6.
-- `PollFunction`: `python3.13`, `arm64`, 256 MB, 30 second timeout, reserved concurrency 1, `DynamoDBCrudPolicy` on the table, `ssm:GetParameter` on the webhook parameter's ARN. Event source `ScheduleV2` with `FlexibleTimeWindow` off and `MaximumRetryAttempts` 0.
-- Explicit log group with 14 day retention.
-- CloudWatch alarm on the function's `Errors` metric, sum of 3 or more over 15 minutes, notifying an SNS topic with an email subscription. Topic, subscription, and alarm exist only when `AlertEmail` is set.
-- Outputs: table name and function name.
+- `PollFunction`: `python3.13`, `arm64`, 256 MB, 30 second timeout, reserved concurrency 1, an inline policy allowing exactly `dynamodb:BatchGetItem`, `PutItem`, and `UpdateItem` on the table, and `ssm:GetParameter` on the webhook parameter's ARN (no `kms:Decrypt` is needed under the AWS-managed `aws/ssm` key). Event source `ScheduleV2` with `FlexibleTimeWindow` off and `MaximumRetryAttempts` 0. The function's `LoggingConfig` points at the explicit log group so the group is created before the function.
+- Explicit log group with 14 day retention, plus a metric filter that turns the `store_errors` count in each run's JSON log line into a `StoreErrors` metric.
+- Three CloudWatch alarms notifying an SNS topic with an email subscription, all present only when `AlertEmail` is set: `Errors` sum of 5 or more over 15 minutes (MFL backoff produces at most 3, so 5 means something else broke); `Invocations` below 1 over 15 minutes with missing data treated as breaching, so a disabled or broken schedule is noticed; `StoreErrors` sum of 5 or more over 15 minutes, since DynamoDB failures never raise out of the poll.
+- Resources are tagged `Project: bdfl-notifier`.
+- Outputs: table name, function name, and the alert topic ARN.
 
 `samconfig.toml`: stack `bdfl-notifier`, region `us-east-1`, `CAPABILITY_IAM`, `resolve_s3`, no changeset confirmation. The only runtime dependency is `requests`, so `sam build` runs without a container.
 
@@ -178,6 +179,7 @@ The webhook URL is read from SSM with decryption on first use and cached for the
 | Service | Monthly usage | Always-free allowance |
 |---|---|---|
 | Lambda invocations | 43,200 | 1,000,000 |
+| CloudWatch alarms | 3 | 10 |
 | Lambda compute at 256 MB, about 1 s each | about 11,000 GB-seconds | 400,000 GB-seconds |
 | EventBridge Scheduler invocations | 43,200 | 14,000,000 |
 | DynamoDB | 5 read and 5 write units provisioned | 25 and 25 |
