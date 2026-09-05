@@ -42,7 +42,10 @@ FINAL_STATES = {"sent", "skipped", "failed"}
 # Discord allows roughly 5 webhook requests per 2 seconds; space posts out to stay under it.
 POST_SPACING_SECONDS = 0.5
 # Stop starting new posts this far into the 30 s Lambda budget; the next poll picks up the rest.
-RUN_TIME_BUDGET_SECONDS = 20.0
+# Stop starting new posts after this long so one worst-case post (about 10 s of connect and read
+# timeouts) and the final store writes still fit in Lambda's 30 s limit. The pathological
+# 429-then-timeout post is bounded by the Lambda timeout itself; the outbox recovers next minute.
+RUN_TIME_BUDGET_SECONDS = 12.0
 
 log = logging.getLogger(__name__)
 
@@ -162,7 +165,7 @@ class Poller:
         new_records = [r for r in candidates if r.key not in existing]
         league = self._ensure_franchises(league, new_records, started, fetched_this_run)
         to_notify = self._store_new(new_records, league, started, result)
-        to_notify += self._pending_existing(candidates, existing)
+        to_notify += self._pending_existing(candidates, existing, result)
         to_notify.sort(key=lambda pair: pair[0].timestamp)
         self._notify(to_notify, league, started, result)
 
@@ -214,7 +217,7 @@ class Poller:
         return to_notify
 
     def _pending_existing(
-        self, candidates: list[Record], existing: dict[str, dict]
+        self, candidates: list[Record], existing: dict[str, dict], result: PollResult
     ) -> list[tuple[Record, dict]]:
         to_notify: list[tuple[Record, dict]] = []
         for record in candidates:
@@ -224,14 +227,25 @@ class Poller:
             state = row.get("notify_state")
             details = row.get("details")
             if state == "pending":
-                attempts = int(row.get("notify_attempts", 0))
-                if attempts >= MAX_ATTEMPTS:
+                try:
+                    attempts = int(row.get("notify_attempts", 0))
+                except (TypeError, ValueError):
                     log.warning(
-                        "%s is still pending after %s attempts; giving up on it this run",
+                        "%s has an unusable notify_attempts (%r); treating it as final",
                         record.key,
-                        attempts,
+                        row.get("notify_attempts"),
                     )
-                elif not isinstance(details, dict):
+                    self._remember(record.key)
+                    continue
+                if attempts >= MAX_ATTEMPTS:
+                    # A prior run exhausted it but could not record that; finish the transition now.
+                    log.warning("%s is still pending after %s attempts; marking it failed", record.key, attempts)
+                    reason = f"exhausted after {attempts} attempts (recovered)"
+                    if self._store_update(result, self.store.mark_failed, record.key, reason) is not None:
+                        self._remember(record.key)
+                        result.failed += 1
+                    continue
+                if not isinstance(details, dict):
                     log.warning(
                         "%s has unusable details (%s); treating it as final",
                         record.key,
@@ -256,6 +270,7 @@ class Poller:
         started: float,
         result: PollResult,
     ) -> None:
+        """Post trades one message each in timestamp order, then the waiver digest for this poll."""
         if not to_notify:
             return
         trades = [(r, d) for r, d in to_notify if isinstance(r, Trade)]
@@ -294,7 +309,7 @@ class Poller:
                 reason = f"permanent: {exc}"[:500]
                 if self._store_update(result, self.store.mark_failed, record.key, reason) is not None:
                     self._remember(record.key)
-                result.failed += 1
+                    result.failed += 1
             return False
         except DiscordError as exc:
             log.error("Discord post failed for %s: %s", [r.key for r in records], exc)
@@ -305,7 +320,7 @@ class Poller:
                     reason = f"exhausted after {attempts} attempts: {exc}"[:500]
                     if self._store_update(result, self.store.mark_failed, record.key, reason) is not None:
                         self._remember(record.key)
-                    result.failed += 1
+                        result.failed += 1
                     healthy = False
             return healthy
         for record in records:

@@ -358,10 +358,52 @@ def test_trade_failure_does_not_block_waiver_batch(harness):
 
 def test_notifications_are_ordered_by_timestamp(harness):
     build, _, webhook, _ = harness
-    older_trade = {**TRADE, "timestamp": str(NOW - 600)}
-    newer_claim = {**CLAIM_A, "timestamp": str(NOW - 30)}
-    build(FakeMfl([LEAGUE], payload(newer_claim, older_trade))).run()
-    assert [embeds[0]["title"][:1] for embeds in webhook.posts] == ["🚨", "✅"]
+    older_trade = {**TRADE, "timestamp": str(NOW - 600), "comments": "older"}
+    newer_trade = {**TRADE, "timestamp": str(NOW - 30), "comments": "newer"}
+    build(FakeMfl([LEAGUE], payload(newer_trade, older_trade))).run()
+    assert [embeds[0]["description"] for embeds in webhook.posts] == ["older", "newer"]
+
+
+def test_unusable_attempts_counter_is_treated_as_final(harness, caplog):
+    import logging
+
+    build, store, webhook, _ = harness
+    poller = build(FakeMfl([LEAGUE], payload(TRADE)))
+    key = f"TRADE#{NOW - 120}#0011#0005"
+    store.put_new({"pk": key, "notify_state": "pending", "notify_attempts": "many",
+                   "details": {"sides": [], "comments": ""}})
+    with caplog.at_level(logging.WARNING):
+        result = poller.run()
+    assert (result.sent, webhook.posts) == (0, [])
+    assert "unusable notify_attempts" in caplog.text
+
+
+def test_permanent_failure_with_store_outage_is_not_counted_as_failed(harness):
+    build, store, webhook, _ = harness
+    webhook.error = DiscordPermanentError("bad")
+    webhook.fail_times = 1
+    poller = build(FakeMfl([LEAGUE], payload(TRADE)))
+    error = ClientError({"Error": {"Code": "ProvisionedThroughputExceededException"}}, "UpdateItem")
+    store.mark_failed = lambda key, reason="": (_ for _ in ()).throw(error)
+    with pytest.raises(NotifyFailed):
+        poller.run()
+    result = poller.last_result
+    assert (result.failed, result.store_errors) == (0, 1)
+    key = f"TRADE#{NOW - 120}#0011#0005"
+    assert store.get_many([key])[key]["notify_state"] == "pending"
+
+
+def test_stuck_pending_row_past_the_cap_is_marked_failed(harness):
+    build, store, webhook, _ = harness
+    poller = build(FakeMfl([LEAGUE], payload(TRADE)))
+    key = f"TRADE#{NOW - 120}#0011#0005"
+    store.put_new({"pk": key, "notify_state": "pending", "notify_attempts": MAX_ATTEMPTS,
+                   "details": {"sides": [], "comments": ""}})
+    result = poller.run()
+    assert (result.sent, result.failed, webhook.posts) == (0, 1, [])
+    row = store.get_many([key])[key]
+    assert row["notify_state"] == "failed"
+    assert "recovered" in row["notify_error"]
 
 
 def test_run_time_budget_defers_remaining_messages(harness):
