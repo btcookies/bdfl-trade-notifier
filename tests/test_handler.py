@@ -35,7 +35,7 @@ def test_handler_builds_poller_once_and_returns_result(monkeypatch, caplog):
 
     assert first == {
         "league_year": 2026, "fetched": 2, "new": 1, "skipped": 0,
-        "sent": 1, "failed": 0, "backoff": False, "duration_ms": 12,
+        "sent": 1, "failed": 0, "deferred": 0, "store_errors": 0, "backoff": False, "duration_ms": 12,
     }
     assert second == first
     assert fake.runs == 2

@@ -246,3 +246,13 @@ def test_default_timeout_is_split_connect_read():
     responses.get(f"{BASE_URL}/2026/export", json={"transactions": {}})
     make_client(session=session).transactions(2026)
     assert seen["timeout"] == (3.05, 7.0)
+
+
+@responses.activate
+def test_detect_league_strips_whitespace_from_names():
+    body = league_body(2026, [2026], franchises=[{"id": "0007", "name": "Free Hernandez Bad Boyz "}, {"id": "0008", "name": "   "}])
+    body["league"]["name"] = "  BDFL  "
+    responses.get(f"{BASE_URL}/2026/export", json=body)
+    league = make_client().detect_league(NOW)
+    assert league.name == "BDFL"
+    assert league.franchises == {"0007": "Free Hernandez Bad Boyz", "0008": "Franchise 0008"}

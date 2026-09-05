@@ -79,9 +79,9 @@ class MflClient:
                 continue
             info = LeagueInfo(
                 year=year,
-                name=str(league.get("name", "")),
+                name=str(league.get("name", "")).strip(),
                 franchises={
-                    f["id"]: f.get("name") or f"Franchise {f['id']}"
+                    f["id"]: str(f.get("name") or "").strip() or f"Franchise {f['id']}"
                     for f in as_list((league.get("franchises") or {}).get("franchise"))
                     if "id" in f
                 },
