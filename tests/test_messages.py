@@ -1,6 +1,7 @@
 from bdfl.messages import (
     MAX_DESCRIPTION,
     chunk_entries,
+    escape_markdown,
     trade_details,
     trade_embed,
     trade_summary,
@@ -178,3 +179,24 @@ def test_chunk_entries_respects_limit_and_newlines():
     assert chunk_entries(entries, limit=9) == [[("a", "xxxx"), ("b", "yyyy")], [("c", "zz")]]
     assert chunk_entries(entries, limit=8) == [[("a", "xxxx")], [("b", "yyyy"), ("c", "zz")]]
     assert chunk_entries([], limit=9) == []
+
+
+def test_escape_markdown():
+    assert escape_markdown("The_Youth_Academy") == "The\\_Youth\\_Academy"
+    assert escape_markdown("*A* ~B~ `C` |D| >E \\F") == "\\*A\\* \\~B\\~ \\`C\\` \\|D\\| \\>E \\\\F"
+    assert escape_markdown("A.J. Mudbone") == "A.J. Mudbone"
+
+
+def test_embeds_escape_markdown_in_names_but_details_do_not():
+    league = LeagueInfo(2026, "BDFL", {"0011": "The_Youth_Academy", "0005": "*Mudbone*", "0003": "x"})
+    trade = make_trade()
+    details = trade_details(trade, league, PLAYERS)
+    assert details["sides"][0]["franchise_name"] == "The_Youth_Academy"
+    embed = trade_embed(trade, details, league)
+    assert embed["fields"][0]["name"] == "The\\_Youth\\_Academy gives up"
+    assert embed["fields"][1]["name"] == "\\*Mudbone\\* gives up"
+    claim = make_claim(franchise="0011")
+    wd = waiver_details(claim, league, PLAYERS)
+    assert wd["franchise_name"] == "The_Youth_Academy"
+    [(embeds, _)] = waiver_messages([(claim, wd)], league)
+    assert embeds[0]["description"].startswith("**The\\_Youth\\_Academy** won")
