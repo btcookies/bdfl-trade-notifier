@@ -13,3 +13,20 @@ capabilities = "CAPABILITY_IAM"
 resolve_s3 = true
 confirm_changeset = false
 fail_on_empty_changeset = false
+
+# Sandbox stack that posts to the test channel. Deploy any branch here with:
+#   sam build && sam deploy --config-env test
+[test.global.parameters]
+stack_name = "bdfl-notifier-test"
+region = "us-east-1"
+
+[test.build.parameters]
+cached = true
+parallel = true
+
+[test.deploy.parameters]
+capabilities = "CAPABILITY_IAM"
+resolve_s3 = true
+confirm_changeset = false
+fail_on_empty_changeset = false
+parameter_overrides = "WebhookParameterName=/bdfl/discord/webhook-url-test"

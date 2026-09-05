@@ -92,6 +92,24 @@ Prints the exact Discord payloads for the last 7 days without sending anything.
 
 Add `--send` with `DISCORD_WEBHOOK_URL` set in the environment to post them for real, for example to test a new webhook. `--send` validates the URL first, waits half a second between messages, prints `sent i/n` as it goes, and exits non-zero naming the message it failed on. It does not touch DynamoDB, so re-running it posts everything again. It is for previewing a channel, not for backfilling the table.
 
+## Test deployment
+
+A second stack, `bdfl-notifier-test`, posts to a separate test channel so changes can be tried without the league seeing them. It has its own table and schedule and polls MFL independently, which is still well inside the free tier. It reads the webhook stored at `/bdfl/discord/webhook-url-test`.
+
+Deploy whatever branch is checked out:
+
+```bash
+sam build && sam deploy --config-env test
+```
+
+Watch it:
+
+```bash
+sam logs --stack-name bdfl-notifier-test --name PollFunction --tail
+```
+
+Its first run posts anything MFL processed in the last 12 hours, the same as a first production deploy. It creates no alarms unless you add `AlertEmail=...` to its `parameter_overrides` in `samconfig.toml`. To promote a change, merge it to `main` and deploy the default environment with `sam build && sam deploy`.
+
 ## Development
 
 ```bash
