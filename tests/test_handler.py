@@ -42,7 +42,8 @@ def test_handler_builds_poller_once_and_returns_result(monkeypatch, caplog):
     assert fake.runs == 2
     assert len(built) == 1
     assert built[0].table_name == "tbl"
-    assert caplog.text.count('"event": "poll"') == 2
+    summaries = [r.msg for r in caplog.records if isinstance(r.msg, dict)]
+    assert [s["event"] for s in summaries] == ["poll", "poll"]
 
 
 def test_handler_logs_summary_even_when_run_raises(monkeypatch, caplog):
@@ -59,8 +60,9 @@ def test_handler_logs_summary_even_when_run_raises(monkeypatch, caplog):
     monkeypatch.setattr(handler, "_poller", None)
     with caplog.at_level(logging.INFO), pytest.raises(RuntimeError):
         handler.handler({}, None)
-    assert '"event": "poll"' in caplog.text
-    assert '"fetched": 3' in caplog.text
+    summary = [r.msg for r in caplog.records if isinstance(r.msg, dict)][-1]
+    assert summary["event"] == "poll"
+    assert summary["fetched"] == 3
 
 
 def test_build_poller_wires_real_components_without_network(monkeypatch):

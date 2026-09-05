@@ -124,6 +124,7 @@ def _parse_waiver(raw: dict[str, Any]) -> WaiverClaim:
     franchise = raw["franchise"]
     match = WAIVER_RE.fullmatch(str(raw.get("transaction") or ""))
     if not match:
+        log.warning("unparsable waiver transaction %r for franchise %s", raw.get("transaction"), franchise)
         return WaiverClaim(timestamp, franchise, "", "", None, False, raw)
     return WaiverClaim(
         timestamp=timestamp,

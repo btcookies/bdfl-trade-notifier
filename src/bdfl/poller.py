@@ -41,7 +41,6 @@ SEEN_CACHE_MAX = 2000
 FINAL_STATES = {"sent", "skipped", "failed"}
 # Discord allows roughly 5 webhook requests per 2 seconds; space posts out to stay under it.
 POST_SPACING_SECONDS = 0.5
-# Stop starting new posts this far into the 30 s Lambda budget; the next poll picks up the rest.
 # Stop starting new posts after this long so one worst-case post (about 10 s of connect and read
 # timeouts) and the final store writes still fit in Lambda's 30 s limit. The pathological
 # 429-then-timeout post is bounded by the Lambda timeout itself; the outbox recovers next minute.
@@ -110,6 +109,7 @@ def make_item(record: Record, league: LeagueInfo, details: dict, state: str, now
         "notify_state": state,
         "notify_attempts": 0,
         "first_seen_at": int(now),
+        "notify_error": "",
     }
 
 

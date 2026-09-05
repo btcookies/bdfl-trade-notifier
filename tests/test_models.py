@@ -76,9 +76,13 @@ def test_parse_waiver_with_drop_and_trailing_comma():
     assert claim.dropped == "11247"
 
 
-def test_parse_waiver_unparsable_is_kept_with_stable_key():
+def test_parse_waiver_unparsable_is_kept_with_stable_key(caplog):
+    import logging
+
     bad = {**WAIVER, "transaction": "garbage"}
-    [claim] = parse_transactions({"transactions": {"transaction": [bad]}})
+    with caplog.at_level(logging.WARNING):
+        [claim] = parse_transactions({"transactions": {"transaction": [bad]}})
+    assert "unparsable waiver transaction" in caplog.text
     assert claim.parsed is False
     assert claim.added == ""
     assert claim.key.startswith("WAIVER#1788339600#0003#unparsed-")

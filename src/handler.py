@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 import logging
 
 from bdfl.config import Settings, get_webhook_url
@@ -40,4 +39,6 @@ def handler(event: dict, context: object) -> dict:
         return _poller.run().as_dict()
     finally:
         if _poller.last_result is not None:
-            log.info(json.dumps({"event": "poll", **_poller.last_result.as_dict()}))
+            # A dict message is serialized under "message" by Lambda's JSON log format, which the
+            # template's metric filters read as $.message.<field>.
+            log.info({"event": "poll", **_poller.last_result.as_dict()})

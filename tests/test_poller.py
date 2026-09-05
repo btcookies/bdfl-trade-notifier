@@ -139,8 +139,12 @@ def test_repeat_polls_do_not_repost_or_refetch_players(harness):
     mfl = FakeMfl([LEAGUE], payload(TRADE))
     poller = build(mfl)
     poller.run()
+    reads = []
+    original_get_many = poller.store.get_many
+    poller.store.get_many = lambda keys: reads.append(list(keys)) or original_get_many(keys)
     second = poller.run()
     third = poller.run()
+    assert reads == []  # nothing to look up: the warm cache filtered every key
     assert len(webhook.posts) == 1
     assert (second.fetched, second.new, second.sent) == (1, 0, 0)
     assert third.new == 0

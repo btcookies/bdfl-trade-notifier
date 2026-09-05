@@ -15,8 +15,9 @@ Parameters:
     AllowedPattern: '^/.+'
   AlertEmail:
     Type: String
-    Default: ''
-    Description: Optional. Email to notify when the poll function keeps failing or stops running.
+    Description: >-
+      Email to notify when the poll function keeps failing, stops running, drops a notification,
+      or cannot write to DynamoDB. Leave empty only if you accept having no alarms at all.
     AllowedPattern: '^$|^[^@\s]+@[^@\s]+$'
   PollSchedule:
     Type: String
@@ -71,6 +72,10 @@ Resources:
         Project: bdfl-notifier
       LoggingConfig:
         LogGroup: !Ref PollLogGroup
+        # JSON format makes each log line a JSON object; the poll summary dict lands under message.
+        LogFormat: JSON
+        ApplicationLogLevel: INFO
+        SystemLogLevel: WARN
       Environment:
         Variables:
           LEAGUE_ID: !Ref LeagueId
@@ -115,11 +120,22 @@ Resources:
     Type: AWS::Logs::MetricFilter
     Properties:
       LogGroupName: !Ref PollLogGroup
-      FilterPattern: '{ $.event = "poll" && $.store_errors > 0 }'
+      FilterPattern: '{ $.message.event = "poll" && $.message.store_errors > 0 }'
       MetricTransformations:
         - MetricNamespace: !Ref AWS::StackName
           MetricName: StoreErrors
-          MetricValue: $.store_errors
+          MetricValue: $.message.store_errors
+          DefaultValue: 0
+
+  FailedNotificationsMetric:
+    Type: AWS::Logs::MetricFilter
+    Properties:
+      LogGroupName: !Ref PollLogGroup
+      FilterPattern: '{ $.message.event = "poll" && $.message.failed > 0 }'
+      MetricTransformations:
+        - MetricNamespace: !Ref AWS::StackName
+          MetricName: FailedNotifications
+          MetricValue: $.message.failed
           DefaultValue: 0
 
   AlertTopic:
@@ -166,6 +182,22 @@ Resources:
       Threshold: 1
       ComparisonOperator: LessThanThreshold
       TreatMissingData: breaching
+      AlarmActions: [!Ref AlertTopic]
+      OKActions: [!Ref AlertTopic]
+
+  FailedNotificationsAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Condition: HasAlertEmail
+    Properties:
+      AlarmDescription: A trade or waiver notification was given up on; see notify_error on the row.
+      Namespace: !Ref AWS::StackName
+      MetricName: FailedNotifications
+      Statistic: Sum
+      Period: 900
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
       AlarmActions: [!Ref AlertTopic]
       OKActions: [!Ref AlertTopic]
 

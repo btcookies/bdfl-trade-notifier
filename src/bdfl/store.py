@@ -83,6 +83,8 @@ class TransactionStore:
                 for row in response.get("Responses", {}).get(self.table_name, []):
                     found[row["pk"]] = row
                 request = response.get("UnprocessedKeys") or {}
+                if request.get(self.table_name):
+                    request[self.table_name]["ConsistentRead"] = True
                 unprocessed = request.get(self.table_name, {}).get("Keys") or []
                 if not unprocessed:
                     break
