@@ -6,6 +6,7 @@ import logging
 import time
 from collections.abc import Callable, Iterable
 from datetime import datetime
+from typing import Any
 
 import requests
 
@@ -26,6 +27,10 @@ class MflThrottled(MflError):
     pass
 
 
+class MflNotFound(MflError):
+    """The year or league does not exist (HTTP 404)."""
+
+
 class LeagueNotFound(MflError):
     pass
 
@@ -38,7 +43,7 @@ class MflClient:
         session: requests.Session | None = None,
         sleep: Callable[[float], None] = time.sleep,
         clock: Callable[[], float] = time.monotonic,
-        timeout: float = 10.0,
+        timeout: float | tuple[float, float] = (3.05, 7.0),
     ):
         self.league_id = league_id
         self.user_agent = user_agent
@@ -50,32 +55,30 @@ class MflClient:
 
     # --- public API ---------------------------------------------------------
 
-    def league(self, year: int) -> dict | None:
+    def league(self, year: int) -> dict[str, Any] | None:
         """Return the league element, or None when the year or league does not exist."""
-        status, data = self._get(year, {"TYPE": "league"})
-        if status != 200 or data is None or "error" in data:
+        try:
+            data = self._get(year, "league")
+        except MflNotFound:
+            return None
+        if "error" in data:
+            log.warning("MFL league export error for %s: %s", year, data["error"])
             return None
         return data.get("league")
 
     def detect_league(self, now: datetime) -> LeagueInfo:
+        """Return the league as of the current calendar year, or the prior year before rollover.
+
+        MFL's league export lists every season in `history`, but the newest season a poller
+        should follow is always the current calendar year when it exists, and the prior year
+        otherwise, so the history list is intentionally not consulted here.
+        """
         for year in (now.year, now.year - 1):
             league = self.league(year)
             if league is None:
                 continue
-            years = {year}
-            for entry in as_list((league.get("history") or {}).get("league")):
-                value = str(entry.get("year", ""))
-                if value.isdigit():
-                    years.add(int(value))
-            best = max(years)
-            if best != year:
-                newer = self.league(best)
-                if newer is not None:
-                    league = newer
-                else:
-                    best = year
-            return LeagueInfo(
-                year=best,
+            info = LeagueInfo(
+                year=year,
                 name=str(league.get("name", "")),
                 franchises={
                     f["id"]: f.get("name") or f"Franchise {f['id']}"
@@ -83,20 +86,20 @@ class MflClient:
                     if "id" in f
                 },
             )
+            log.info("using MFL league year %s (%s franchises)", info.year, len(info.franchises))
+            return info
         raise LeagueNotFound(f"league {self.league_id} not found for {now.year} or {now.year - 1}")
 
-    def transactions(self, year: int, days: int = 1, types: str = DEFAULT_TYPES) -> dict:
-        status, data = self._get(
-            year, {"TYPE": "transactions", "TRANS_TYPE": types, "DAYS": str(days)}
-        )
-        return self._require_ok(status, data, "transactions")
+    def transactions(self, year: int, days: int = 1, types: str = DEFAULT_TYPES) -> dict[str, Any]:
+        data = self._get(year, "transactions", TRANS_TYPE=types, DAYS=str(days))
+        return self._require_ok(data, "transactions")
 
     def players(self, year: int, ids: Iterable[str]) -> dict[str, Player]:
         wanted = sorted(set(ids))
         if not wanted:
             return {}
-        status, data = self._get(year, {"TYPE": "players", "PLAYERS": ",".join(wanted)})
-        data = self._require_ok(status, data, "players")
+        data = self._get(year, "players", PLAYERS=",".join(wanted))
+        data = self._require_ok(data, "players")
         return {
             p["id"]: Player(
                 id=p["id"],
@@ -110,17 +113,14 @@ class MflClient:
 
     # --- internals ----------------------------------------------------------
 
-    def _require_ok(self, status: int, data: dict | None, what: str) -> dict:
-        if status != 200 or data is None:
-            raise MflError(f"MFL {what} request returned status {status}")
+    def _require_ok(self, data: dict[str, Any], what: str) -> dict[str, Any]:
         if "error" in data:
             raise MflError(f"MFL {what} error: {data['error']}")
         return data
 
-    def _get(self, year: int, params: dict) -> tuple[int, dict | None]:
+    def _get(self, year: int, type_: str, **extra: str) -> dict[str, Any]:
         self._pace()
-        query = {"TYPE": params["TYPE"], "L": self.league_id, "JSON": "1"}
-        query.update({k: v for k, v in params.items() if k != "TYPE"})
+        query = {"TYPE": type_, "L": self.league_id, "JSON": "1", **extra}
         try:
             response = self.session.get(
                 f"{BASE_URL}/{year}/export",
@@ -129,17 +129,19 @@ class MflClient:
                 timeout=self.timeout,
             )
         except requests.RequestException as exc:
+            # The URL carries only public ids today; if an APIKEY is ever added, redact it here.
             raise MflError(f"MFL request failed: {exc}") from exc
         finally:
+            # In a finally so a failed request still counts against MFL's one-per-second rule.
             self._last_request_at = self.clock()
         if response.status_code == 429:
-            raise MflThrottled(f"MFL throttled TYPE={params['TYPE']} for {year}")
+            raise MflThrottled(f"MFL throttled TYPE={type_} for {year}")
         if response.status_code == 404:
-            return 404, None
+            raise MflNotFound(f"MFL has no {type_} export for {year}")
         if response.status_code != 200:
-            raise MflError(f"MFL returned {response.status_code} for TYPE={params['TYPE']}")
+            raise MflError(f"MFL returned {response.status_code} for TYPE={type_}")
         try:
-            return 200, response.json()
+            return response.json()
         except ValueError as exc:
             raise MflError("MFL returned a non-JSON body") from exc
 
