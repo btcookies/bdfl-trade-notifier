@@ -102,7 +102,7 @@ Table `${StackName}-transactions`, partition key `pk` (string), provisioned at 5
 | `first_seen_at` | N | epoch when the poller first stored it |
 | `notified_at` | N | epoch when Discord accepted it; absent otherwise |
 
-`details` for a trade: `{"sides": [{"franchise_id", "franchise_name", "assets": [str]}], "comments": str}`. For a claim: `{"franchise_id", "franchise_name", "bid": str, "added": str, "dropped": str or null}`. Storing rendered names preserves what the team and player were called at the time, which is what a hall of fame wants.
+`details` for a trade: `{"sides": [{"franchise_id", "franchise_name", "assets": [str]}], "comments": str}`. For a claim: `{"franchise_id", "franchise_name", "parsed": bool, "bid": str, "added": str, "dropped": str or null}`, with `"raw_transaction"` present when `parsed` is false. Storing rendered names preserves what the team and player were called at the time, which is what a hall of fame wants.
 
 Writes use `attribute_not_exists(pk)`. Keys include franchise ids so two trades processed in the same second do not collide. A global secondary index on `year` and `timestamp` is deferred to the hall-of-fame spec; adding one later is an online operation.
 
@@ -124,9 +124,11 @@ Waiver bids render as `$3` when integral and `$3.50` otherwise. A `transaction` 
 
 Franchise names come from `LeagueInfo`. An id not in the cache triggers one refresh; if still unknown it renders as `Franchise 0005`.
 
+Text that enters an embed (franchise names, player labels, asset strings) is backslash-escaped for Discord markdown; the stored `details` and `summary` keep the plain text. Trade comments are intentionally left unescaped so members can use markdown in trade notes.
+
 ## 8. Discord messages
 
-Every post is `POST {webhook}?wait=true` with body `{"username": "BDFL", "embeds": [...], "allowed_mentions": {"parse": []}}`. Disabling mention parsing means a team named `@everyone` cannot ping the server. The builder enforces Discord's limits: at most 10 embeds per message, 256 characters per title, 4096 per description, 25 fields, 256 per field name, 1024 per field value, and 6000 per embed in total.
+Every post is `POST {webhook}?wait=true` with body `{"username": "BDFL", "embeds": [...], "allowed_mentions": {"parse": []}}`. Disabling mention parsing means a team named `@everyone` cannot ping the server. The builder enforces Discord's limits: at most 10 embeds per message, 256 characters per title, 4096 per description, 25 fields, 256 per field name, 1024 per field value, and 6000 characters in total across every embed in one message (title, description, field names and values, footer). Embeds are grouped into messages by that character budget as well as by count.
 
 Trade embed, one message per trade:
 
@@ -139,7 +141,7 @@ Waiver embed, one message per poll:
 
 - title `✅ Waiver Claims Processed`, color `0x2ECC71`;
 - description: one line per claim, sorted by timestamp then franchise name: `**<Franchise>** won **<Player>** for $3` plus ` · dropped <Player>` when a player was dropped;
-- when the description exceeds 4096 characters the lines split across embeds titled `✅ Waiver Claims Processed (2/3)`; more than 10 embeds split across messages;
+- when the description exceeds 4096 characters the lines split across embeds titled `✅ Waiver Claims Processed (2/3)`; embeds split across messages when a message would exceed 10 embeds or the 6000-character total;
 - footer and timestamp as for trades, using the latest claim's timestamp.
 
 Discord error handling: on HTTP 429 the client sleeps for `Retry-After`, capped at 5 seconds, and retries once. Any other non-2xx or network error raises `DiscordError`, which the poller treats as a failed attempt.
