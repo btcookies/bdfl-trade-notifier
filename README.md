@@ -44,18 +44,19 @@ You need the AWS CLI and SAM CLI (`brew install awscli aws-sam-cli`) and Python 
 
    A value that is present but malformed is worse: it fails with `ConfigError` on every poll until it is fixed, which trips the errors alarm.
 
-4. Build and deploy. The first deploy is guided; accept the defaults, and optionally set `AlertEmail` to get an email when polling keeps failing:
+4. Build and deploy. The first deploy is guided. Accept the defaults except `AlertEmail`, which has no default: enter an address, or leave it blank only if you accept having no alarms at all. Without it the stack creates no alarms and every failure is silent.
 
    ```bash
    sam build && sam deploy --guided
    ```
 
-   Later deploys are just `sam build && sam deploy`.
+   Later deploys are just `sam build && sam deploy`. The guided run writes your answers, including the email, into the tracked `samconfig.toml` as `parameter_overrides`; decide whether you want that committed. If the deploy fails because the account cannot reserve concurrency, remove `ReservedConcurrentExecutions` from `template.yaml` and redeploy: dedupe still holds, and only a double post during an overlapping run becomes possible.
 
-   With `AlertEmail` set the stack creates three alarms:
+   With `AlertEmail` set the stack creates four alarms:
 
    - **errors**: five or more failed runs in 15 minutes. MFL throttling produces at most three in that window by design, so five means something else broke.
    - **stopped**: fewer than one invocation in 15 minutes, so a disabled schedule gets noticed instead of going quiet.
+   - **dropped notification**: a trade or claim was given up on, either rejected outright by Discord or exhausted after five attempts. That raises only once, so it has its own alarm.
    - **store errors**: DynamoDB update failures inside the poll. Those never raise on their own, so without this alarm they would not be visible.
 
    The SNS email subscription has to be confirmed by clicking the link in the confirmation email. Until then the alarms deliver nothing. Check it:
@@ -70,7 +71,7 @@ You need the AWS CLI and SAM CLI (`brew install awscli aws-sam-cli`) and Python 
    sam logs --stack-name bdfl-notifier --name PollFunction --tail
    ```
 
-   Each run logs one JSON line like `{"event": "poll", "league_year": 2026, "fetched": 12, "new": 0, ...}`.
+   The function uses Lambda's JSON log format, so each run logs one record whose `message` holds the summary: `"message": {"event": "poll", "league_year": 2026, "fetched": 12, "new": 0, ...}`.
 
 6. Once Discord posts look right, delete the old Serverless Framework stack from the CloudFormation console. It is probably named `bdfl-trade-notifier-dev`; confirm the name first:
 
@@ -78,7 +79,7 @@ You need the AWS CLI and SAM CLI (`brew install awscli aws-sam-cli`) and Python 
    aws cloudformation list-stacks --stack-status-filter CREATE_COMPLETE UPDATE_COMPLETE --query "StackSummaries[?contains(StackName, 'bdfl-trade-notifier')].StackName"
    ```
 
-   Deleting it removes the old functions, queue, and tables and silences the GroupMe bot.
+   Deleting it removes the old functions, queue, and tables and silences the GroupMe bot. Do this within days, not weeks: the old stack's tables use all 25 read and 25 write units of the always-free tier (22 of each on its players table), so while both stacks exist the account sits at 30 units and bills roughly $3 a month.
 
 ## Preview what would post
 
@@ -164,7 +165,7 @@ aws logs delete-log-group --log-group-name /aws/lambda/bdfl-notifier-poll
 
 4. Pushes to `main` then run lint, tests, `sam build`, and `sam deploy` on an arm64 runner. Pull requests run lint, tests, template validation, and a build only. To turn push-to-deploy off, delete the variable.
 
-The deploy passes no parameter overrides, so `AlertEmail` and the other parameters keep the values from the last local `sam deploy --guided`. Change them locally, not in the workflow.
+The deploy passes no parameter overrides, so `AlertEmail` and the other parameters keep the values from the last local `sam deploy --guided`. Change them locally, not in the workflow. Push the branch before merging it so the CI workflow runs at least once on a real runner.
 
 The deploy role can create the function's IAM roles, which is inherent to deploying Lambda. It is explicitly denied from modifying itself or its own stack, and the workflow's actions are pinned to commit SHAs. Protect `main` by requiring a pull request and the CI check, so a deploy always follows a green run.
 
