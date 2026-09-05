@@ -29,7 +29,7 @@ class DiscordWebhook:
         url: str,
         session: requests.Session | None = None,
         sleep: Callable[[float], None] = time.sleep,
-        username: str = "BDFL",
+        username: str | None = None,
         timeout: float | tuple[float, float] = (3.05, 7.0),
     ) -> None:
         self.url = url
@@ -51,7 +51,11 @@ class DiscordWebhook:
             raise DiscordPermanentError(
                 f"{total} characters exceeds Discord's per-message limit of {MAX_MESSAGE_CHARS}"
             )
-        body = {"username": self.username, "embeds": embeds, "allowed_mentions": {"parse": []}}
+        # No username override by default: the name and avatar configured on the webhook in
+        # Discord apply, so the bot's identity is managed there without a deploy.
+        body: dict = {"embeds": embeds, "allowed_mentions": {"parse": []}}
+        if self.username:
+            body["username"] = self.username
         response = self._send(body)
         if response.status_code == 429:
             delay = self._retry_after(response)

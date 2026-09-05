@@ -127,7 +127,7 @@ Text that enters an embed (franchise names, player labels, asset strings) is bac
 
 ## 8. Discord messages
 
-Every post is `POST {webhook}?wait=true` with body `{"username": "BDFL", "embeds": [...], "allowed_mentions": {"parse": []}}`. Disabling mention parsing means a team named `@everyone` cannot ping the server. The builder enforces Discord's limits: at most 10 embeds per message, 256 characters per title, 4096 per description, 25 fields, 256 per field name, 1024 per field value, and 6000 characters in total across every embed in one message (title, description, field names and values, footer). Embeds are grouped into messages by that character budget as well as by count.
+Every post is `POST {webhook}?wait=true` with body `{"embeds": [...], "allowed_mentions": {"parse": []}}`. No username is sent, so the name and avatar configured on the webhook in Discord apply and the bot's identity is managed there without a deploy. Disabling mention parsing means a team named `@everyone` cannot ping the server. The builder enforces Discord's limits: at most 10 embeds per message, 256 characters per title, 4096 per description, 25 fields, 256 per field name, 1024 per field value, and 6000 characters in total across every embed in one message (title, description, field names and values, footer). Embeds are grouped into messages by that character budget as well as by count.
 
 Trade embed, one message per trade:
 
