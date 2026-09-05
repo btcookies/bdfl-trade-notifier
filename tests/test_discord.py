@@ -1,6 +1,7 @@
 import json
 
 import pytest
+import requests
 import responses
 
 from bdfl.discord import DiscordError, DiscordWebhook
@@ -47,7 +48,7 @@ def test_post_raises_on_server_error_without_retry():
 
 @responses.activate
 def test_post_wraps_connection_errors():
-    responses.post(URL, body=ConnectionError("boom"))
+    responses.post(URL, body=requests.exceptions.ConnectionError("boom"))
     with pytest.raises(DiscordError):
         DiscordWebhook(URL, sleep=lambda s: None).post([EMBED])
 
