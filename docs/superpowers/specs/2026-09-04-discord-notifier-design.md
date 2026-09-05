@@ -30,7 +30,7 @@ Removed outright: GroupMe client, SQS queue and sender Lambda, players table and
 All checked on 2026-09-04 against league 65522 without logging in.
 
 - Base URL is `https://api.myfantasyleague.com/{year}/export?TYPE=...&L=65522&JSON=1`. Requests redirect to the league's host (currently `www45`); the client follows redirects.
-- `TYPE=league` returns `league.history.league[]`, one entry per season with `year` and `url` (2016 through 2026 for this league), plus `league.franchises.franchise[]` with `id` and `name`, and `league.name` and `league.baseURL`. Querying 2025 already lists 2026 in history, so detection works from either side of a rollover.
+- `TYPE=league` returns `league.history.league[]`, one entry per season with `year` and `url` (2016 through 2026 for this league), plus `league.franchises.franchise[]` with `id` and `name`, and `league.name` and `league.baseURL`.
 - A year that does not exist yet returns HTTP 404 with an HTML body. An unknown league returns HTTP 200 with JSON `{"error": {"$t": "..."}}`.
 - `TYPE=transactions&TRANS_TYPE=TRADE,BBID_WAIVER&DAYS=1` returns only those types, about 1 to 2 KB, in about 270 ms. When exactly one transaction matches, MFL may return a dict instead of a list.
   - Trade fields: `timestamp`, `franchise`, `franchise2`, `franchise1_gave_up`, `franchise2_gave_up`, `comments`, `expires`, `by_commish`, `type`.
@@ -72,14 +72,12 @@ Reliability rules:
 def detect_league(now):
     for y in (now.year, now.year - 1):
         resp = GET /{y}/export?TYPE=league&L={league}&JSON=1
-        if resp.status == 404 or "error" in resp.json(): continue
-        years = {int(h["year"]) for h in as_list(league.history.league)} | {y}
-        best = max(years)
-        if best != y:
-            resp = GET /{best}/export?TYPE=league...   # franchises as of the newest year
-        return LeagueInfo(year=best, name=league.name, franchises={id: name})
+        if resp is 404 or "error" in resp.json(): continue   # year not open yet, or league not rolled over
+        return LeagueInfo(year=y, name=league.name, franchises={id: name})
     raise LeagueNotFound
 ```
+
+The newest season a poller should follow is the current calendar year when it exists on MFL and the prior year otherwise, so the league export's `history` list is intentionally not consulted for detection (it remains the backfill iterator for the hall of fame). A 429, a 5xx, or a network failure during detection propagates as an error rather than being mistaken for a missing year. Detection costs one request for most of the year and two in the weeks between January 1 and MFL opening the new season.
 
 The detected league year is used for the transactions and players requests, for the `year` attribute on stored rows, and for rendering current-year draft picks. After a rollover the cache refreshes within 6 hours. Late transactions posted to the old year after a rollover are not polled; MFL locks prior years, so this is acceptable.
 
@@ -144,7 +142,7 @@ Waiver embed, one message per poll:
 - when the description exceeds 4096 characters the lines split across embeds titled `✅ Waiver Claims Processed (2/3)`; embeds split across messages when a message would exceed 10 embeds or the 6000-character total;
 - footer and timestamp as for trades, using the latest claim's timestamp.
 
-Discord error handling: the client validates the message locally first (non-empty, at most 10 embeds, at most 6000 characters) and raises `DiscordPermanentError` when it can never be delivered. On HTTP 429 it reads `Retry-After` from the header or the JSON body; when the wait is 5 seconds or less it sleeps and retries once, otherwise it raises `DiscordError` immediately and the next poll retries. Any other 4xx raises `DiscordPermanentError`; 5xx and network errors raise `DiscordError`. Network error messages never include the webhook URL, since the URL contains the secret. Timeouts are 3 seconds to connect and 7 to read, so one post always fits inside the Lambda's 30 second budget. The poller marks a record `failed` immediately on `DiscordPermanentError` and counts every `DiscordError` as one attempt.
+Discord error handling: the client validates the message locally first (non-empty, at most 10 embeds, at most 6000 characters) and raises `DiscordPermanentError` when it can never be delivered. On HTTP 429 it reads `Retry-After` from the header or the JSON body; when the wait is 5 seconds or less it sleeps and retries once, otherwise it raises `DiscordError` immediately and the next poll retries. Any other 4xx raises `DiscordPermanentError`; 5xx and network errors raise `DiscordError`. Network error messages never include the webhook URL, since the URL contains the secret. Timeouts are 3 seconds to connect and 7 to read, so one post always fits inside the Lambda's 30 second budget. The MFL client uses the same split timeout. The poller marks a record `failed` immediately on `DiscordPermanentError` and counts every `DiscordError` as one attempt.
 
 ## 9. Configuration
 
