@@ -82,7 +82,7 @@ class DiscordWebhook:
         if raw is None:
             try:
                 raw = response.json().get("retry_after")
-            except ValueError:  # a Cloudflare 429 is HTML, not JSON
+            except (ValueError, AttributeError):  # a Cloudflare 429 is HTML, not a JSON object
                 raw = None
         try:
             seconds = float(raw)

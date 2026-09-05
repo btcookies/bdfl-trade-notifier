@@ -154,3 +154,12 @@ def test_uses_injected_session_and_timeout():
     responses.post(URL, json={"id": "1"}, status=200)
     DiscordWebhook(URL, session=session, sleep=lambda s: None).post([EMBED])
     assert seen["timeout"] == (3.05, 7.0)
+
+
+@responses.activate
+def test_retry_after_with_non_object_json_body_falls_back_to_one_second():
+    responses.post(URL, status=429, json=["nope"])
+    responses.post(URL, json={"id": "1"}, status=200)
+    slept = []
+    DiscordWebhook(URL, sleep=slept.append).post([EMBED])
+    assert slept == [1.0]
