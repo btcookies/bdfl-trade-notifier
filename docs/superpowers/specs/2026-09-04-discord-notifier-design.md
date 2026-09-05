@@ -102,7 +102,7 @@ Table `${StackName}-transactions`, partition key `pk` (string), provisioned at 5
 
 `details` for a trade: `{"sides": [{"franchise_id", "franchise_name", "assets": [str]}], "comments": str}`. For a claim: `{"franchise_id", "franchise_name", "parsed": bool, "bid": str, "added": str, "dropped": str or null}`, with `"raw_transaction"` present when `parsed` is false. Storing rendered names preserves what the team and player were called at the time, which is what a hall of fame wants.
 
-Writes use `attribute_not_exists(pk)`. Keys include franchise ids so two trades processed in the same second do not collide. A global secondary index on `year` and `timestamp` is deferred to the hall-of-fame spec; adding one later is an online operation.
+Writes use `attribute_not_exists(pk)`; that conditional put is the dedupe guarantee, and the batch read before it is only a cost optimization. Batch reads are strongly consistent and deduplicate their key list. `mark_sent` only transitions a row out of `pending`; attempt bumps and failure marks require the row to exist. Floats in an item are converted to `Decimal` before writing, and numeric attributes read back as `Decimal`. Keys include franchise ids so two trades processed in the same second do not collide. A global secondary index on `year` and `timestamp` is deferred to the hall-of-fame spec; adding one later is an online operation.
 
 ## 7. Rendering
 
