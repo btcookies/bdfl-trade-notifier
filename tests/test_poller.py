@@ -364,6 +364,23 @@ def test_notifications_are_ordered_by_timestamp(harness):
     assert [embeds[0]["description"] for embeds in webhook.posts] == ["older", "newer"]
 
 
+def test_build_batches_orders_trades_then_waiver_digest():
+    from bdfl.messages import trade_details, waiver_details
+    from bdfl.models import parse_transactions
+    from bdfl.poller import build_batches
+
+    older = {**TRADE, "timestamp": str(NOW - 600)}
+    newer = {**TRADE, "timestamp": str(NOW - 30)}
+    records = parse_transactions(payload(CLAIM_A, newer, older))
+    pairs = []
+    for record in records:
+        details = trade_details(record, LEAGUE, PLAYERS) if record.type == "TRADE" else waiver_details(record, LEAGUE, PLAYERS)
+        pairs.append((record, details))
+    batches = build_batches(pairs, LEAGUE)
+    assert [embeds[0]["title"][:1] for embeds, _ in batches] == ["🚨", "🚨", "✅"]
+    assert [records[0].timestamp for _, records in batches[:2]] == [NOW - 600, NOW - 30]
+
+
 def test_unusable_attempts_counter_is_treated_as_final(harness, caplog):
     import logging
 

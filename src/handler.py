@@ -16,7 +16,10 @@ _poller: Poller | None = None
 
 
 def build_poller(settings: Settings) -> Poller:
-    logging.getLogger().setLevel(settings.log_level)
+    logging.getLogger("bdfl").setLevel(settings.log_level)
+    # AWS SDK debug logging would print SSM response bodies, including the webhook secret.
+    logging.getLogger("botocore").setLevel(logging.WARNING)
+    logging.getLogger("boto3").setLevel(logging.WARNING)
     mfl = MflClient(settings.league_id, settings.mfl_user_agent)
     store = TransactionStore(settings.table_name)
     return Poller(
@@ -27,7 +30,7 @@ def build_poller(settings: Settings) -> Poller:
     )
 
 
-def handler(event, context):
+def handler(event: dict, context: object) -> dict:
     global _poller
     if _poller is None:
         _poller = build_poller(Settings.from_env())

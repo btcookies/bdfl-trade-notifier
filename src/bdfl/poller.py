@@ -83,6 +83,20 @@ def build_summary(record: Record, details: dict) -> str:
     return waiver_summary(details)
 
 
+def build_batches(
+    to_notify: list[tuple[Record, dict]], league: LeagueInfo
+) -> list[tuple[list[dict], list[Record]]]:
+    """One message per trade in timestamp order, then the waiver digest for this batch."""
+    ordered = sorted(to_notify, key=lambda pair: pair[0].timestamp)
+    trades = [(r, d) for r, d in ordered if isinstance(r, Trade)]
+    claims = [(r, d) for r, d in ordered if isinstance(r, WaiverClaim)]
+    batches: list[tuple[list[dict], list[Record]]] = [
+        ([trade_embed(r, d, league)], [r]) for r, d in trades
+    ]
+    batches += waiver_messages(claims, league)
+    return batches
+
+
 def make_item(record: Record, league: LeagueInfo, details: dict, state: str, now: float) -> dict:
     return {
         "pk": record.key,
@@ -166,7 +180,6 @@ class Poller:
         league = self._ensure_franchises(league, new_records, started, fetched_this_run)
         to_notify = self._store_new(new_records, league, started, result)
         to_notify += self._pending_existing(candidates, existing, result)
-        to_notify.sort(key=lambda pair: pair[0].timestamp)
         self._notify(to_notify, league, started, result)
 
     def _league_info(self, now: float) -> tuple[LeagueInfo, bool]:
@@ -273,12 +286,7 @@ class Poller:
         """Post trades one message each in timestamp order, then the waiver digest for this poll."""
         if not to_notify:
             return
-        trades = [(r, d) for r, d in to_notify if isinstance(r, Trade)]
-        claims = [(r, d) for r, d in to_notify if isinstance(r, WaiverClaim)]
-        batches: list[tuple[list[dict], list[Record]]] = [
-            ([trade_embed(r, d, league)], [r]) for r, d in trades
-        ]
-        batches += waiver_messages(claims, league)
+        batches = build_batches(to_notify, league)
         exhausted = False
         for index, (embeds, records) in enumerate(batches):
             if index:

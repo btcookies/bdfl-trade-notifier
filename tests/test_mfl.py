@@ -162,6 +162,15 @@ def test_players_returns_map_and_skips_request_for_no_ids():
 
 
 @responses.activate
+def test_players_strips_whitespace_from_fields():
+    responses.get(f"{BASE_URL}/2026/export", json={"players": {"player": [
+        {"id": "13299", "name": " Kittle, George ", "team": " SFO ", "position": " TE "},
+    ]}})
+    player = make_client().players(2026, ["13299"])["13299"]
+    assert (player.name, player.team, player.position) == ("Kittle, George", "SFO", "TE")
+
+
+@responses.activate
 def test_requests_are_paced_one_second_apart():
     responses.get(f"{BASE_URL}/2026/export", json=league_body(2026, [2026]))
     responses.get(f"{BASE_URL}/2026/export", json={"transactions": {}})

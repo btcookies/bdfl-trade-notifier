@@ -34,7 +34,7 @@ def _get(env: Mapping[str, str], key: str, default: str | None = None) -> str | 
     return value or default
 
 
-def _validate_webhook_url(url: str) -> str:
+def validate_webhook_url(url: str) -> str:
     parts = urllib.parse.urlsplit(url)
     hostname = parts.hostname or ""
     host_ok = hostname in ("discord.com", "discordapp.com") or hostname.endswith(
@@ -93,8 +93,8 @@ class Settings:
 def get_webhook_url(settings: Settings, ssm_client: Any = None) -> str:
     """Return the Discord webhook URL; it is a secret that must never be logged, and callers should cache it for the container's life."""
     if settings.webhook_url_override:
-        return _validate_webhook_url(settings.webhook_url_override)
+        return validate_webhook_url(settings.webhook_url_override)
     client = ssm_client or boto3.client("ssm", config=SSM_CONFIG)
     response = client.get_parameter(Name=settings.webhook_param_name, WithDecryption=True)
     value = response["Parameter"]["Value"].strip()
-    return _validate_webhook_url(value)
+    return validate_webhook_url(value)

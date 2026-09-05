@@ -103,9 +103,9 @@ class MflClient:
         return {
             p["id"]: Player(
                 id=p["id"],
-                name=p.get("name", ""),
-                team=p.get("team", ""),
-                position=p.get("position", ""),
+                name=str(p.get("name", "")).strip(),
+                team=str(p.get("team", "")).strip(),
+                position=str(p.get("position", "")).strip(),
             )
             for p in as_list((data.get("players") or {}).get("player"))
             if "id" in p
