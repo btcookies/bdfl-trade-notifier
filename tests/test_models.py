@@ -112,3 +112,40 @@ def test_league_info_franchise_name_fallback():
     league = LeagueInfo(year=2026, name="BDFL", franchises={"0001": "The Youth Academy"})
     assert league.franchise_name("0001") == "The Youth Academy"
     assert league.franchise_name("0099") == "Franchise 0099"
+
+
+def test_malformed_records_are_skipped_and_good_ones_kept(caplog):
+    import logging
+
+    missing_franchise2 = {k: v for k, v in TRADE.items() if k != "franchise2"}
+    bad_timestamp = {**TRADE, "timestamp": ""}
+    missing_franchise = {k: v for k, v in WAIVER.items() if k != "franchise"}
+    payload = {
+        "transactions": {
+            "transaction": [
+                missing_franchise2, TRADE, bad_timestamp, "not a dict", missing_franchise, WAIVER
+            ]
+        }
+    }
+    with caplog.at_level(logging.WARNING):
+        records = parse_transactions(payload)
+    assert [r.key for r in records] == [
+        "TRADE#1788400073#0011#0005", "WAIVER#1788339600#0003#15733"
+    ]
+    assert caplog.text.count("skipping unparsable transaction") == 4
+
+
+def test_records_are_hashable_and_compare_on_parsed_fields():
+    import dataclasses
+
+    [a] = parse_transactions({"transactions": {"transaction": [TRADE]}})
+    [b] = parse_transactions({"transactions": {"transaction": [{**TRADE, "expires": "0"}]}})
+    assert a == b
+    assert len({a, b}) == 1
+    assert "type" not in {f.name for f in dataclasses.fields(Trade)}
+
+
+def test_bid_must_be_numeric():
+    bad = {**WAIVER, "transaction": "15733,|3.0.0|"}
+    [claim] = parse_transactions({"transactions": {"transaction": [bad]}})
+    assert claim.parsed is False

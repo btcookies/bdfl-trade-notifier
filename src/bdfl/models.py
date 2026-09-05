@@ -3,14 +3,17 @@
 from __future__ import annotations
 
 import hashlib
+import logging
 import re
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, ClassVar
 
-WAIVER_RE = re.compile(r"(\d+),\|([\d.]+)\|(\d*),?")
+log = logging.getLogger(__name__)
+
+WAIVER_RE = re.compile(r"(\d+),\|(\d+(?:\.\d+)?)\|(\d*),?")
 
 
-def as_list(value: Any) -> list:
+def as_list(value: Any) -> list[Any]:
     """MFL returns a dict instead of a one-element list; normalize to a list."""
     if value is None:
         return []
@@ -47,12 +50,13 @@ class Trade:
     gave_up1: tuple[str, ...]
     gave_up2: tuple[str, ...]
     comments: str
-    raw: dict
+    raw: dict[str, Any] = field(compare=False, hash=False)
 
-    type = "TRADE"
+    type: ClassVar[str] = "TRADE"
 
     @property
     def key(self) -> str:
+        """DynamoDB dedupe key, TRADE#<timestamp>#<franchise1>#<franchise2>; never change the format once rows exist."""
         return f"TRADE#{self.timestamp}#{self.franchise1}#{self.franchise2}"
 
     @property
@@ -68,15 +72,16 @@ class WaiverClaim:
     bid: str
     dropped: str | None
     parsed: bool
-    raw: dict
+    raw: dict[str, Any] = field(compare=False, hash=False)
 
-    type = "BBID_WAIVER"
+    type: ClassVar[str] = "BBID_WAIVER"
 
     @property
     def key(self) -> str:
+        """DynamoDB dedupe key, WAIVER#<timestamp>#<franchise>#<added|unparsed-digest>; never change the format once rows exist."""
         if self.parsed:
             return f"WAIVER#{self.timestamp}#{self.franchise}#{self.added}"
-        digest = hashlib.sha1(str(self.raw.get("transaction", "")).encode()).hexdigest()[:8]
+        digest = hashlib.sha1(str(self.raw.get("transaction") or "").encode()).hexdigest()[:8]
         return f"WAIVER#{self.timestamp}#{self.franchise}#unparsed-{digest}"
 
     @property
@@ -87,19 +92,22 @@ class WaiverClaim:
 Record = Trade | WaiverClaim
 
 
-def parse_transactions(payload: dict) -> list[Record]:
+def parse_transactions(payload: dict[str, Any]) -> list[Record]:
     raw_list = as_list((payload.get("transactions") or {}).get("transaction"))
     records: list[Record] = []
     for raw in raw_list:
-        kind = raw.get("type")
-        if kind == "TRADE":
-            records.append(_parse_trade(raw))
-        elif kind == "BBID_WAIVER":
-            records.append(_parse_waiver(raw))
+        try:
+            kind = raw.get("type")
+            if kind == "TRADE":
+                records.append(_parse_trade(raw))
+            elif kind == "BBID_WAIVER":
+                records.append(_parse_waiver(raw))
+        except (KeyError, ValueError, TypeError, AttributeError):
+            log.warning("skipping unparsable transaction: %r", raw)
     return records
 
 
-def _parse_trade(raw: dict) -> Trade:
+def _parse_trade(raw: dict[str, Any]) -> Trade:
     return Trade(
         timestamp=int(raw["timestamp"]),
         franchise1=raw["franchise"],
@@ -111,7 +119,7 @@ def _parse_trade(raw: dict) -> Trade:
     )
 
 
-def _parse_waiver(raw: dict) -> WaiverClaim:
+def _parse_waiver(raw: dict[str, Any]) -> WaiverClaim:
     timestamp = int(raw["timestamp"])
     franchise = raw["franchise"]
     match = WAIVER_RE.fullmatch(raw.get("transaction") or "")
@@ -133,7 +141,7 @@ def referenced_player_ids(records: list[Record]) -> set[str]:
     for record in records:
         if isinstance(record, Trade):
             ids.update(code for code in record.gave_up1 + record.gave_up2 if code.isdigit())
-        elif record.parsed:
+        elif isinstance(record, WaiverClaim) and record.parsed:
             ids.add(record.added)
             if record.dropped:
                 ids.add(record.dropped)
