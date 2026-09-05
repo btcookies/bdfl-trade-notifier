@@ -71,7 +71,7 @@ You need the AWS CLI and SAM CLI (`brew install awscli aws-sam-cli`) and Python 
    sam logs --stack-name bdfl-notifier --name PollFunction --tail
    ```
 
-   The function uses Lambda's JSON log format, so each run logs one record with the summary as top-level fields: `{"level": "INFO", "message": "poll", "event": "poll", "league_year": 2026, "fetched": 12, "new": 0, ...}`.
+   The function uses Lambda's JSON log format, so each run logs one record with the summary as top-level fields: `{"level": "INFO", "message": "poll", "event": "poll", "league_year": 2026, "fetched": 12, "new": 0, ...}`. A run that failed before detecting the league year omits `league_year`.
 
 6. Once Discord posts look right, delete the old Serverless Framework stack from the CloudFormation console. It is probably named `bdfl-trade-notifier-dev`; confirm the name first:
 

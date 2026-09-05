@@ -114,7 +114,8 @@ def lambda_json_line(record):
     """Serialize a record the way Lambda's JSON log format does: message stringified, extras top-level."""
     standard = set(logging.LogRecord("x", logging.INFO, "p", 1, "m", None, None).__dict__) | {"message", "asctime"}
     extras = {k: v for k, v in record.__dict__.items() if k not in standard}
-    return json.dumps({"timestamp": "t", "level": record.levelname, "message": record.getMessage(), **extras})
+    line = {"timestamp": "t", "level": record.levelname, "message": record.getMessage(), **extras}
+    return json.dumps({k: v for k, v in line.items() if v is not None})  # the runtime drops None values
 
 
 def test_summary_fields_are_top_level_json_keys_for_the_metric_filters(monkeypatch, caplog):
@@ -128,6 +129,6 @@ def test_summary_fields_are_top_level_json_keys_for_the_metric_filters(monkeypat
     line = json.loads(lambda_json_line(record))
     assert line["message"] == "poll"
     assert line["event"] == "poll"
-    assert line["store_errors"] == 0 and isinstance(line["store_errors"], int)
-    assert line["failed"] == 0 and isinstance(line["failed"], int)
+    assert line["store_errors"] == 0 and type(line["store_errors"]) is int
+    assert line["failed"] == 0 and type(line["failed"]) is int
     assert line["fetched"] == 2
