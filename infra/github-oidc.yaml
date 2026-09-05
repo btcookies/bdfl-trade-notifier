@@ -1,0 +1,172 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: One-time GitHub Actions OIDC deploy role for bdfl-trade-notifier.
+
+Parameters:
+  GitHubRepo:
+    Type: String
+    Default: btcookies/bdfl-trade-notifier
+  Branch:
+    Type: String
+    Default: main
+  StackNamePrefix:
+    Type: String
+    Default: bdfl-notifier
+    Description: >-
+      Must match stack_name in samconfig.toml. Deploy this template under a different stack name
+      (for example bdfl-notifier-github-oidc), never as the prefix itself.
+  CreateOidcProvider:
+    Type: String
+    Default: 'true'
+    AllowedValues: ['true', 'false']
+    Description: >-
+      An account can hold only one provider for token.actions.githubusercontent.com. Set to false if
+      `aws iam list-open-id-connect-providers` already lists it, and the existing one is reused.
+
+Conditions:
+  ShouldCreateProvider: !Equals [!Ref CreateOidcProvider, 'true']
+
+Resources:
+  GitHubOidcProvider:
+    Type: AWS::IAM::OIDCProvider
+    Condition: ShouldCreateProvider
+    Properties:
+      Url: https://token.actions.githubusercontent.com
+      ClientIdList:
+        - sts.amazonaws.com
+      # AWS ignores thumbprints for this issuer (it uses its own trust store); the property is kept
+      # only because older CloudFormation versions required it.
+      ThumbprintList:
+        - 6938fd4d98bab03faadb97b34396831e3780aea1
+
+  DeployRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${StackNamePrefix}-github-deploy'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !If
+                - ShouldCreateProvider
+                - !Ref GitHubOidcProvider
+                - !Sub 'arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com'
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: sts.amazonaws.com
+                token.actions.githubusercontent.com:sub: !Sub 'repo:${GitHubRepo}:ref:refs/heads/${Branch}'
+      Policies:
+        - PolicyName: sam-deploy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: CloudFormation
+                Effect: Allow
+                Action: cloudformation:*
+                Resource:
+                  - !Sub 'arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${StackNamePrefix}*/*'
+                  - !Sub 'arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/aws-sam-cli-managed-default/*'
+                  - !Sub 'arn:aws:cloudformation:${AWS::Region}:aws:transform/Serverless-2016-10-31'
+              - Sid: SamArtifactBucket
+                Effect: Allow
+                Action:
+                  - s3:CreateBucket
+                  - s3:GetBucketLocation
+                  - s3:ListBucket
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:GetBucketPolicy
+                  - s3:PutBucketPolicy
+                  - s3:GetBucketVersioning
+                  - s3:PutBucketVersioning
+                  - s3:GetEncryptionConfiguration
+                  - s3:PutEncryptionConfiguration
+                  - s3:GetBucketPublicAccessBlock
+                  - s3:PutBucketPublicAccessBlock
+                  - s3:GetBucketTagging
+                  - s3:PutBucketTagging
+                  - s3:GetLifecycleConfiguration
+                  - s3:PutLifecycleConfiguration
+                Resource:
+                  - arn:aws:s3:::aws-sam-cli-managed-default*
+                  - arn:aws:s3:::aws-sam-cli-managed-default*/*
+              - Sid: Lambda
+                Effect: Allow
+                Action: lambda:*
+                Resource: !Sub 'arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${StackNamePrefix}*'
+              - Sid: DynamoDB
+                Effect: Allow
+                Action: dynamodb:*
+                Resource: !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${StackNamePrefix}*'
+              - Sid: Scheduler
+                Effect: Allow
+                Action: scheduler:*
+                Resource: !Sub 'arn:aws:scheduler:${AWS::Region}:${AWS::AccountId}:schedule/default/${StackNamePrefix}*'
+              - Sid: LogGroups
+                Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:DeleteLogGroup
+                  - logs:PutRetentionPolicy
+                  - logs:DeleteRetentionPolicy
+                  - logs:TagResource
+                  - logs:UntagResource
+                  - logs:ListTagsForResource
+                  - logs:PutMetricFilter
+                  - logs:DeleteMetricFilter
+                  - logs:DescribeMetricFilters
+                Resource: !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${StackNamePrefix}*'
+              - Sid: LogGroupsDescribe
+                Effect: Allow
+                Action: logs:DescribeLogGroups
+                Resource: '*'
+              - Sid: Sns
+                Effect: Allow
+                Action: sns:*
+                Resource: !Sub 'arn:aws:sns:${AWS::Region}:${AWS::AccountId}:${StackNamePrefix}*'
+              - Sid: Alarms
+                Effect: Allow
+                Action:
+                  - cloudwatch:PutMetricAlarm
+                  - cloudwatch:DeleteAlarms
+                  - cloudwatch:DescribeAlarms
+                Resource: !Sub 'arn:aws:cloudwatch:${AWS::Region}:${AWS::AccountId}:alarm:${StackNamePrefix}*'
+              - Sid: Iam
+                Effect: Allow
+                Action:
+                  - iam:CreateRole
+                  - iam:DeleteRole
+                  - iam:GetRole
+                  - iam:PassRole
+                  - iam:AttachRolePolicy
+                  - iam:DetachRolePolicy
+                  - iam:PutRolePolicy
+                  - iam:DeleteRolePolicy
+                  - iam:GetRolePolicy
+                  - iam:TagRole
+                  - iam:UntagRole
+                  - iam:UpdateAssumeRolePolicy
+                  - iam:UpdateRole
+                  - iam:UpdateRoleDescription
+                  - iam:ListRolePolicies
+                  - iam:ListAttachedRolePolicies
+                Resource: !Sub 'arn:aws:iam::${AWS::AccountId}:role/${StackNamePrefix}*'
+              # This role's own name and the stack that defines it both match the prefix above.
+              # Deny beats Allow, so a compromised deploy cannot edit this role's policies or its
+              # branch-scoped trust, and cannot touch the stack that defines them. It can still
+              # create roles for the function (that is what deploying Lambda requires), so protect
+              # the main branch: a deploy must only ever follow a reviewed, green run.
+              - Sid: DenySelfModification
+                Effect: Deny
+                Action:
+                  - iam:*
+                  - cloudformation:*
+                Resource:
+                  - !Sub 'arn:aws:iam::${AWS::AccountId}:role/${StackNamePrefix}-github-deploy'
+                  - !Sub 'arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${AWS::StackName}/*'
+
+Outputs:
+  DeployRoleArn:
+    Description: Set this as the GitHub repository variable AWS_DEPLOY_ROLE_ARN.
+    Value: !GetAtt DeployRole.Arn

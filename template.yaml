@@ -1,0 +1,233 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Posts MFL trades and waiver claims to a Discord channel.
+
+Parameters:
+  LeagueId:
+    Type: String
+    Default: '65522'
+    Description: MFL league id (the L= value in the league's URL).
+    AllowedPattern: '^[0-9]+$'
+  WebhookParameterName:
+    Type: String
+    Default: /bdfl/discord/webhook-url
+    Description: SSM SecureString parameter that holds the Discord webhook URL. Must start with /.
+    AllowedPattern: '^/.+'
+  AlertEmail:
+    Type: String
+    Default: ''
+    Description: >-
+      Email to notify when the poll function keeps failing, stops running, drops a notification,
+      or cannot write to DynamoDB. Leave empty only if you accept having no alarms at all.
+    AllowedPattern: '^$|^[^@\s]+@[^@\s]+$'
+  PollSchedule:
+    Type: String
+    Default: rate(1 minute)
+    Description: EventBridge Scheduler expression for how often to poll MFL.
+    AllowedPattern: '^(rate|cron)\(.+\)$'
+  NotifyMaxAgeSeconds:
+    Type: Number
+    Default: 43200
+    MinValue: 1
+    Description: Transactions older than this are stored without posting.
+  MflUserAgent:
+    Type: String
+    Default: bdfl-notifier/1.0 (+https://github.com/btcookies/bdfl-trade-notifier)
+
+Conditions:
+  HasAlertEmail: !Not [!Equals [!Ref AlertEmail, '']]
+
+Resources:
+  TransactionsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: !Sub '${AWS::StackName}-transactions'
+      BillingMode: PROVISIONED
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+      Tags:
+        - Key: Project
+          Value: bdfl-notifier
+
+  PollFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub '${AWS::StackName}-poll'
+      CodeUri: src/
+      Handler: handler.handler
+      Runtime: python3.13
+      Architectures: [arm64]
+      MemorySize: 256
+      Timeout: 30
+      ReservedConcurrentExecutions: 1
+      Tags:
+        Project: bdfl-notifier
+      LoggingConfig:
+        LogGroup: !Ref PollLogGroup
+        # JSON format makes each log line a JSON object; the handler passes the poll summary as
+        # `extra` fields, which become top-level keys the metric filters below read.
+        # ApplicationLogLevel must be at or below the LOG_LEVEL env var or the summary line is dropped.
+        LogFormat: JSON
+        ApplicationLogLevel: INFO
+        SystemLogLevel: INFO
+      Environment:
+        Variables:
+          LEAGUE_ID: !Ref LeagueId
+          TABLE_NAME: !Ref TransactionsTable
+          WEBHOOK_PARAM_NAME: !Ref WebhookParameterName
+          NOTIFY_MAX_AGE_SECONDS: !Ref NotifyMaxAgeSeconds
+          MFL_USER_AGENT: !Ref MflUserAgent
+          LOG_LEVEL: INFO
+      Policies:
+        - Statement:
+            # Exactly the three calls TransactionStore makes.
+            - Effect: Allow
+              Action:
+                - dynamodb:BatchGetItem
+                - dynamodb:PutItem
+                - dynamodb:UpdateItem
+              Resource: !GetAtt TransactionsTable.Arn
+            # No kms:Decrypt needed: the AWS-managed aws/ssm key allows same-account decrypt via SSM.
+            # If the parameter is ever re-created under a customer-managed key, grant kms:Decrypt on it.
+            - Effect: Allow
+              Action: ssm:GetParameter
+              Resource: !Sub 'arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter${WebhookParameterName}'
+      Events:
+        Poll:
+          Type: ScheduleV2
+          Properties:
+            Name: !Sub '${AWS::StackName}-poll'
+            Description: Poll MFL for new trades and waiver claims.
+            ScheduleExpression: !Ref PollSchedule
+            FlexibleTimeWindow:
+              Mode: 'OFF'
+            RetryPolicy:
+              MaximumRetryAttempts: 0
+
+  PollLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub '/aws/lambda/${AWS::StackName}-poll'
+      RetentionInDays: 14
+
+  StoreErrorsMetric:
+    Type: AWS::Logs::MetricFilter
+    Properties:
+      LogGroupName: !Ref PollLogGroup
+      FilterPattern: '{ $.event = "poll" && $.store_errors > 0 }'
+      MetricTransformations:
+        - MetricNamespace: !Ref AWS::StackName
+          MetricName: StoreErrors
+          MetricValue: $.store_errors
+          DefaultValue: 0
+
+  FailedNotificationsMetric:
+    Type: AWS::Logs::MetricFilter
+    Properties:
+      LogGroupName: !Ref PollLogGroup
+      FilterPattern: '{ $.event = "poll" && $.failed > 0 }'
+      MetricTransformations:
+        - MetricNamespace: !Ref AWS::StackName
+          MetricName: FailedNotifications
+          MetricValue: $.failed
+          DefaultValue: 0
+
+  AlertTopic:
+    Type: AWS::SNS::Topic
+    Condition: HasAlertEmail
+    Properties:
+      Subscription:
+        - Endpoint: !Ref AlertEmail
+          Protocol: email
+
+  PollErrorsAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Condition: HasAlertEmail
+    Properties:
+      AlarmDescription: The bdfl-notifier poll function is failing repeatedly.
+      Namespace: AWS/Lambda
+      MetricName: Errors
+      Dimensions:
+        - Name: FunctionName
+          Value: !Ref PollFunction
+      Statistic: Sum
+      Period: 900
+      EvaluationPeriods: 1
+      # MFL throttling yields at most 3 errors per 15 minutes by design; 5 means something else broke.
+      Threshold: 5
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+      AlarmActions: [!Ref AlertTopic]
+      OKActions: [!Ref AlertTopic]
+
+  PollStoppedAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Condition: HasAlertEmail
+    Properties:
+      AlarmDescription: The bdfl-notifier poll function has not run in 15 minutes.
+      Namespace: AWS/Lambda
+      MetricName: Invocations
+      Dimensions:
+        - Name: FunctionName
+          Value: !Ref PollFunction
+      Statistic: Sum
+      Period: 900
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: LessThanThreshold
+      TreatMissingData: breaching
+      AlarmActions: [!Ref AlertTopic]
+      OKActions: [!Ref AlertTopic]
+
+  FailedNotificationsAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Condition: HasAlertEmail
+    Properties:
+      AlarmDescription: A trade or waiver notification was given up on; see notify_error on the row.
+      Namespace: !Ref AWS::StackName
+      MetricName: FailedNotifications
+      Statistic: Sum
+      Period: 900
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+      AlarmActions: [!Ref AlertTopic]
+      OKActions: [!Ref AlertTopic]
+
+  StoreErrorsAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Condition: HasAlertEmail
+    Properties:
+      AlarmDescription: DynamoDB updates are failing inside the poll; rows may re-post until it clears.
+      Namespace: !Ref AWS::StackName
+      MetricName: StoreErrors
+      Statistic: Sum
+      Period: 900
+      EvaluationPeriods: 1
+      Threshold: 5
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+      AlarmActions: [!Ref AlertTopic]
+      OKActions: [!Ref AlertTopic]
+
+Outputs:
+  TableName:
+    Description: DynamoDB table holding every transaction and its notification state.
+    Value: !Ref TransactionsTable
+  FunctionName:
+    Description: The poll function; its log group is /aws/lambda/<this name>.
+    Value: !Ref PollFunction
+  AlertTopicArn:
+    Description: SNS topic for alarms (only when AlertEmail is set).
+    Condition: HasAlertEmail
+    Value: !Ref AlertTopic

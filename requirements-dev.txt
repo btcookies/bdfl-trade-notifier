@@ -1,0 +1,6 @@
+-r src/requirements.txt
+boto3>=1.35
+pytest>=8.3
+moto[dynamodb,ssm]>=5.0
+responses>=0.25
+ruff>=0.6
