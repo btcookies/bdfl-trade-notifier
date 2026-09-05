@@ -28,7 +28,7 @@ You need the AWS CLI and SAM CLI (`brew install awscli aws-sam-cli`) and Python 
 
    Use region `us-east-1`, or change `region` in `samconfig.toml`.
 
-2. Create the Discord webhook: open the channel's settings, choose Integrations, then Webhooks, then New Webhook. Name it `BDFL`, copy the webhook URL.
+2. Create the Discord webhook: open the channel's settings, choose Integrations, then Webhooks, then New Webhook. The name and avatar you give it here are what every post shows (the code never overrides them), so name it what the league should see, for example `Barbara Dodson`. Copy the webhook URL.
 
 3. Store the URL as an encrypted SSM parameter:
 

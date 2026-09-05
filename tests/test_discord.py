@@ -11,13 +11,20 @@ EMBED = {"title": "hi"}
 
 
 @responses.activate
-def test_post_sends_embeds_with_username_and_no_mentions():
+def test_post_sends_embeds_without_username_override_and_no_mentions():
     responses.post(URL, json={"id": "1"}, status=200)
     DiscordWebhook(URL, sleep=lambda s: None).post([EMBED])
     call = responses.calls[0]
     assert call.request.url == URL + "?wait=true"
     body = json.loads(call.request.body)
-    assert body == {"username": "BDFL", "embeds": [EMBED], "allowed_mentions": {"parse": []}}
+    assert body == {"embeds": [EMBED], "allowed_mentions": {"parse": []}}
+
+
+@responses.activate
+def test_post_includes_username_only_when_given():
+    responses.post(URL, json={"id": "1"}, status=200)
+    DiscordWebhook(URL, sleep=lambda s: None, username="Barbara Dodson").post([EMBED])
+    assert json.loads(responses.calls[0].request.body)["username"] == "Barbara Dodson"
 
 
 @responses.activate
