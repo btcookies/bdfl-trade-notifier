@@ -4,7 +4,7 @@ import pytest
 import requests
 import responses
 
-from bdfl.discord import DiscordError, DiscordWebhook
+from bdfl.discord import DiscordError, DiscordPermanentError, DiscordWebhook
 
 URL = "https://discord.com/api/webhooks/123/abc"
 EMBED = {"title": "hi"}
@@ -21,12 +21,12 @@ def test_post_sends_embeds_with_username_and_no_mentions():
 
 
 @responses.activate
-def test_post_retries_once_after_429_using_retry_after_capped_at_five_seconds():
-    responses.post(URL, json={"retry_after": 30}, status=429, headers={"Retry-After": "30"})
+def test_post_retries_once_after_429_using_retry_after():
+    responses.post(URL, json={"retry_after": 3}, status=429, headers={"Retry-After": "3"})
     responses.post(URL, json={"id": "1"}, status=200)
     slept = []
     DiscordWebhook(URL, sleep=slept.append).post([EMBED])
-    assert slept == [5.0]
+    assert slept == [3.0]
     assert len(responses.calls) == 2
 
 
@@ -34,8 +34,11 @@ def test_post_retries_once_after_429_using_retry_after_capped_at_five_seconds():
 def test_post_raises_after_second_429():
     responses.post(URL, status=429, headers={"Retry-After": "1"})
     responses.post(URL, status=429, headers={"Retry-After": "1"})
+    slept = []
     with pytest.raises(DiscordError):
-        DiscordWebhook(URL, sleep=lambda s: None).post([EMBED])
+        DiscordWebhook(URL, sleep=slept.append).post([EMBED])
+    assert len(responses.calls) == 2
+    assert slept == [1.0]
 
 
 @responses.activate
@@ -63,3 +66,91 @@ def test_post_refuses_oversized_messages_without_sending():
     with pytest.raises(DiscordError, match="per-message limit of 6000"):
         hook.post([{"title": "t", "description": "x" * 4000}, {"title": "t", "description": "x" * 2100}])
     assert len(responses.calls) == 0
+
+
+@responses.activate
+def test_long_retry_after_fails_fast_without_sleeping_or_retrying():
+    responses.post(URL, status=429, headers={"Retry-After": "30"})
+    slept = []
+    with pytest.raises(DiscordError, match="rate limited for 30s"):
+        DiscordWebhook(URL, sleep=slept.append).post([EMBED])
+    assert slept == []
+    assert len(responses.calls) == 1
+
+
+@responses.activate
+def test_retry_after_falls_back_to_json_body_then_one_second():
+    responses.post(URL, status=429, json={"retry_after": 2.5})
+    responses.post(URL, json={"id": "1"}, status=200)
+    slept = []
+    DiscordWebhook(URL, sleep=slept.append).post([EMBED])
+    assert slept == [2.5]
+
+    responses.reset()
+    responses.post(URL, status=429, body="<html>cloudflare</html>")
+    responses.post(URL, json={"id": "1"}, status=200)
+    slept = []
+    DiscordWebhook(URL, sleep=slept.append).post([EMBED])
+    assert slept == [1.0]
+
+    responses.reset()
+    responses.post(URL, status=429, headers={"Retry-After": "nan"})
+    responses.post(URL, json={"id": "1"}, status=200)
+    slept = []
+    DiscordWebhook(URL, sleep=slept.append).post([EMBED])
+    assert slept == [1.0]
+
+
+@responses.activate
+def test_204_counts_as_success():
+    responses.post(URL, status=204)
+    DiscordWebhook(URL, sleep=lambda s: None).post([EMBED])
+    assert len(responses.calls) == 1
+
+
+@responses.activate
+def test_400_is_permanent_and_5xx_is_transient():
+    responses.post(URL, status=400, json={"message": "Invalid Form Body"})
+    with pytest.raises(DiscordPermanentError, match="400"):
+        DiscordWebhook(URL, sleep=lambda s: None).post([EMBED])
+    responses.reset()
+    responses.post(URL, status=503)
+    with pytest.raises(DiscordError) as info:
+        DiscordWebhook(URL, sleep=lambda s: None).post([EMBED])
+    assert not isinstance(info.value, DiscordPermanentError)
+
+
+@responses.activate
+def test_validation_failures_are_permanent():
+    hook = DiscordWebhook(URL, sleep=lambda s: None)
+    with pytest.raises(DiscordPermanentError):
+        hook.post([])
+    with pytest.raises(DiscordPermanentError):
+        hook.post([EMBED] * 11)
+
+
+@responses.activate
+def test_network_errors_never_include_the_webhook_url():
+    responses.post(URL, body=requests.exceptions.ConnectTimeout("timed out"))
+    with pytest.raises(DiscordError) as info:
+        DiscordWebhook(URL, sleep=lambda s: None).post([EMBED])
+    assert "abc" not in str(info.value)
+    assert "webhooks" not in str(info.value)
+    assert info.value.__cause__ is None
+    assert "ConnectTimeout" in str(info.value)
+
+
+@responses.activate
+def test_uses_injected_session_and_timeout():
+    session = requests.Session()
+    seen = {}
+    original = session.post
+
+    def spy(*args, **kwargs):
+        seen.update(kwargs)
+        return original(*args, **kwargs)
+
+    session.post = spy
+    responses.post(URL, json={"id": "1"}, status=200)
+    DiscordWebhook(URL, session=session, sleep=lambda s: None).post([EMBED])
+    assert seen["timeout"] == (3.05, 7.0)
