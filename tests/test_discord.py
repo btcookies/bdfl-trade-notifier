@@ -50,3 +50,15 @@ def test_post_wraps_connection_errors():
     responses.post(URL, body=ConnectionError("boom"))
     with pytest.raises(DiscordError):
         DiscordWebhook(URL, sleep=lambda s: None).post([EMBED])
+
+
+@responses.activate
+def test_post_refuses_oversized_messages_without_sending():
+    hook = DiscordWebhook(URL, sleep=lambda s: None)
+    with pytest.raises(DiscordError, match="no embeds"):
+        hook.post([])
+    with pytest.raises(DiscordError, match="exceeds Discord's limit of 10"):
+        hook.post([EMBED] * 11)
+    with pytest.raises(DiscordError, match="per-message limit of 6000"):
+        hook.post([{"title": "t", "description": "x" * 4000}, {"title": "t", "description": "x" * 2100}])
+    assert len(responses.calls) == 0

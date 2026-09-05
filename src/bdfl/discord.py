@@ -7,6 +7,8 @@ from collections.abc import Callable
 
 import requests
 
+from bdfl.messages import MAX_EMBEDS_PER_MESSAGE, MAX_MESSAGE_CHARS, embed_length
+
 MAX_RETRY_AFTER_SECONDS = 5.0
 
 
@@ -30,6 +32,13 @@ class DiscordWebhook:
         self.timeout = timeout
 
     def post(self, embeds: list[dict]) -> None:
+        if not embeds:
+            raise DiscordError("refusing to post a message with no embeds")
+        if len(embeds) > MAX_EMBEDS_PER_MESSAGE:
+            raise DiscordError(f"{len(embeds)} embeds exceeds Discord's limit of {MAX_EMBEDS_PER_MESSAGE}")
+        total = sum(embed_length(e) for e in embeds)
+        if total > MAX_MESSAGE_CHARS:
+            raise DiscordError(f"{total} characters exceeds Discord's per-message limit of {MAX_MESSAGE_CHARS}")
         body = {"username": self.username, "embeds": embeds, "allowed_mentions": {"parse": []}}
         response = self._send(body)
         if response.status_code == 429:
