@@ -11,7 +11,9 @@ Parameters:
   StackNamePrefix:
     Type: String
     Default: bdfl-notifier
-    Description: Must match stack_name in samconfig.toml.
+    Description: >-
+      Must match stack_name in samconfig.toml. Deploy this template under a different stack name
+      (for example bdfl-notifier-github-oidc), never as the prefix itself.
   CreateOidcProvider:
     Type: String
     Default: 'true'
@@ -146,12 +148,15 @@ Resources:
                   - iam:UntagRole
                   - iam:UpdateAssumeRolePolicy
                   - iam:UpdateRole
+                  - iam:UpdateRoleDescription
                   - iam:ListRolePolicies
                   - iam:ListAttachedRolePolicies
                 Resource: !Sub 'arn:aws:iam::${AWS::AccountId}:role/${StackNamePrefix}*'
               # This role's own name and the stack that defines it both match the prefix above.
-              # Deny beats Allow, so a compromised deploy can neither widen its permissions nor
-              # rewrite the branch-scoped trust policy.
+              # Deny beats Allow, so a compromised deploy cannot edit this role's policies or its
+              # branch-scoped trust, and cannot touch the stack that defines them. It can still
+              # create roles for the function (that is what deploying Lambda requires), so protect
+              # the main branch: a deploy must only ever follow a reviewed, green run.
               - Sid: DenySelfModification
                 Effect: Deny
                 Action:

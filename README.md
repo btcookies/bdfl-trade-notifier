@@ -114,7 +114,7 @@ Layout: `src/handler.py` is the Lambda entry point; `src/bdfl/` holds the MFL cl
 
 Each run logs one JSON line with `league_year`, `fetched`, `new`, `skipped`, `sent`, `failed`, `deferred`, `store_errors`, `backoff`, and `duration_ms`.
 
-- `deferred` means the run hit its 12 second budget and left rows pending for the next minute. A burst of trades draining over two or three minutes is normal.
+- `deferred` means the run hit its 12 second budget and left rows pending for the next minute. A large backlog drains across successive runs.
 - `store_errors` counts DynamoDB update failures. When one lands after a successful post, the row stays pending and gets posted once more the next minute. That duplicate is the accepted trade-off; the alternative is dropping the message.
 - A row that fails permanently carries a `notify_error` reason in the table, which says whether Discord rejected it outright or it exhausted its five attempts.
 

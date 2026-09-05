@@ -217,9 +217,9 @@ Unit tests with pytest on Python 3.13:
 
 ## 14. Continuous delivery
 
-- `.github/workflows/ci.yml` on pull requests and pushes: install dev requirements, run pytest, run `sam validate --lint`.
-- `.github/workflows/deploy.yml` on push to `main`: assume an AWS role via OIDC using the repository variable `AWS_DEPLOY_ROLE_ARN`, then `sam build` and `sam deploy --no-confirm-changeset --no-fail-on-empty-changeset`.
-- `infra/github-oidc.yaml`: one-time CloudFormation template creating the GitHub OIDC provider and a deploy role trusting `repo:btcookies/bdfl-trade-notifier:ref:refs/heads/main`. Permissions cover CloudFormation, the SAM artifact bucket, and Lambda, DynamoDB, Scheduler, Logs, SNS, CloudWatch, and IAM role management scoped to resources named `bdfl-notifier*`.
+- `.github/workflows/ci.yml` on pull requests and pushes to `main` and `discord-port`: install dev requirements, run ruff and pytest, validate both templates with `sam validate --lint`, and run `sam build`. Read-only token, 15 minute timeout.
+- `.github/workflows/deploy.yml` on push to `main`, only when the repository variable `AWS_DEPLOY_ROLE_ARN` is set: on an arm64 runner (matching the function's architecture) run ruff and pytest, `sam build` before any credentials exist, then assume the role via OIDC and `sam deploy --no-confirm-changeset --no-fail-on-empty-changeset`. A concurrency group prevents overlapping deploys. Every action and the SAM CLI are pinned to exact versions.
+- `infra/github-oidc.yaml`: one-time CloudFormation template creating the GitHub OIDC provider (optional, for accounts that already have one) and a deploy role trusting `repo:btcookies/bdfl-trade-notifier:ref:refs/heads/main` with `aud` checked. Permissions cover CloudFormation, the SAM artifact bucket, and Lambda, DynamoDB, Scheduler, Logs, SNS, CloudWatch, and IAM role management scoped to resources named `bdfl-notifier*`. An explicit Deny stops the role from modifying its own policies, trust, or stack. The role can still create the function's roles, which deploying Lambda requires, so the branch must be protected.
 
 ## 15. Repository layout
 

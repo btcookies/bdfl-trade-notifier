@@ -26,16 +26,20 @@ jobs:
         with:
           python-version: '3.13'
           cache: pip
-          cache-dependency-path: requirements-dev.txt
+          cache-dependency-path: |
+            requirements-dev.txt
+            src/requirements.txt
       - run: pip install -r requirements-dev.txt
       - run: ruff check src tests scripts
       - run: pytest
       - uses: aws-actions/setup-sam@f84ec7d548307efafe33230528756de3c5841a17 # v2
         with:
           use-installer: true
+          version: 1.166.0
+      # Build before assuming the role so no third-party build code runs with AWS credentials.
+      - run: sam build
       - uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4.3.1
         with:
           role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
           aws-region: us-east-1
-      - run: sam build
       - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
