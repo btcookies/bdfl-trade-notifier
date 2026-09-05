@@ -93,7 +93,7 @@ def test_detect_league_handles_single_franchise_dict():
 
 @responses.activate
 def test_non_object_json_body_raises_mfl_error():
-    responses.get(f"{BASE_URL}/2026/export", json=None)
+    responses.get(f"{BASE_URL}/2026/export", body="null", content_type="application/json")
     with pytest.raises(MflError, match="non-object"):
         make_client().transactions(2026)
     responses.reset()
