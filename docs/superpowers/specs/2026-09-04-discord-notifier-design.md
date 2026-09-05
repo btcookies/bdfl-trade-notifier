@@ -49,18 +49,18 @@ One Lambda function, one DynamoDB table, one EventBridge Scheduler rule at `rate
 
 Each invocation:
 
-1. Load `LeagueInfo` (league year, league name, franchise id to name) from the warm-container cache. Refresh when missing or older than 6 hours using year detection (section 5).
+1. Load `LeagueInfo` (league year, league name, franchise id to name) from the warm-container cache. Refresh when missing or older than 6 hours using year detection (section 5). League info is fetched at most once per invocation: a record that references an unknown franchise triggers a refresh only when the cache was not already refreshed during this run, so on a cold start it renders as `Franchise 0099` and picks up the name on a later run.
 2. Fetch transactions for the league year with `TRANS_TYPE=TRADE,BBID_WAIVER&DAYS=1`. Parse into records and compute each record's key.
 3. Drop keys the warm cache already knows are `sent` or `skipped`. Batch-get the rest from the table.
 4. For each record not in the table, resolve the player names it references (section 7) and put it with a conditional write. New records with a timestamp older than `NOTIFY_MAX_AGE_SECONDS` are stored as `skipped`; newer ones as `pending`.
-5. Collect records in state `pending` with fewer than 5 attempts, whether new this poll or left over from a failed post. Build embeds and post to Discord: one message per trade, one message for all waiver claims in this poll. Mark each `sent` on success. On failure, increment attempts and leave `pending`; on the fifth failure mark `failed` and raise so the alarm sees it. Claims that share one Discord message succeed or fail together; when a waiver batch spans several messages, each message's claims are marked independently.
-6. Emit one JSON log line: league year, counts fetched, new, skipped, sent, failed, and duration.
+5. Collect records in state `pending` with fewer than 5 attempts, whether new this poll or left over from a failed post, ordered by transaction time. Build embeds and post to Discord: one message per trade, one message for all waiver claims in this poll, with half a second between posts. Mark each `sent` on success. On a transient `DiscordError`, increment attempts and leave `pending`; on the fifth failure mark `failed` with a reason and raise so the alarm sees it. On a `DiscordPermanentError` mark `failed` with the reason immediately. Once a run has spent 20 seconds, remaining messages are deferred to the next poll and counted as `deferred`. Claims that share one Discord message succeed or fail together; when a waiver batch spans several messages, each message's claims are marked independently.
+6. Emit one JSON log line: league year, counts fetched, new, skipped, sent, failed, deferred, store errors, backoff flag, and duration. The result is kept on the poller so the handler can log it even when the run raises.
 
 MFL requests inside one invocation are spaced at least one second apart. A normal poll makes exactly one MFL request. A poll that finds new transactions makes two. A poll that refreshes league info makes one or two more.
 
 Reliability rules:
 
-- The table is the outbox. Correctness never depends on the warm cache.
+- The table is the outbox. Correctness never depends on the warm cache: a key is remembered as final only after DynamoDB confirmed the terminal state, so a store failure after a successful post leaves the row `pending` and the next poll posts it once more (the accepted duplicate). DynamoDB errors during the notify step are logged and counted as `store_errors` rather than aborting the run.
 - Reserved concurrency of 1 on the function prevents overlapping polls. If the account's concurrency limit rejects the setting, drop it; the conditional put still prevents duplicate rows, and only a double post during overlap becomes possible.
 - The Scheduler rule has `MaximumRetryAttempts: 0`. A failed invocation is never retried by AWS. The next minute's poll is the retry.
 - On MFL HTTP 429 the poller records an in-memory backoff of 5 minutes and raises. Polls during backoff return immediately without calling MFL and without error.
@@ -99,6 +99,7 @@ Table `${StackName}-transactions`, partition key `pk` (string), provisioned at 5
 | `notify_attempts` | N | failed post attempts so far |
 | `first_seen_at` | N | epoch when the poller first stored it |
 | `notified_at` | N | epoch when Discord accepted it; absent otherwise |
+| `notify_error` | S | why a row is `failed`; empty otherwise |
 
 `details` for a trade: `{"sides": [{"franchise_id", "franchise_name", "assets": [str]}], "comments": str}`. For a claim: `{"franchise_id", "franchise_name", "parsed": bool, "bid": str, "added": str, "dropped": str or null}`, with `"raw_transaction"` present when `parsed` is false. Storing rendered names preserves what the team and player were called at the time, which is what a hall of fame wants.
 
