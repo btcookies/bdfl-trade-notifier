@@ -1,62 +1,132 @@
-"""DynamoDB-backed store that doubles as the notification outbox."""
+"""DynamoDB-backed store that doubles as the notification outbox.
+
+The conditional put in :meth:`TransactionStore.put_new` is the dedupe guarantee: only
+one writer can ever create a given ``pk``, so only that writer notifies. The batch read
+in :meth:`TransactionStore.get_many` is purely a cost optimization -- it lets the poller
+skip transactions it has already handled without paying for a write. Never treat a miss
+from the read as permission to notify; the put decides.
+
+Reads are strongly consistent (``ConsistentRead``), so a row written moments earlier by
+a previous invocation is visible.
+
+DynamoDB returns numeric attributes as :class:`decimal.Decimal`, not ``int`` or
+``float``. Callers must coerce them (``int(row["notify_attempts"])``) before doing
+arithmetic or comparing against plain numbers.
+"""
 
 from __future__ import annotations
+
+import logging
+import time
+from collections.abc import Callable
+from decimal import Decimal
+from typing import Any
 
 import boto3
 from botocore.exceptions import ClientError
 
+log = logging.getLogger(__name__)
+
 BATCH_GET_LIMIT = 100
-MAX_UNPROCESSED_ROUNDS = 5
+MAX_BATCH_GET_ROUNDS = 5
+
+
+def _to_dynamo(value: Any) -> Any:
+    """DynamoDB rejects floats; convert them to Decimal recursively."""
+    if isinstance(value, float):
+        return Decimal(str(value))
+    if isinstance(value, dict):
+        return {k: _to_dynamo(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_to_dynamo(v) for v in value]
+    return value
 
 
 class TransactionStore:
-    def __init__(self, table_name: str, resource=None):
+    """Dedupe store and notification outbox for one DynamoDB table."""
+
+    def __init__(
+        self,
+        table_name: str,
+        resource=None,
+        sleep: Callable[[float], None] = time.sleep,
+    ) -> None:
+        """Bind to ``table_name``, optionally with an injected resource and sleep."""
         self.resource = resource or boto3.resource("dynamodb")
         self.table_name = table_name
         self.table = self.resource.Table(table_name)
+        self.sleep = sleep
 
     def get_many(self, keys: list[str]) -> dict[str, dict]:
+        """Strongly consistent batch read of the rows that exist, keyed by ``pk``."""
         found: dict[str, dict] = {}
-        for start in range(0, len(keys), BATCH_GET_LIMIT):
-            request = {self.table_name: {"Keys": [{"pk": k} for k in keys[start : start + BATCH_GET_LIMIT]]}}
-            for _ in range(MAX_UNPROCESSED_ROUNDS):
+        unique = list(dict.fromkeys(keys))
+        for start in range(0, len(unique), BATCH_GET_LIMIT):
+            chunk = unique[start : start + BATCH_GET_LIMIT]
+            request = {
+                self.table_name: {
+                    "Keys": [{"pk": k} for k in chunk],
+                    "ConsistentRead": True,
+                }
+            }
+            for attempt in range(MAX_BATCH_GET_ROUNDS):
                 response = self.resource.batch_get_item(RequestItems=request)
                 for row in response.get("Responses", {}).get(self.table_name, []):
                     found[row["pk"]] = row
                 request = response.get("UnprocessedKeys") or {}
-                if not request.get(self.table_name):
+                unprocessed = request.get(self.table_name, {}).get("Keys") or []
+                if not unprocessed:
                     break
+                if attempt < MAX_BATCH_GET_ROUNDS - 1:
+                    self.sleep(0.05 * 2**attempt)
+            else:
+                log.warning("batch get gave up with %s keys unprocessed", len(unprocessed))
         return found
 
     def put_new(self, item: dict) -> bool:
         """Insert only if the key is absent. Returns False when it already exists."""
         try:
-            self.table.put_item(Item=item, ConditionExpression="attribute_not_exists(pk)")
+            self.table.put_item(
+                Item=_to_dynamo(item), ConditionExpression="attribute_not_exists(pk)"
+            )
             return True
         except ClientError as exc:
             if exc.response["Error"]["Code"] == "ConditionalCheckFailedException":
                 return False
             raise
 
-    def mark_sent(self, key: str, at: int) -> None:
-        self.table.update_item(
-            Key={"pk": key},
-            UpdateExpression="SET notify_state = :state, notified_at = :at",
-            ExpressionAttributeValues={":state": "sent", ":at": at},
-        )
+    def mark_sent(self, key: str, at: int) -> bool:
+        """Move a pending row to sent. Returns False if it was not pending."""
+        try:
+            self.table.update_item(
+                Key={"pk": key},
+                UpdateExpression="SET notify_state = :state, notified_at = :at",
+                ConditionExpression="notify_state = :pending",
+                ExpressionAttributeValues={":state": "sent", ":at": at, ":pending": "pending"},
+            )
+            return True
+        except ClientError as exc:
+            if exc.response["Error"]["Code"] == "ConditionalCheckFailedException":
+                log.warning("%s was not pending when marking sent; leaving it", key)
+                return False
+            raise
 
     def bump_attempt(self, key: str) -> int:
+        """Increment the row's attempt counter and return the new count."""
         response = self.table.update_item(
             Key={"pk": key},
             UpdateExpression="SET notify_attempts = if_not_exists(notify_attempts, :zero) + :one",
+            ConditionExpression="attribute_exists(pk)",
             ExpressionAttributeValues={":zero": 0, ":one": 1},
             ReturnValues="UPDATED_NEW",
         )
         return int(response["Attributes"]["notify_attempts"])
 
     def mark_failed(self, key: str) -> None:
+        """Mark an existing row as permanently failed."""
         self.table.update_item(
             Key={"pk": key},
             UpdateExpression="SET notify_state = :state",
+            ConditionExpression="attribute_exists(pk)",
             ExpressionAttributeValues={":state": "failed"},
         )
