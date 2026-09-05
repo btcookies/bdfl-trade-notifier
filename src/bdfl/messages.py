@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import re
 from datetime import UTC, datetime
-from typing import TypeVar
 
 from bdfl.assets import format_dollars, player_label, render_asset
 from bdfl.models import LeagueInfo, Player, Trade, WaiverClaim
@@ -19,7 +18,6 @@ MAX_COMMENTS = 1000
 
 MARKDOWN_SPECIALS = re.compile(r"([\\*_~`|>])")
 
-T = TypeVar("T")
 
 
 def escape_markdown(text: str) -> str:
@@ -126,7 +124,7 @@ def waiver_line(details: dict) -> str:
     return line
 
 
-def chunk_entries(entries: list[tuple[T, str]], limit: int) -> list[list[tuple[T, str]]]:
+def chunk_entries[T](entries: list[tuple[T, str]], limit: int) -> list[list[tuple[T, str]]]:
     """Group (item, text) entries so each group's texts joined by newlines fit in limit."""
     chunks: list[list[tuple[T, str]]] = []
     size = 0
