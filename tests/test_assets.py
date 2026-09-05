@@ -54,3 +54,33 @@ def test_render_unknown_code_returns_raw_and_warns(caplog):
         assert render_asset("XX_1", LEAGUE, PLAYERS) == "XX_1"
         assert render_asset("DP_a_b", LEAGUE, PLAYERS) == "DP_a_b"
     assert "unknown asset code" in caplog.text
+
+
+def test_format_dollars_never_raises_on_float_edge_cases():
+    assert format_dollars("nan") == "$nan"
+    assert format_dollars("inf") == "$inf"
+    assert format_dollars("1e999") == "$1e999"
+    assert format_dollars("") == "$"
+
+
+def test_player_label_treats_blank_name_as_unknown():
+    assert player_label(Player(id="1", name="", team="BUF", position="TE"), "1") == "Unknown player (#1)"
+    assert player_label(Player(id="1", name="   ", team="", position=""), "1") == "Unknown player (#1)"
+
+
+def test_team_defense_label():
+    assert player_label(PLAYERS["0151"], "0151") == "Buffalo Bills, BUF TMWR"
+
+
+def test_render_asset_never_returns_empty_string(caplog):
+    with caplog.at_level(logging.WARNING):
+        assert render_asset("", LEAGUE, PLAYERS) == "(empty asset)"
+    assert "unknown asset code" in caplog.text
+
+
+def test_render_malformed_future_pick_falls_back_to_raw_code(caplog):
+    with caplog.at_level(logging.WARNING):
+        assert render_asset("FP_0005_2027_abc", LEAGUE, PLAYERS) == "FP_0005_2027_abc"
+        assert render_asset("FP_0005_20x7_1", LEAGUE, PLAYERS) == "FP_0005_20x7_1"
+    assert caplog.text.count("unknown asset code") == 2
+    assert render_asset("FP_0005_2027_03", LEAGUE, PLAYERS) == "Jeff Janis Fan Club 2027 Round 3 pick"
