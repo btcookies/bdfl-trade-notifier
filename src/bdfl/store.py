@@ -116,7 +116,7 @@ class TransactionStore:
             raise
 
     def bump_attempt(self, key: str) -> int:
-        """Raises ClientError when the row does not exist. Increment the row's attempt counter and return the new count."""
+        """Increment the row's attempt counter and return the new count; raises ClientError if the row is missing."""
         response = self.table.update_item(
             Key={"pk": key},
             UpdateExpression="SET notify_attempts = if_not_exists(notify_attempts, :zero) + :one",
@@ -127,7 +127,7 @@ class TransactionStore:
         return int(response["Attributes"]["notify_attempts"])
 
     def mark_failed(self, key: str) -> None:
-        """Raises ClientError when the row does not exist. Mark an existing row as permanently failed."""
+        """Mark an existing row as permanently failed; raises ClientError if the row is missing."""
         self.table.update_item(
             Key={"pk": key},
             UpdateExpression="SET notify_state = :state",
