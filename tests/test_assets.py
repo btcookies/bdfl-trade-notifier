@@ -84,3 +84,17 @@ def test_render_malformed_future_pick_falls_back_to_raw_code(caplog):
         assert render_asset("FP_0005_20x7_1", LEAGUE, PLAYERS) == "FP_0005_20x7_1"
     assert caplog.text.count("unknown asset code") == 2
     assert render_asset("FP_0005_2027_03", LEAGUE, PLAYERS) == "Jeff Janis Fan Club 2027 Round 3 pick"
+
+
+def test_player_label_treats_comma_only_name_as_unknown():
+    assert player_label(Player(id="1", name=",", team="BUF", position="TE"), "1") == "Unknown player (#1)"
+    assert player_label(Player(id="1", name=", ", team="", position=""), "1") == "Unknown player (#1)"
+
+
+def test_render_asset_whitespace_only_and_unicode_digits_fall_back(caplog):
+    with caplog.at_level(logging.WARNING):
+        assert render_asset("   ", LEAGUE, PLAYERS) == "(empty asset)"
+        assert render_asset("FP_0005_2027_\u00b2", LEAGUE, PLAYERS) == "FP_0005_2027_\u00b2"
+        assert render_asset("DP_\u00b2_1", LEAGUE, PLAYERS) == "DP_\u00b2_1"
+        assert render_asset("FP__2027_1", LEAGUE, PLAYERS) == "FP__2027_1"
+    assert caplog.text.count("unknown asset code") == 4
