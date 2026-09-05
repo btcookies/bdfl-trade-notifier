@@ -1,0 +1,21 @@
+[project]
+name = "bdfl-notifier"
+version = "2.0.0"
+description = "Posts MFL trades and waiver claims to Discord"
+requires-python = ">=3.13"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["bdfl", "handler"]

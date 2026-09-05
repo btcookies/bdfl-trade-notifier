@@ -1,8 +1,10 @@
-zdocs.yml
-.serverless/*
-.vscode/*
-*.cover
+.aws-sam/
+.venv/
+__pycache__/
 *.pyc
-*.py,cover
-htmlcov/*
+.pytest_cache/
+.ruff_cache/
 .coverage
+htmlcov/
+.vscode/
+.DS_Store
