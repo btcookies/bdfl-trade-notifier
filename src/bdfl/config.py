@@ -16,7 +16,10 @@ DEFAULT_USER_AGENT = "bdfl-notifier/1.0 (+https://github.com/btcookies/bdfl-trad
 
 _LOG_LEVELS = {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"}
 
-SSM_CONFIG = Config(connect_timeout=2, read_timeout=3, retries={"max_attempts": 3, "mode": "standard"})
+# Three total attempts of at most 5 s each keep a cold-start SSM read inside the 30 s Lambda budget.
+SSM_CONFIG = Config(
+    connect_timeout=2, read_timeout=3, retries={"total_max_attempts": 3, "mode": "standard"}
+)
 
 log = logging.getLogger(__name__)
 

@@ -24,11 +24,16 @@ from decimal import Decimal
 from typing import Any
 
 import boto3
+from botocore.config import Config
 from botocore.exceptions import ClientError
 
 log = logging.getLogger(__name__)
 
 BATCH_GET_LIMIT = 100
+# Bounded timeouts and three total attempts keep any single DynamoDB call well inside the 30 s Lambda budget.
+DYNAMO_CONFIG = Config(
+    connect_timeout=2, read_timeout=5, retries={"total_max_attempts": 3, "mode": "standard"}
+)
 MAX_BATCH_GET_ROUNDS = 5
 
 
@@ -55,7 +60,7 @@ class TransactionStore:
         sleep: Callable[[float], None] = time.sleep,
     ) -> None:
         """Bind to ``table_name``, optionally with an injected resource and sleep."""
-        self.resource = resource or boto3.resource("dynamodb")
+        self.resource = resource or boto3.resource("dynamodb", config=DYNAMO_CONFIG)
         self.table_name = table_name
         self.table = self.resource.Table(table_name)
         self.sleep = sleep

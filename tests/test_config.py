@@ -119,3 +119,11 @@ def test_missing_parameter_propagates_client_error():
     ssm = boto3.client("ssm", region_name="us-east-1")
     with pytest.raises(ClientError):
         get_webhook_url(Settings.from_env(BASE_ENV), ssm_client=ssm)
+
+
+def test_ssm_client_config_is_bounded():
+    from bdfl.config import SSM_CONFIG
+
+    config = boto3.client("ssm", region_name="us-east-1", config=SSM_CONFIG).meta.config
+    assert (config.connect_timeout, config.read_timeout) == (2, 3)
+    assert config.retries == {"mode": "standard", "total_max_attempts": 3}

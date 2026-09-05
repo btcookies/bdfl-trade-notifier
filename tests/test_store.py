@@ -185,3 +185,9 @@ def test_mark_sent_reraises_other_client_errors(dynamodb_table):
     store.table.update_item = lambda **kwargs: (_ for _ in ()).throw(error)
     with pytest.raises(ClientError):
         store.mark_sent("TRADE#1", at=1)
+
+
+def test_default_dynamodb_resource_config_is_bounded():
+    config = TransactionStore("any-table").resource.meta.client.meta.config
+    assert (config.connect_timeout, config.read_timeout) == (2, 5)
+    assert config.retries == {"mode": "standard", "total_max_attempts": 3}
