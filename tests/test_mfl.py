@@ -275,3 +275,24 @@ def test_players_strips_the_id_key_too():
     players = make_client().players(2026, ["13299"])
     assert list(players) == ["13299"]
     assert players["13299"].id == "13299"
+
+
+@responses.activate
+def test_export_passes_params_and_returns_body():
+    responses.get(
+        f"{BASE_URL}/2020/export",
+        json={"weeklyResults": {"week": "1"}},
+        match=[
+            responses.matchers.query_param_matcher(
+                {"TYPE": "weeklyResults", "L": LEAGUE_ID, "JSON": "1", "W": "1"}
+            )
+        ],
+    )
+    assert make_client().export(2020, "weeklyResults", W="1") == {"weeklyResults": {"week": "1"}}
+
+
+@responses.activate
+def test_export_raises_on_error_body():
+    responses.get(f"{BASE_URL}/2016/export", json={"error": {"$t": "Invalid league ID 65522"}})
+    with pytest.raises(MflError, match="Invalid league ID"):
+        make_client().export(2016, "league")

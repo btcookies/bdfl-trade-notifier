@@ -111,6 +111,14 @@ class MflClient:
             if "id" in p
         }
 
+    def export(self, year: int, type_: str, **params: str) -> dict[str, Any]:
+        """Fetch any export TYPE for a year and return the parsed body.
+
+        Raises MflError on an error body; the hall of records uses this for every export
+        the notifier does not need by name.
+        """
+        return self._require_ok(self._get(year, type_, **params), type_)
+
     # --- internals ----------------------------------------------------------
 
     def _require_ok(self, data: dict[str, Any], what: str) -> dict[str, Any]:
