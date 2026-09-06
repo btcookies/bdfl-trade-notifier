@@ -87,3 +87,10 @@ def test_parses_each_transaction_shape():
     )
     assert log.lock_times == (20,)
     assert log.trades == ()
+
+
+def test_an_empty_transactions_element_does_not_crash():
+    """MFL's JSON mode can return "" for an empty transaction child; a preseason or
+    early-season fetch (e.g. the current, in-progress season) may have no transactions yet."""
+    assert parse_transactions({"transactions": {"transaction": ""}}) == TransactionLog((), (), (), (), ())
+    assert parse_transactions({"transactions": ""}) == TransactionLog((), (), (), (), ())

@@ -55,9 +55,10 @@ class TransactionLog:
     waivers: tuple[WaiverClaim, ...]
     free_agents: tuple[FreeAgentMove, ...]
     roster_moves: tuple[RosterMove, ...]
-    lock_times: tuple[int, ...]  # LOCK_ALL_PLAYERS timestamps ascending; the k-th is week start_week + k - 1
+    lock_times: tuple[int, ...]  # LOCK_ALL_PLAYERS timestamps ascending; lock_times[i] is when week start_week + i locked
 
     def week_locked_at(self, week: int, start_week: int) -> int | None:
+        """The LOCK_ALL_PLAYERS timestamp that started `week`, or None outside the recorded range."""
         index = week - start_week
         if 0 <= index < len(self.lock_times):
             return self.lock_times[index]
@@ -78,8 +79,8 @@ def parse_transactions(body: dict[str, Any]) -> TransactionLog:
     moves: list[RosterMove] = []
     locks: list[int] = []
     for raw in as_list((body.get("transactions") or {}).get("transaction")):
-        kind = raw.get("type")
         try:
+            kind = raw.get("type")
             timestamp = int(raw["timestamp"])
             if kind == "TRADE":
                 trades.append(
@@ -115,8 +116,8 @@ def parse_transactions(body: dict[str, Any]) -> TransactionLog:
                 )
             elif kind == "LOCK_ALL_PLAYERS":
                 locks.append(timestamp)
-        except (KeyError, ValueError, TypeError) as exc:
-            log.warning("skipping unparsable %s transaction %r", kind, raw, exc_info=exc)
+        except (KeyError, ValueError, TypeError, AttributeError) as exc:
+            log.warning("skipping unparsable transaction %r", raw, exc_info=exc)
 
     def by_time(entry):
         return entry.timestamp
