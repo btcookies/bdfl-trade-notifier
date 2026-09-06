@@ -34,6 +34,21 @@ def test_managers_are_parsed():
     assert config.managers == (Manager("0001", "Pat", 2016),)
 
 
+def test_hall_of_fame_thresholds_are_read_from_the_config():
+    config = Config.from_dict(
+        {
+            "league": {"id": "1", "site_base_url": "https://x.test/"},
+            "hall_of_fame": {
+                "player_min_vor": 250.0,
+                "player_min_starts": 12,
+                "franchise_min_titles": 1,
+                "watch_list_margin": 50.0,
+            },
+        }
+    )
+    assert config.hall == HallRules(250.0, 12, 1, 50.0)
+
+
 @pytest.mark.parametrize(
     "raw, message",
     [
