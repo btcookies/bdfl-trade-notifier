@@ -10,7 +10,11 @@ from pathlib import Path
 
 import requests
 
-from bdfl.mfl import MflClient
+# bdfl lives under src/, which is only on sys.path via pytest's pythonpath setting;
+# running `python -m hof` directly needs the same path scripts/dry_run.py adds by hand.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+
+from bdfl.mfl import MflClient  # noqa: E402
 from hof import fetch
 from hof.config import Config
 
