@@ -1,0 +1,2 @@
+-r ../src/requirements.txt
+jinja2>=3.1,<4
