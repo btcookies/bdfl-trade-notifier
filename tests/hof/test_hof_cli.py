@@ -1,0 +1,30 @@
+from pathlib import Path
+
+import pytest
+
+from hof import __main__ as cli
+from hof.config import ConfigError
+
+CONFIG = Path(__file__).resolve().parents[2] / "data" / "config.toml"
+
+
+def test_fetch_command_calls_run_with_years(monkeypatch, tmp_path, capsys):
+    seen = {}
+
+    def fake_run(data_dir, config, now, client_factory, years=None):
+        seen.update(data_dir=data_dir, league=config.league_id, years=years)
+        assert client_factory("79873").league_id == "79873"
+        return [2020]
+
+    monkeypatch.setattr(cli.fetch, "run", fake_run)
+
+    code = cli.main(["--data", str(tmp_path), "--config", str(CONFIG), "fetch", "--year", "2020"])
+
+    assert code == 0
+    assert seen == {"data_dir": tmp_path, "league": "65522", "years": [2020]}
+    assert "fetched 1 season(s): [2020]" in capsys.readouterr().out
+
+
+def test_missing_config_is_a_clean_error(tmp_path):
+    with pytest.raises(ConfigError):
+        cli.main(["--data", str(tmp_path), "fetch"])
