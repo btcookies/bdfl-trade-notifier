@@ -193,11 +193,62 @@ def test_run_skips_seasons_marked_complete(tmp_path):
 
 
 @responses.activate
+def test_run_refetches_a_season_marked_complete_under_a_stale_league_id(tmp_path):
+    """A corrected seasons.overrides entry must invalidate a season fetched under the old id."""
+    done = tmp_path / "raw" / "2016"
+    done.mkdir(parents=True)
+    (done / "meta.json").write_text(json.dumps({"complete": True, "league_id": "65522"}))
+    stub_mfl({**season_handlers(2026, "65522", [2016, 2026]), **season_handlers(2016, "79873", [2016, 2026])})
+
+    fetched = fetch.run(tmp_path, CONFIG, NOW, make_factory())
+
+    assert fetched == [2016, 2026]
+    assert {q["L"] for q in requested(2016)} == {"79873"}
+    meta_2016 = json.loads((tmp_path / "raw" / "2016" / "meta.json").read_text())
+    assert meta_2016["league_id"] == "79873"
+
+
+@responses.activate
 def test_run_honors_an_explicit_year_list(tmp_path):
     stub_mfl(season_handlers(2020, "65522", [2020]))
 
     assert fetch.run(tmp_path, CONFIG, NOW, make_factory(), years=[2020]) == [2020]
     assert requested(2026) == []
+
+
+@responses.activate
+def test_run_resumes_after_a_mid_run_failure(tmp_path):
+    """Seasons already written complete before a failure are skipped on a rerun; only the
+    interrupted season (and anything after it) is repeated."""
+    years = [2020, 2021, 2022, 2023]
+    handlers: dict = {}
+    for year in years:
+        handlers.update(season_handlers(year, "65522", [year]))
+    state = {"fail": True}
+    handlers[(2022, "weeklyResults")] = lambda q: (
+        {"error": {"$t": "throttled"}} if state["fail"] and q["W"] == "2" else week_body(int(q["W"]))
+    )
+    stub_mfl(handlers)
+
+    with pytest.raises(MflError, match="throttled"):
+        fetch.run(tmp_path, CONFIG, NOW, make_factory(), years=years)
+
+    for year in (2020, 2021):
+        assert json.loads((tmp_path / "raw" / str(year) / "meta.json").read_text())["complete"] is True
+    assert not (tmp_path / "raw" / "2022").exists()
+    assert not (tmp_path / "raw" / "2023").exists()
+    assert not list((tmp_path / "raw").glob(".*.tmp"))
+    calls_after_failure = len(responses.calls)
+
+    state["fail"] = False
+    fetched = fetch.run(tmp_path, CONFIG, NOW, make_factory(), years=years)
+
+    assert fetched == [2022, 2023]
+    # The already-complete 2020/2021 seasons made no further requests on the rerun; every new
+    # call belongs to the two years that still needed (re)fetching.
+    new_calls = responses.calls[calls_after_failure:]
+    new_years = {int(urllib.parse.urlparse(c.request.url).path.split("/")[1]) for c in new_calls}
+    assert new_years == {2022, 2023}
 
 
 @responses.activate

@@ -60,14 +60,25 @@ def discover_seasons(client: MflClient, now: datetime) -> list[int]:
     raise LeagueNotFound(f"league {client.league_id} not found for {now.year} or {now.year - 1}")
 
 
-def is_fetched_complete(season_dir: Path) -> bool:
+def is_fetched_complete(season_dir: Path, league_id: str | None = None) -> bool:
+    """Whether season_dir holds a finished fetch for the currently-configured league_id.
+
+    A season marked complete with no recorded league_id (or with one matching league_id) is
+    still complete. A season marked complete under a *different* league_id — e.g. an admin's
+    league_id_for() override was wrong on the first fetch and has since been corrected — is
+    treated as incomplete so a rerun fixes it.
+    """
     meta = season_dir / "meta.json"
     if not meta.exists():
         return False
     try:
-        return bool(json.loads(meta.read_text()).get("complete"))
+        data = json.loads(meta.read_text())
     except (ValueError, OSError):
         return False
+    if not data.get("complete"):
+        return False
+    recorded = data.get("league_id")
+    return recorded is None or recorded == league_id
 
 
 def write_json(path: Path, body: dict[str, Any]) -> None:
@@ -168,10 +179,10 @@ def run(
     fetched: list[int] = []
     for year in wanted:
         season_dir = raw / str(year)
-        if is_fetched_complete(season_dir):
+        league_id = config.league_id_for(year)
+        if is_fetched_complete(season_dir, league_id):
             log.info("season %s already complete; skipping", year)
             continue
-        league_id = config.league_id_for(year)
         client = current if league_id == config.league_id else client_factory(league_id)
         log.info("fetching season %s from league %s", year, league_id)
         fetch_season(client, year, season_dir, now)
