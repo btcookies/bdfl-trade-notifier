@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Hall of Fame{% endblock %}
+{% block content %}
+<h1>Hall of Fame</h1>
+<p class="lede">
+  A player is inducted at the end of a season once their career value over replacement reaches {{ hall.rules.player_min_vor|pts }} value over replacement with at least {{ hall.rules.player_min_starts }} starts.
+  A franchise is inducted with {{ hall.rules.franchise_min_titles }} title{{ 's' if hall.rules.franchise_min_titles != 1 }}.
+</p>
+
+{% for year, players, franchises in classes %}
+<h2>Class of {{ year }}</h2>
+<div class="plaques">
+  {% for p in players %}
+  <a class="plaque" href="{{ site.url('player', p.player_id) }}">
+    <b>{{ p.name }}</b> <span class="pos">{{ p.position }}</span><br>
+    <span class="muted">{{ p.franchise_names|join(", ") }}</span><br>
+    {{ p.starts }} starts · {{ p.points|pts }} pts · {{ p.vor|pts }} VOR · {{ p.titles }} title{{ 's' if p.titles != 1 }} as a starter
+  </a>
+  {% endfor %}
+  {% for f in franchises %}
+  <a class="plaque" href="{{ site.url('franchise', f.franchise_id) }}">
+    <b>{{ f.name }}</b> <span class="pos">Franchise</span><br>
+    {{ f.titles }} title{{ 's' if f.titles != 1 }} · {{ f.record }} all-time · {{ f.win_pct|pct }}
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+<p>No inductees yet.</p>
+{% endfor %}
+
+<h2>Watch list</h2>
+{% if hall.watch_list %}
+<p class="muted">Active players within {{ hall.rules.watch_list_margin|pts }} of the line.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th class="l">Player</th><th>Pos</th><th>GS</th><th>VOR</th><th>Needs</th></tr></thead>
+  <tbody>
+  {% for w in hall.watch_list %}
+  <tr>
+    <td class="l"><a href="{{ site.url('player', w.player_id) }}">{{ w.name }}</a></td>
+    <td>{{ w.position }}</td>
+    <td>{{ w.starts }}</td>
+    <td>{{ w.vor|pts }}</td>
+    <td>{{ w.needed_vor|pts }}{% if w.needed_starts %} and {{ w.needed_starts }} start{{ 's' if w.needed_starts != 1 }}{% endif %}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<p class="muted">Nobody is close.</p>
+{% endif %}
+{% endblock %}

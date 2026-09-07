@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Records{% endblock %}
+{% block content %}
+<h1>Records book</h1>
+<p class="lede">Top ten for every record, over counted games only. Playoff games are marked.</p>
+{% for group, tables in groups.items() %}
+<h2>{{ group }}</h2>
+<div class="two">
+{% for table in tables %}
+  <div>
+    <h3>{{ table.title }}</h3>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th class="l">Holder</th><th>Mark</th><th class="l">Detail</th></tr></thead>
+      <tbody>
+      {% for e in table.entries %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td class="l">{% if e.player_id and e.player_id in site.player_slugs %}<a href="{{ site.url('player', e.player_id) }}">{{ e.holder }}</a>{% elif e.franchise_id %}<a href="{{ site.url('franchise', e.franchise_id) }}">{{ e.holder }}</a>{% else %}{{ e.holder }}{% endif %}</td>
+        <td>{{ e.value|mark(table.unit) }}</td>
+        <td class="l">{{ e.detail }}{% if e.playoff and table.group.endswith("single game") %} <span class="pos">PO</span>{% endif %}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+{% endfor %}
+</div>
+{% endfor %}
+{% endblock %}

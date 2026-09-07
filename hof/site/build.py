@@ -92,6 +92,15 @@ def environment(model: Model, config: Config, site: Site) -> Environment:
     env.filters["signed"] = lambda value: f"{value:+.1f}"
     env.filters["pct"] = lambda value: "1.000" if value >= 1 else f"{value:.3f}"[1:]
     env.filters["date"] = lambda ts: datetime.fromtimestamp(ts, UTC).date().isoformat()
+
+    def mark(value: float, unit: str) -> str:
+        if unit in ("starts", "games", "titles"):
+            return str(int(value))
+        if unit == "pct":
+            return "1.000" if value >= 1 else f"{value:.3f}"[1:]
+        return f"{value:.1f}"
+
+    env.filters["mark"] = mark
     env.globals.update(
         site=site,
         model=model,
@@ -190,7 +199,30 @@ def render_franchises(env: Environment, model: Model, site: Site) -> list[Page]:
     return pages
 
 
-RENDERERS: list[Renderer] = [render_home, render_players, render_franchises]
+def render_records(env: Environment, model: Model, site: Site) -> list[Page]:
+    groups: dict[str, list] = {}
+    for table in model.records:
+        groups.setdefault(table.group, []).append(table)
+    return [("records", env.get_template("records.html").render(groups=groups))]
+
+
+def render_hall(env: Environment, model: Model, site: Site) -> list[Page]:
+    years = {p.class_year for p in model.hall.players} | {f.class_year for f in model.hall.franchises}
+    context = {
+        "hall": model.hall,
+        "classes": [
+            (
+                year,
+                [p for p in model.hall.players if p.class_year == year],
+                [f for f in model.hall.franchises if f.class_year == year],
+            )
+            for year in sorted(years, reverse=True)
+        ],
+    }
+    return [("hall-of-fame", env.get_template("hall.html").render(**context))]
+
+
+RENDERERS: list[Renderer] = [render_home, render_players, render_franchises, render_records, render_hall]
 
 
 def write_page(out: Path, relative: str, html: str) -> None:

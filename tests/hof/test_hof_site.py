@@ -176,3 +176,24 @@ def test_franchise_page_groups_seasons_by_era(built):
     assert "Final" in html and "Semifinal" in html  # playoff history
     assert 'href="/hof/players/qb-a1-a1/">QB A1</a>' in html
     assert "No draft picks" in html and "No trades" in html
+
+
+def test_records_page_has_every_table(built):
+    out, _, model = built
+    html = read(out, "records")
+    for table in model.records:
+        assert table.title in html
+    assert "Team, single game" in html and "Player, career" in html
+    assert 'href="/hof/players/qb-a1-a1/">QB A1</a>' in html
+    assert 'href="/hof/franchises/alpha-prime/">Alpha</a>' in html  # the name at the time links to the current page
+    assert "vs Gamma, 2020 Week 4 (Final)" in html
+    assert "1.000" in html  # best record, formatted as a percentage
+
+
+def test_hall_of_fame_page(built):
+    out, _, _ = built
+    html = read(out, "hall-of-fame")
+    assert "Class of 2020" in html
+    assert 'href="/hof/players/qb-a1-a1/"' in html and "Alpha Prime" in html
+    assert "Watch list" in html and "QB A2" in html and "30.0" in html
+    assert "40.0 value over replacement" in html and "3 starts" in html and "1 title" in html
