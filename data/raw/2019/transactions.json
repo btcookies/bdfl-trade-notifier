@@ -1,0 +1,3143 @@
+{
+ "encoding": "utf-8",
+ "transactions": {
+  "transaction": [
+   {
+    "franchise": "",
+    "timestamp": "1577642400",
+    "transaction": "",
+    "type": "LOCK_ALL_PLAYERS"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1577037600",
+    "transaction": "",
+    "type": "LOCK_ALL_PLAYERS"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1576749600",
+    "transaction": "13864,|2.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1576749600",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "activated": "13156,",
+    "deactivated": "14073,",
+    "franchise": "0011",
+    "timestamp": "1576730758",
+    "type": "IR"
+   },
+   {
+    "activated": "",
+    "deactivated": "13623,",
+    "franchise": "0007",
+    "timestamp": "1576729334",
+    "type": "IR"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1576663200",
+    "transaction": "",
+    "type": "UNLOCK_ALL_PLAYERS"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1576663200",
+    "transaction": "12197,|6.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1576663200",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "activated": "",
+    "deactivated": "13156,",
+    "franchise": "0011",
+    "timestamp": "1576627357",
+    "type": "IR"
+   },
+   {
+    "demoted": "13639,",
+    "franchise": "0011",
+    "promoted": "14103,",
+    "timestamp": "1576621192",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1576432800",
+    "transaction": "",
+    "type": "LOCK_ALL_PLAYERS"
+   },
+   {
+    "demoted": "14143,",
+    "franchise": "0003",
+    "promoted": "14208,",
+    "timestamp": "1576352412",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "14103,",
+    "franchise": "0011",
+    "promoted": "13639,",
+    "timestamp": "1576122515",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1576058400",
+    "transaction": "",
+    "type": "UNLOCK_ALL_PLAYERS"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1576058400",
+    "transaction": "12678,|11.00|13382,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0009",
+    "timestamp": "1576058400",
+    "transaction": "13814,|28.00|12667,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1576058400",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "activated": "",
+    "by_commish": "1",
+    "deactivated": "13605,",
+    "franchise": "0001",
+    "timestamp": "1576055835",
+    "type": "IR"
+   },
+   {
+    "activated": "13156,",
+    "deactivated": "",
+    "franchise": "0011",
+    "timestamp": "1575990722",
+    "type": "IR"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1575990705",
+    "transaction": "|14097,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "activated": "13192,",
+    "deactivated": "9431,",
+    "franchise": "0011",
+    "timestamp": "1575944663",
+    "type": "IR"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1575828000",
+    "transaction": "",
+    "type": "LOCK_ALL_PLAYERS"
+   },
+   {
+    "demoted": "13621,14612,",
+    "franchise": "0001",
+    "promoted": "14137,13672,",
+    "timestamp": "1575583883",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1575453600",
+    "transaction": "",
+    "type": "UNLOCK_ALL_PLAYERS"
+   },
+   {
+    "demoted": "14140,",
+    "franchise": "0002",
+    "promoted": "14080,",
+    "timestamp": "1575400439",
+    "type": "TAXI"
+   },
+   {
+    "activated": "14140,",
+    "deactivated": "",
+    "franchise": "0002",
+    "timestamp": "1575400428",
+    "type": "IR"
+   },
+   {
+    "demoted": "14080,",
+    "franchise": "0002",
+    "promoted": "",
+    "timestamp": "1575400419",
+    "type": "TAXI"
+   },
+   {
+    "activated": "13726,",
+    "by_commish": "1",
+    "deactivated": "14138,",
+    "franchise": "0001",
+    "timestamp": "1575399923",
+    "type": "IR"
+   },
+   {
+    "demoted": "13662,",
+    "franchise": "0011",
+    "promoted": "14097,",
+    "timestamp": "1575375462",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1575223200",
+    "transaction": "",
+    "type": "LOCK_ALL_PLAYERS"
+   },
+   {
+    "demoted": "14057,",
+    "franchise": "0011",
+    "promoted": "13662,",
+    "timestamp": "1575200248",
+    "type": "TAXI"
+   },
+   {
+    "activated": "14057,",
+    "deactivated": "13156,",
+    "franchise": "0011",
+    "timestamp": "1575200218",
+    "type": "IR"
+   },
+   {
+    "franchise": "0008",
+    "timestamp": "1574935200",
+    "transaction": "11399,|2.00|10369,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1574935200",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "activated": "13819,",
+    "deactivated": "",
+    "franchise": "0010",
+    "timestamp": "1574897177",
+    "type": "IR"
+   },
+   {
+    "demoted": "14239,",
+    "franchise": "0010",
+    "promoted": "",
+    "timestamp": "1574897168",
+    "type": "TAXI"
+   },
+   {
+    "activated": "",
+    "deactivated": "8416,",
+    "franchise": "0003",
+    "timestamp": "1574877058",
+    "type": "IR"
+   },
+   {
+    "demoted": "13589,",
+    "franchise": "0012",
+    "promoted": "14209,",
+    "timestamp": "1574875947",
+    "type": "TAXI"
+   },
+   {
+    "activated": "12628,",
+    "deactivated": "7942,",
+    "franchise": "0012",
+    "timestamp": "1574874786",
+    "type": "IR"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1574848800",
+    "transaction": "",
+    "type": "UNLOCK_ALL_PLAYERS"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1574848800",
+    "transaction": "12912,|2.00|9884,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1574848800",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "demoted": "13592,",
+    "franchise": "0008",
+    "promoted": "13679,",
+    "timestamp": "1574787130",
+    "type": "TAXI"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1575222137",
+    "franchise": "0009",
+    "franchise1_gave_up": "FP_0003_2021_1,",
+    "franchise2": "0012",
+    "franchise2_gave_up": "11192,",
+    "timestamp": "1574618406",
+    "type": "TRADE"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1574618400",
+    "transaction": "",
+    "type": "LOCK_ALL_PLAYERS"
+   },
+   {
+    "activated": "",
+    "deactivated": "10261,",
+    "franchise": "0003",
+    "timestamp": "1574617193",
+    "type": "IR"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1575221732",
+    "franchise": "0009",
+    "franchise1_gave_up": "11247,",
+    "franchise2": "0003",
+    "franchise2_gave_up": "FP_0003_2021_1,FP_0003_2020_2,FP_0007_2020_2,",
+    "timestamp": "1574617140",
+    "type": "TRADE"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1574827200",
+    "franchise": "0005",
+    "franchise1_gave_up": "14059,",
+    "franchise2": "0004",
+    "franchise2_gave_up": "10273,FP_0004_2020_2,",
+    "timestamp": "1574456393",
+    "type": "TRADE"
+   },
+   {
+    "activated": "10261,",
+    "deactivated": "",
+    "franchise": "0003",
+    "timestamp": "1574365169",
+    "type": "IR"
+   },
+   {
+    "demoted": "",
+    "franchise": "0002",
+    "promoted": "14109,",
+    "timestamp": "1574361033",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "0002",
+    "timestamp": "1574360985",
+    "transaction": "|11239,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "activated": "12187,",
+    "deactivated": "",
+    "franchise": "0002",
+    "timestamp": "1574360625",
+    "type": "IR"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1574330400",
+    "transaction": "13809,|1.00|13753,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1574330400",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "demoted": "13669,",
+    "franchise": "0007",
+    "promoted": "13789,",
+    "timestamp": "1574316621",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1574244000",
+    "transaction": "",
+    "type": "UNLOCK_ALL_PLAYERS"
+   },
+   {
+    "franchise": "0001",
+    "timestamp": "1574244000",
+    "transaction": "14612,|5.00|12627,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1574244000",
+    "transaction": "13615,|11.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0001",
+    "timestamp": "1574244000",
+    "transaction": "12635,|35.00|12912,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1574244000",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "activated": "13146,",
+    "deactivated": "",
+    "franchise": "0002",
+    "timestamp": "1574224146",
+    "type": "IR"
+   },
+   {
+    "demoted": "14113,",
+    "franchise": "0002",
+    "promoted": "",
+    "timestamp": "1574224139",
+    "type": "TAXI"
+   },
+   {
+    "activated": "12154,",
+    "deactivated": "",
+    "franchise": "0010",
+    "timestamp": "1574221308",
+    "type": "IR"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1574188593",
+    "transaction": "|14068,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "demoted": "14097,",
+    "franchise": "0011",
+    "promoted": "14103,",
+    "timestamp": "1574179486",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "14058,13679,",
+    "franchise": "0008",
+    "promoted": "13674,13592,",
+    "timestamp": "1574179316",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "",
+    "franchise": "0010",
+    "promoted": "14239,",
+    "timestamp": "1574175593",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "",
+    "franchise": "0002",
+    "promoted": "14102,",
+    "timestamp": "1574168675",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "14208,",
+    "franchise": "0003",
+    "promoted": "13590,",
+    "timestamp": "1574151240",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1574013600",
+    "transaction": "",
+    "type": "LOCK_ALL_PLAYERS"
+   },
+   {
+    "activated": "",
+    "deactivated": "12187,",
+    "franchise": "0002",
+    "timestamp": "1574003114",
+    "type": "IR"
+   },
+   {
+    "demoted": "14102,",
+    "franchise": "0002",
+    "promoted": "14113,",
+    "timestamp": "1574003096",
+    "type": "TAXI"
+   },
+   {
+    "activated": "12648,",
+    "deactivated": "",
+    "franchise": "0001",
+    "timestamp": "1573969887",
+    "type": "IR"
+   },
+   {
+    "activated": "13377,",
+    "deactivated": "11454,",
+    "franchise": "0009",
+    "timestamp": "1573924294",
+    "type": "IR"
+   },
+   {
+    "activated": "10948,",
+    "deactivated": "",
+    "franchise": "0003",
+    "timestamp": "1573918244",
+    "type": "IR"
+   },
+   {
+    "activated": "",
+    "deactivated": "10261,",
+    "franchise": "0003",
+    "timestamp": "1573918236",
+    "type": "IR"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1573639200",
+    "transaction": "",
+    "type": "UNLOCK_ALL_PLAYERS"
+   },
+   {
+    "franchise": "0005",
+    "timestamp": "1573639200",
+    "transaction": "14081,|1.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1573639200",
+    "transaction": "13669,|5.00|12845,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1573639200",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "demoted": "13590,",
+    "franchise": "0003",
+    "promoted": "14208,",
+    "timestamp": "1573610362",
+    "type": "TAXI"
+   },
+   {
+    "activated": "10960,",
+    "deactivated": "",
+    "franchise": "0010",
+    "timestamp": "1573580581",
+    "type": "IR"
+   },
+   {
+    "demoted": "13592,",
+    "franchise": "0008",
+    "promoted": "14058,",
+    "timestamp": "1573572922",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1573408800",
+    "transaction": "",
+    "type": "LOCK_ALL_PLAYERS"
+   },
+   {
+    "demoted": "13640,",
+    "franchise": "0005",
+    "promoted": "14059,",
+    "timestamp": "1573408067",
+    "type": "TAXI"
+   },
+   {
+    "activated": "",
+    "deactivated": "13768,",
+    "franchise": "0001",
+    "timestamp": "1573335439",
+    "type": "IR"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1573207200",
+    "transaction": "13391,|1.00|12678,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1573207200",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "activated": "13605,",
+    "by_commish": "1",
+    "deactivated": "",
+    "franchise": "0001",
+    "timestamp": "1573167322",
+    "type": "IR"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0001",
+    "timestamp": "1573167301",
+    "transaction": "|12182,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "demoted": "14121,",
+    "franchise": "0008",
+    "promoted": "14123,",
+    "timestamp": "1573155743",
+    "type": "TAXI"
+   },
+   {
+    "activated": "13427,",
+    "deactivated": "14126,",
+    "franchise": "0003",
+    "timestamp": "1573152638",
+    "type": "IR"
+   },
+   {
+    "demoted": "14305,",
+    "franchise": "0003",
+    "promoted": "14126,",
+    "timestamp": "1573152617",
+    "type": "TAXI"
+   },
+   {
+    "activated": "",
+    "deactivated": "13427,",
+    "franchise": "0003",
+    "timestamp": "1573152587",
+    "type": "IR"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1573034400",
+    "transaction": "",
+    "type": "UNLOCK_ALL_PLAYERS"
+   },
+   {
+    "franchise": "0009",
+    "timestamp": "1573034400",
+    "transaction": "13722,|21.00|12596,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1573034400",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "activated": "10699,",
+    "deactivated": "9064,",
+    "franchise": "0011",
+    "timestamp": "1572978579",
+    "type": "IR"
+   },
+   {
+    "demoted": "14104,",
+    "franchise": "0012",
+    "promoted": "14072,",
+    "timestamp": "1572962833",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "14056,",
+    "franchise": "0012",
+    "promoted": "13678,",
+    "timestamp": "1572962800",
+    "type": "TAXI"
+   },
+   {
+    "activated": "10261,",
+    "deactivated": "10948,",
+    "franchise": "0003",
+    "timestamp": "1572961254",
+    "type": "IR"
+   },
+   {
+    "demoted": "",
+    "franchise": "0002",
+    "promoted": "13606,",
+    "timestamp": "1572957061",
+    "type": "TAXI"
+   },
+   {
+    "activated": "",
+    "deactivated": "9075,",
+    "franchise": "0002",
+    "timestamp": "1572957050",
+    "type": "IR"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1572804000",
+    "transaction": "",
+    "type": "LOCK_ALL_PLAYERS"
+   },
+   {
+    "activated": "9075,",
+    "deactivated": "13146,",
+    "franchise": "0002",
+    "timestamp": "1572801088",
+    "type": "IR"
+   },
+   {
+    "activated": "14101,7942,",
+    "deactivated": "13136,10983,",
+    "franchise": "0012",
+    "timestamp": "1572754987",
+    "type": "IR"
+   },
+   {
+    "demoted": "14086,",
+    "franchise": "0009",
+    "promoted": "13617,",
+    "timestamp": "1572558754",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "13647,",
+    "franchise": "0001",
+    "promoted": "14138,",
+    "timestamp": "1572557465",
+    "type": "TAXI"
+   },
+   {
+    "activated": "12386,",
+    "deactivated": "13726,",
+    "franchise": "0001",
+    "timestamp": "1572557382",
+    "type": "IR"
+   },
+   {
+    "demoted": "14109,",
+    "franchise": "0002",
+    "promoted": "14102,",
+    "timestamp": "1572552566",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1572426000",
+    "transaction": "",
+    "type": "UNLOCK_ALL_PLAYERS"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1572426000",
+    "transaction": "13488,|1.00|11529,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0010",
+    "timestamp": "1572426000",
+    "transaction": "13108,|12.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1572426000",
+    "transaction": "14068,|25.00|13863,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1572426000",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "demoted": "14125,",
+    "franchise": "0007",
+    "promoted": "13863,",
+    "timestamp": "1572414393",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "14095,",
+    "franchise": "0011",
+    "promoted": "14097,",
+    "timestamp": "1572349782",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1572195600",
+    "transaction": "",
+    "type": "LOCK_ALL_PLAYERS"
+   },
+   {
+    "demoted": "14075,",
+    "franchise": "0009",
+    "promoted": "13595,",
+    "timestamp": "1572194652",
+    "type": "TAXI"
+   },
+   {
+    "activated": "11670,",
+    "deactivated": "12386,",
+    "franchise": "0001",
+    "timestamp": "1572151798",
+    "type": "IR"
+   },
+   {
+    "activated": "",
+    "deactivated": "10960,",
+    "franchise": "0010",
+    "timestamp": "1571864803",
+    "type": "IR"
+   },
+   {
+    "demoted": "14103,",
+    "franchise": "0011",
+    "promoted": "14095,",
+    "timestamp": "1571837680",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "0010",
+    "timestamp": "1571837624",
+    "transaction": "|13235,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "demoted": "14107,14239,",
+    "franchise": "0010",
+    "promoted": "",
+    "timestamp": "1571837555",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "0010",
+    "timestamp": "1571837405",
+    "transaction": "|13611,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "demoted": "",
+    "franchise": "0010",
+    "promoted": "13611,",
+    "timestamp": "1571837196",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1571821200",
+    "transaction": "",
+    "type": "UNLOCK_ALL_PLAYERS"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1571821200",
+    "transaction": "11529,|1.00|13412,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0010",
+    "timestamp": "1571821200",
+    "transaction": "8944,|4.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0003",
+    "timestamp": "1571821200",
+    "transaction": "14305,|16.00|14338,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0010",
+    "timestamp": "1571821200",
+    "transaction": "14239,|70.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1571821200",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "activated": "",
+    "deactivated": "13612,",
+    "franchise": "0010",
+    "timestamp": "1571775400",
+    "type": "IR"
+   },
+   {
+    "demoted": "14208,",
+    "franchise": "0003",
+    "promoted": "14143,",
+    "timestamp": "1571769400",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "13595,13617,14017,13664,",
+    "franchise": "0009",
+    "promoted": "14075,14086,13636,14120,",
+    "timestamp": "1571769263",
+    "type": "TAXI"
+   },
+   {
+    "activated": "13138,",
+    "deactivated": "11248,",
+    "franchise": "0009",
+    "timestamp": "1571769101",
+    "type": "IR"
+   },
+   {
+    "demoted": "14095,",
+    "franchise": "0011",
+    "promoted": "14103,",
+    "timestamp": "1571758251",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "13662,",
+    "franchise": "0011",
+    "promoted": "14095,",
+    "timestamp": "1571755061",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1571590800",
+    "transaction": "",
+    "type": "LOCK_ALL_PLAYERS"
+   },
+   {
+    "demoted": "14209,",
+    "franchise": "0012",
+    "promoted": "13680,",
+    "timestamp": "1571545615",
+    "type": "TAXI"
+   },
+   {
+    "activated": "11975,",
+    "deactivated": "7942,",
+    "franchise": "0012",
+    "timestamp": "1571545476",
+    "type": "IR"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1571939916",
+    "franchise": "0010",
+    "franchise1_gave_up": "12263,",
+    "franchise2": "0007",
+    "franchise2_gave_up": "FP_0005_2020_2,FP_0007_2020_3,FP_0007_2021_4,",
+    "timestamp": "1571541952",
+    "type": "TRADE"
+   },
+   {
+    "activated": "13640,",
+    "deactivated": "13155,12205,",
+    "franchise": "0005",
+    "timestamp": "1571497796",
+    "type": "IR"
+   },
+   {
+    "activated": "13604,",
+    "deactivated": "11670,",
+    "franchise": "0001",
+    "timestamp": "1571351923",
+    "type": "IR"
+   },
+   {
+    "demoted": "14435,13863,",
+    "franchise": "0007",
+    "promoted": "14067,",
+    "timestamp": "1571335406",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1571335406",
+    "transaction": "|14096,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "demoted": "14103,",
+    "franchise": "0011",
+    "promoted": "13662,",
+    "timestamp": "1571324671",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "13606,",
+    "franchise": "0002",
+    "promoted": "14080,",
+    "timestamp": "1571311311",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1571302800",
+    "transaction": "12678,|1.00|13722,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1571302800",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1571216400",
+    "transaction": "",
+    "type": "UNLOCK_ALL_PLAYERS"
+   },
+   {
+    "franchise": "0010",
+    "timestamp": "1571216400",
+    "transaction": "13632,|16.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1571216400",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1571264113",
+    "franchise": "0009",
+    "franchise1_gave_up": "FP_0005_2020_2,FP_0009_2021_2,",
+    "franchise2": "0007",
+    "franchise2_gave_up": "FP_0009_2020_2,",
+    "timestamp": "1571163381",
+    "type": "TRADE"
+   },
+   {
+    "demoted": "14126,",
+    "franchise": "0003",
+    "promoted": "14208,",
+    "timestamp": "1571146512",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1570986000",
+    "transaction": "",
+    "type": "LOCK_ALL_PLAYERS"
+   },
+   {
+    "demoted": "13649,",
+    "franchise": "0003",
+    "promoted": "14126,",
+    "timestamp": "1570813244",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "13793,",
+    "franchise": "0009",
+    "promoted": "13668,",
+    "timestamp": "1570749321",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "0009",
+    "timestamp": "1570749304",
+    "transaction": "|12317,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "demoted": "14138,",
+    "franchise": "0001",
+    "promoted": "13726,",
+    "timestamp": "1570730192",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "0004",
+    "timestamp": "1570698000",
+    "transaction": "9899,|1.00|13280,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1570698000",
+    "transaction": "13863,|3.00|12680,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1570698000",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "demoted": "14097,",
+    "franchise": "0011",
+    "promoted": "14103,",
+    "timestamp": "1570659016",
+    "type": "TAXI"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1571262908",
+    "franchise": "0009",
+    "franchise1_gave_up": "12391,FP_0009_2020_3,",
+    "franchise2": "0011",
+    "franchise2_gave_up": "FP_0005_2020_2,FP_0011_2021_2,",
+    "timestamp": "1570658923",
+    "type": "TRADE"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1571263200",
+    "franchise": "0011",
+    "franchise1_gave_up": "12667,",
+    "franchise2": "0009",
+    "franchise2_gave_up": "BB_1,",
+    "timestamp": "1570658824",
+    "type": "TRADE"
+   },
+   {
+    "demoted": "13879,",
+    "franchise": "0008",
+    "promoted": "13679,",
+    "timestamp": "1570638757",
+    "type": "TAXI"
+   },
+   {
+    "activated": "13592,",
+    "deactivated": "11850,",
+    "franchise": "0008",
+    "timestamp": "1570638700",
+    "type": "IR"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1570611600",
+    "transaction": "",
+    "type": "UNLOCK_ALL_PLAYERS"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1570611600",
+    "transaction": "10696,|1.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1570611600",
+    "transaction": "12667,|2.00|9706,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0002",
+    "timestamp": "1570611600",
+    "transaction": "11337,|10.00|7422,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1570611600",
+    "transaction": "14435,|40.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1570611600",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "demoted": "13662,",
+    "franchise": "0011",
+    "promoted": "14097,",
+    "timestamp": "1570546478",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "14118,",
+    "franchise": "0001",
+    "promoted": "13768,",
+    "timestamp": "1570511953",
+    "type": "TAXI"
+   },
+   {
+    "activated": "14118,",
+    "deactivated": "",
+    "franchise": "0001",
+    "timestamp": "1570511940",
+    "type": "IR"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1570381200",
+    "transaction": "",
+    "type": "LOCK_ALL_PLAYERS"
+   },
+   {
+    "by_commish": "1",
+    "comments": "Patty’s 2nd on the way ",
+    "expires": "1570985790",
+    "franchise": "0009",
+    "franchise1_gave_up": "FP_0009_2020_2,",
+    "franchise2": "0007",
+    "franchise2_gave_up": "9099,",
+    "timestamp": "1570381200",
+    "type": "TRADE"
+   },
+   {
+    "activated": "13589,",
+    "deactivated": "9823,",
+    "franchise": "0012",
+    "timestamp": "1570378971",
+    "type": "IR"
+   },
+   {
+    "activated": "11676,",
+    "deactivated": "",
+    "franchise": "0010",
+    "timestamp": "1570378736",
+    "type": "IR"
+   },
+   {
+    "activated": "13647,",
+    "by_commish": "1",
+    "deactivated": "14118,",
+    "franchise": "0001",
+    "timestamp": "1570378464",
+    "type": "IR"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1570266000",
+    "transaction": "12505,|16.00|12443,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1570266000",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1570179600",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "demoted": "14080,",
+    "franchise": "0002",
+    "promoted": "13606,",
+    "timestamp": "1570125213",
+    "type": "TAXI"
+   },
+   {
+    "activated": "7422,",
+    "deactivated": "9075,",
+    "franchise": "0002",
+    "timestamp": "1570125191",
+    "type": "IR"
+   },
+   {
+    "franchise": "0002",
+    "timestamp": "1570125096",
+    "transaction": "|12505,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1570725008",
+    "franchise": "0002",
+    "franchise1_gave_up": "13662,",
+    "franchise2": "0011",
+    "franchise2_gave_up": "FP_0011_2020_3,FP_0011_2020_4,",
+    "timestamp": "1570124059",
+    "type": "TRADE"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1570122268",
+    "transaction": "|12646,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "activated": "12646,",
+    "deactivated": "13144,",
+    "franchise": "0011",
+    "timestamp": "1570122082",
+    "type": "IR"
+   },
+   {
+    "activated": "",
+    "deactivated": "11957,",
+    "franchise": "0010",
+    "timestamp": "1570105932",
+    "type": "IR"
+   },
+   {
+    "activated": "12801,",
+    "deactivated": "",
+    "franchise": "0010",
+    "timestamp": "1570105877",
+    "type": "IR"
+   },
+   {
+    "franchise": "0012",
+    "timestamp": "1570093200",
+    "transaction": "9823,|1.00|11785,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1570093200",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "demoted": "13680,",
+    "franchise": "0012",
+    "promoted": "14104,",
+    "timestamp": "1570034788",
+    "type": "TAXI"
+   },
+   {
+    "activated": "11785,",
+    "deactivated": "11975,",
+    "franchise": "0012",
+    "timestamp": "1570034730",
+    "type": "IR"
+   },
+   {
+    "activated": "9831,",
+    "deactivated": "13589,",
+    "franchise": "0012",
+    "timestamp": "1570034700",
+    "type": "IR"
+   },
+   {
+    "activated": "13144,",
+    "deactivated": "14057,",
+    "franchise": "0011",
+    "timestamp": "1570027408",
+    "type": "IR"
+   },
+   {
+    "demoted": "14097,",
+    "franchise": "0011",
+    "promoted": "14057,",
+    "timestamp": "1570027376",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1570006800",
+    "transaction": "",
+    "type": "UNLOCK_ALL_PLAYERS"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1570006800",
+    "transaction": "13722,|1.00|8247,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1570006800",
+    "transaction": "14097,|1.00|10709,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1570006800",
+    "transaction": "9706,|2.00|11448,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1570006800",
+    "transaction": "13753,|8.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0003",
+    "timestamp": "1570006800",
+    "transaction": "14338,|19.00|14317,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0003",
+    "timestamp": "1570006800",
+    "transaction": "13642,|39.00|13246,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1570006800",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "activated": "10709,",
+    "deactivated": "13144,",
+    "franchise": "0011",
+    "timestamp": "1569931355",
+    "type": "IR"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1569776400",
+    "transaction": "",
+    "type": "LOCK_ALL_PLAYERS"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1569574800",
+    "transaction": "13382,|1.00|9823,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1569574800",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "activated": "14118,",
+    "by_commish": "1",
+    "deactivated": "13604,",
+    "franchise": "0001",
+    "timestamp": "1569481868",
+    "type": "IR"
+   },
+   {
+    "activated": "11890,",
+    "deactivated": "",
+    "franchise": "0003",
+    "timestamp": "1569458048",
+    "type": "IR"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1569402000",
+    "transaction": "",
+    "type": "UNLOCK_ALL_PLAYERS"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1569402000",
+    "transaction": "12680,|10.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0001",
+    "timestamp": "1569402000",
+    "transaction": "12627,|10.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0008",
+    "timestamp": "1569402000",
+    "transaction": "13879,|42.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0005",
+    "timestamp": "1569402000",
+    "transaction": "9988,|69.00|11225,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1569402000",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "franchise": "0001",
+    "timestamp": "1569358841",
+    "transaction": "|13382,13254,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "demoted": "14085,",
+    "franchise": "0003",
+    "promoted": "",
+    "timestamp": "1569319377",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1569171600",
+    "transaction": "",
+    "type": "LOCK_ALL_PLAYERS"
+   },
+   {
+    "activated": "9823,",
+    "deactivated": "13192,",
+    "franchise": "0011",
+    "timestamp": "1569085927",
+    "type": "IR"
+   },
+   {
+    "activated": "13348,",
+    "deactivated": "11890,",
+    "franchise": "0003",
+    "timestamp": "1569081869",
+    "type": "IR"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1569011533",
+    "transaction": "|9988,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1568970000",
+    "transaction": "13623,|1.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1568970000",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "franchise": "0001",
+    "timestamp": "1568883600",
+    "transaction": "14122,|1.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0001",
+    "timestamp": "1568883600",
+    "transaction": "12182,|1.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0006",
+    "timestamp": "1568883600",
+    "transaction": "14146,|1.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0009",
+    "timestamp": "1568883600",
+    "transaction": "12857,|2.00|11925,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1568883600",
+    "transaction": "8247,|6.00|14115,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1568883600",
+    "transaction": "11448,|12.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1568883600",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "activated": "",
+    "deactivated": "12648,",
+    "franchise": "0001",
+    "timestamp": "1568858048",
+    "type": "IR"
+   },
+   {
+    "franchise": "0001",
+    "timestamp": "1568858048",
+    "transaction": "|11199,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1569355200",
+    "franchise": "0011",
+    "franchise1_gave_up": "11695,",
+    "franchise2": "0005",
+    "franchise2_gave_up": "FP_0005_2020_2,",
+    "timestamp": "1568851486",
+    "type": "TRADE"
+   },
+   {
+    "demoted": "13622,14112,13629,",
+    "franchise": "0006",
+    "promoted": "14063,14114,14116,",
+    "timestamp": "1568830542",
+    "type": "TAXI"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1568905200",
+    "franchise": "0009",
+    "franchise1_gave_up": "FP_0009_2020_1,FP_0009_2021_1,",
+    "franchise2": "0006",
+    "franchise2_gave_up": "11247,FP_0006_2021_3,",
+    "timestamp": "1568825471",
+    "type": "TRADE"
+   },
+   {
+    "franchise": "0009",
+    "timestamp": "1568824168",
+    "transaction": "|10409,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1569415993",
+    "franchise": "0006",
+    "franchise1_gave_up": "11671,",
+    "franchise2": "0003",
+    "franchise2_gave_up": "14223,FP_0006_2020_1,FP_0007_2020_1,11705,",
+    "timestamp": "1568824155",
+    "type": "TRADE"
+   },
+   {
+    "activated": "13144,",
+    "deactivated": "13882,",
+    "franchise": "0011",
+    "timestamp": "1568816609",
+    "type": "IR"
+   },
+   {
+    "demoted": "14095,",
+    "franchise": "0011",
+    "promoted": "13882,",
+    "timestamp": "1568816249",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1568797200",
+    "transaction": "",
+    "type": "UNLOCK_ALL_PLAYERS"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1568797200",
+    "transaction": "14095,|7.00|13816,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0008",
+    "timestamp": "1568797200",
+    "transaction": "11640,|51.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0005",
+    "timestamp": "1568797200",
+    "transaction": "12785,|101.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1568797200",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "activated": "",
+    "deactivated": "7401,",
+    "franchise": "0008",
+    "timestamp": "1568755075",
+    "type": "IR"
+   },
+   {
+    "franchise": "0008",
+    "timestamp": "1568755057",
+    "transaction": "|10870,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "activated": "",
+    "deactivated": "13592,",
+    "franchise": "0008",
+    "timestamp": "1568755026",
+    "type": "IR"
+   },
+   {
+    "franchise": "0008",
+    "timestamp": "1568754961",
+    "transaction": "|13619,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "demoted": "",
+    "franchise": "0002",
+    "promoted": "14109,",
+    "timestamp": "1568743516",
+    "type": "TAXI"
+   },
+   {
+    "activated": "",
+    "deactivated": "14140,",
+    "franchise": "0002",
+    "timestamp": "1568743503",
+    "type": "IR"
+   },
+   {
+    "demoted": "14102,",
+    "franchise": "0002",
+    "promoted": "14140,",
+    "timestamp": "1568743491",
+    "type": "TAXI"
+   },
+   {
+    "activated": "14017,",
+    "deactivated": "13377,",
+    "franchise": "0009",
+    "timestamp": "1568734761",
+    "type": "IR"
+   },
+   {
+    "demoted": "14057,",
+    "franchise": "0011",
+    "promoted": "13816,",
+    "timestamp": "1568730606",
+    "type": "TAXI"
+   },
+   {
+    "activated": "14057,",
+    "deactivated": "10699,",
+    "franchise": "0011",
+    "timestamp": "1568730590",
+    "type": "IR"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1568566800",
+    "transaction": "",
+    "type": "LOCK_ALL_PLAYERS"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1568365200",
+    "transaction": "14115,|1.00|11673,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1568365200",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "activated": "",
+    "by_commish": "1",
+    "deactivated": "13605,",
+    "franchise": "0001",
+    "timestamp": "1568310230",
+    "type": "IR"
+   },
+   {
+    "by_commish": "1",
+    "demoted": "14074,",
+    "franchise": "0001",
+    "promoted": "13605,",
+    "timestamp": "1568310220",
+    "type": "TAXI"
+   },
+   {
+    "activated": "11673,",
+    "deactivated": "14057,",
+    "franchise": "0011",
+    "timestamp": "1568304385",
+    "type": "IR"
+   },
+   {
+    "demoted": "14067,13789,13634,",
+    "franchise": "0007",
+    "promoted": "",
+    "timestamp": "1568224419",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1568224419",
+    "transaction": "|14314,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1568192400",
+    "transaction": "",
+    "type": "UNLOCK_ALL_PLAYERS"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1568192400",
+    "transaction": "12845,|2.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1568192400",
+    "transaction": "13789,|2.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0003",
+    "timestamp": "1568192400",
+    "transaction": "14317,|2.00|14330,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0008",
+    "timestamp": "1568192400",
+    "transaction": "12464,|2.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1568192400",
+    "transaction": "13412,|11.00|13165,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1568192400",
+    "transaction": "14067,|40.00|",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "0004",
+    "timestamp": "1568192400",
+    "transaction": "12773,|75.00|10838,",
+    "type": "BBID_WAIVER"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1568192400",
+    "transaction": "",
+    "type": "BBID_AUTO_PROCESS_WAIVERS"
+   },
+   {
+    "by_commish": "1",
+    "demoted": "13605,",
+    "franchise": "0001",
+    "promoted": "14138,",
+    "timestamp": "1568138198",
+    "type": "TAXI"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1568736364",
+    "franchise": "0003",
+    "franchise1_gave_up": "9448,11680,FP_0003_2020_4,",
+    "franchise2": "0007",
+    "franchise2_gave_up": "13649,FP_0007_2020_1,FP_0007_2020_2,",
+    "timestamp": "1568138117",
+    "type": "TRADE"
+   },
+   {
+    "activated": "",
+    "deactivated": "12801,",
+    "franchise": "0010",
+    "timestamp": "1568126405",
+    "type": "IR"
+   },
+   {
+    "demoted": "13816,",
+    "franchise": "0011",
+    "promoted": "13671,",
+    "timestamp": "1568114594",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "",
+    "timestamp": "1567962000",
+    "transaction": "",
+    "type": "LOCK_ALL_PLAYERS"
+   },
+   {
+    "activated": "",
+    "deactivated": "10870,",
+    "franchise": "0008",
+    "timestamp": "1567954177",
+    "type": "IR"
+   },
+   {
+    "by_commish": "1",
+    "demoted": "14059,13616,13653,14127,13776,",
+    "franchise": "0005",
+    "promoted": "",
+    "timestamp": "1567952693",
+    "type": "TAXI"
+   },
+   {
+    "activated": "",
+    "by_commish": "1",
+    "deactivated": "11834,11668,11761,13640,",
+    "franchise": "0005",
+    "timestamp": "1567952650",
+    "type": "IR"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0005",
+    "timestamp": "1567952627",
+    "transaction": "|12917,13237,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "demoted": "13662,",
+    "franchise": "0002",
+    "promoted": "",
+    "timestamp": "1567798379",
+    "type": "TAXI"
+   },
+   {
+    "activated": "13662,",
+    "deactivated": "",
+    "franchise": "0002",
+    "timestamp": "1567798368",
+    "type": "IR"
+   },
+   {
+    "franchise": "0002",
+    "timestamp": "1567798344",
+    "transaction": "|13863,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0004",
+    "timestamp": "1567728290",
+    "transaction": "|10956,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0004",
+    "timestamp": "1567728274",
+    "transaction": "|9118,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0004",
+    "timestamp": "1567728259",
+    "transaction": "|9843,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0006",
+    "timestamp": "1567728064",
+    "transaction": "|13137,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0006",
+    "timestamp": "1567728050",
+    "transaction": "|9467,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0006",
+    "timestamp": "1567727810",
+    "transaction": "|10300,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0006",
+    "timestamp": "1567727787",
+    "transaction": "|12669,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0006",
+    "timestamp": "1567727759",
+    "transaction": "|13814,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0012",
+    "timestamp": "1567727756",
+    "transaction": "|12183,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "activated": "",
+    "deactivated": "14106,",
+    "franchise": "0012",
+    "timestamp": "1567727747",
+    "type": "IR"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0012",
+    "timestamp": "1567727735",
+    "transaction": "|7236,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "demoted": "",
+    "franchise": "0012",
+    "promoted": "14106,",
+    "timestamp": "1567727729",
+    "type": "TAXI"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0012",
+    "timestamp": "1567727718",
+    "transaction": "|9250,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "demoted": "14116,",
+    "franchise": "0006",
+    "promoted": "",
+    "timestamp": "1567727707",
+    "type": "TAXI"
+   },
+   {
+    "activated": "",
+    "deactivated": "13357,10708,12179,13190,9902,",
+    "franchise": "0006",
+    "timestamp": "1567727674",
+    "type": "IR"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0012",
+    "timestamp": "1567727651",
+    "transaction": "|11211,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0012",
+    "timestamp": "1567727626",
+    "transaction": "|11697,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0012",
+    "timestamp": "1567727614",
+    "transaction": "|10743,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0012",
+    "timestamp": "1567727601",
+    "transaction": "|11179,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "activated": "",
+    "deactivated": "12628,14101,9831,11785,",
+    "franchise": "0012",
+    "timestamp": "1567727509",
+    "type": "IR"
+   },
+   {
+    "demoted": "14093,14072,14104,14106,13678,",
+    "franchise": "0012",
+    "promoted": "",
+    "timestamp": "1567727465",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "14063,14114,13645,13763,",
+    "franchise": "0006",
+    "promoted": "",
+    "timestamp": "1567727332",
+    "type": "TAXI"
+   },
+   {
+    "activated": "12648,",
+    "by_commish": "1",
+    "deactivated": "",
+    "franchise": "0001",
+    "timestamp": "1567722165",
+    "type": "IR"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0001",
+    "timestamp": "1567722145",
+    "transaction": "|13289,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0001",
+    "timestamp": "1567722130",
+    "transaction": "|13412,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0003",
+    "timestamp": "1567650318",
+    "transaction": "|13108,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0003",
+    "timestamp": "1567650305",
+    "transaction": "|13313,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0008",
+    "timestamp": "1567634237",
+    "transaction": "|11640,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0008",
+    "timestamp": "1567634104",
+    "transaction": "|10500,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "demoted": "14058,",
+    "franchise": "0008",
+    "promoted": "",
+    "timestamp": "1567633927",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "0008",
+    "timestamp": "1567633861",
+    "transaction": "|11642,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0008",
+    "timestamp": "1567633832",
+    "transaction": "|12627,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0008",
+    "timestamp": "1567633816",
+    "transaction": "|13166,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "activated": "",
+    "deactivated": "13619,",
+    "franchise": "0008",
+    "timestamp": "1567633794",
+    "type": "IR"
+   },
+   {
+    "demoted": "",
+    "franchise": "0008",
+    "promoted": "13619,",
+    "timestamp": "1567633782",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "13611,",
+    "franchise": "0010",
+    "promoted": "",
+    "timestamp": "1567626975",
+    "type": "TAXI"
+   },
+   {
+    "activated": "",
+    "deactivated": "11676,13235,",
+    "franchise": "0010",
+    "timestamp": "1567626626",
+    "type": "IR"
+   },
+   {
+    "activated": "",
+    "deactivated": "13819,",
+    "franchise": "0010",
+    "timestamp": "1567626512",
+    "type": "IR"
+   },
+   {
+    "activated": "11705,",
+    "deactivated": "14330,",
+    "franchise": "0003",
+    "timestamp": "1567626305",
+    "type": "IR"
+   },
+   {
+    "activated": "",
+    "by_commish": "1",
+    "deactivated": "14118,",
+    "franchise": "0001",
+    "timestamp": "1567625903",
+    "type": "IR"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0001",
+    "timestamp": "1567625886",
+    "transaction": "|13658,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0001",
+    "timestamp": "1567625879",
+    "transaction": "|13601,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "demoted": "14126,",
+    "franchise": "0003",
+    "promoted": "",
+    "timestamp": "1567545457",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "0003",
+    "timestamp": "1567545435",
+    "transaction": "|13789,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0003",
+    "timestamp": "1567545167",
+    "transaction": "|12444,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0003",
+    "timestamp": "1567545152",
+    "transaction": "|13657,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0003",
+    "timestamp": "1567544685",
+    "transaction": "|13919,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0003",
+    "timestamp": "1567544673",
+    "transaction": "|13912,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0003",
+    "timestamp": "1567544664",
+    "transaction": "|13880,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0002",
+    "timestamp": "1567524268",
+    "transaction": "|14280,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0002",
+    "timestamp": "1567524254",
+    "transaction": "|14077,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0002",
+    "timestamp": "1567524243",
+    "transaction": "|12832,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "demoted": "14075,",
+    "franchise": "0009",
+    "promoted": "13617,",
+    "timestamp": "1567522623",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "13639,",
+    "franchise": "0011",
+    "promoted": "13816,",
+    "timestamp": "1567521512",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "13816,",
+    "franchise": "0011",
+    "promoted": "13639,",
+    "timestamp": "1567521155",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "13606,",
+    "franchise": "0002",
+    "promoted": "14280,",
+    "timestamp": "1567519328",
+    "type": "TAXI"
+   },
+   {
+    "activated": "",
+    "deactivated": "13662,",
+    "franchise": "0002",
+    "timestamp": "1567518649",
+    "type": "IR"
+   },
+   {
+    "demoted": "14113,13863,",
+    "franchise": "0002",
+    "promoted": "",
+    "timestamp": "1567518636",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "",
+    "franchise": "0002",
+    "promoted": "13662,13606,",
+    "timestamp": "1567518604",
+    "type": "TAXI"
+   },
+   {
+    "activated": "",
+    "deactivated": "13134,7422,",
+    "franchise": "0002",
+    "timestamp": "1567518525",
+    "type": "IR"
+   },
+   {
+    "franchise": "0009",
+    "timestamp": "1567512431",
+    "transaction": "|13623,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "demoted": "14314,14096,14094,",
+    "franchise": "0007",
+    "promoted": "",
+    "timestamp": "1567447619",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "0009",
+    "timestamp": "1567441438",
+    "transaction": "|12208,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "activated": "",
+    "deactivated": "14017,",
+    "franchise": "0009",
+    "timestamp": "1567441332",
+    "type": "IR"
+   },
+   {
+    "franchise": "0009",
+    "timestamp": "1567441107",
+    "transaction": "|14115,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0009",
+    "timestamp": "1567441005",
+    "transaction": "|12159,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "activated": "",
+    "deactivated": "11188,",
+    "franchise": "0009",
+    "timestamp": "1567440932",
+    "type": "IR"
+   },
+   {
+    "activated": "9662,",
+    "deactivated": "10695,",
+    "franchise": "0009",
+    "timestamp": "1567440905",
+    "type": "IR"
+   },
+   {
+    "franchise": "0009",
+    "timestamp": "1567440863",
+    "transaction": "|13594,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "activated": "",
+    "deactivated": "12632,11705,",
+    "franchise": "0003",
+    "timestamp": "1567436172",
+    "type": "IR"
+   },
+   {
+    "demoted": "13679,13674,",
+    "franchise": "0008",
+    "promoted": "",
+    "timestamp": "1567371632",
+    "type": "TAXI"
+   },
+   {
+    "activated": "",
+    "deactivated": "14082,",
+    "franchise": "0008",
+    "timestamp": "1567371594",
+    "type": "IR"
+   },
+   {
+    "demoted": "",
+    "franchise": "0008",
+    "promoted": "14082,",
+    "timestamp": "1567371582",
+    "type": "TAXI"
+   },
+   {
+    "activated": "",
+    "deactivated": "7813,13637,10500,",
+    "franchise": "0008",
+    "timestamp": "1567371563",
+    "type": "IR"
+   },
+   {
+    "demoted": "14223,14208,14284,14143,",
+    "franchise": "0003",
+    "promoted": "",
+    "timestamp": "1567353192",
+    "type": "TAXI"
+   },
+   {
+    "activated": "",
+    "deactivated": "10261,13348,13316,",
+    "franchise": "0003",
+    "timestamp": "1567352733",
+    "type": "IR"
+   },
+   {
+    "demoted": "13639,",
+    "franchise": "0011",
+    "promoted": "14057,",
+    "timestamp": "1567346377",
+    "type": "TAXI"
+   },
+   {
+    "by_commish": "1",
+    "demoted": "13726,13768,14137,13672,14138,",
+    "franchise": "0001",
+    "promoted": "",
+    "timestamp": "1567344830",
+    "type": "TAXI"
+   },
+   {
+    "activated": "",
+    "by_commish": "1",
+    "deactivated": "13601,12648,",
+    "franchise": "0001",
+    "timestamp": "1567344750",
+    "type": "IR"
+   },
+   {
+    "activated": "",
+    "by_commish": "1",
+    "deactivated": "11199,13647,12465,",
+    "franchise": "0001",
+    "timestamp": "1567344704",
+    "type": "IR"
+   },
+   {
+    "activated": "",
+    "deactivated": "13144,",
+    "franchise": "0011",
+    "timestamp": "1567303554",
+    "type": "IR"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1567303554",
+    "transaction": "|9898,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "comments": "$69 from me to bray ",
+    "expires": "1567391325",
+    "franchise": "0010",
+    "franchise1_gave_up": "13234,FP_0010_2021_2,",
+    "franchise2": "0008",
+    "franchise2_gave_up": "13635,",
+    "timestamp": "1567287681",
+    "type": "TRADE"
+   },
+   {
+    "activated": "",
+    "deactivated": "10709,",
+    "franchise": "0011",
+    "timestamp": "1567020843",
+    "type": "IR"
+   },
+   {
+    "demoted": "14082,13619,14124,14123,",
+    "franchise": "0008",
+    "promoted": "",
+    "timestamp": "1566507024",
+    "type": "TAXI"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0003",
+    "timestamp": "1566424424",
+    "transaction": "14330,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0010",
+    "timestamp": "1566424404",
+    "transaction": "12263,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0003",
+    "timestamp": "1566424322",
+    "transaction": "14126,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0008",
+    "timestamp": "1566424309",
+    "transaction": "14124,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0001",
+    "timestamp": "1566424290",
+    "transaction": "11758,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "activated": "",
+    "deactivated": "9898,11673,9823,12646,",
+    "franchise": "0011",
+    "timestamp": "1566406448",
+    "type": "IR"
+   },
+   {
+    "demoted": "14057,13850,13882,14103,13671,",
+    "franchise": "0011",
+    "promoted": "",
+    "timestamp": "1566406423",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1566406196",
+    "transaction": "|12631,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1566406144",
+    "transaction": "|13999,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1566406124",
+    "transaction": "|10903,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0011",
+    "timestamp": "1566406104",
+    "transaction": "|11213,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0008",
+    "timestamp": "1566244591",
+    "transaction": "|12833,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0008",
+    "timestamp": "1566244515",
+    "transaction": "|11342,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "activated": "10960,",
+    "deactivated": "12154,",
+    "franchise": "0010",
+    "timestamp": "1565997153",
+    "type": "IR"
+   },
+   {
+    "franchise": "0003",
+    "timestamp": "1565834459",
+    "transaction": "|10077,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1566410400",
+    "franchise": "0011",
+    "franchise1_gave_up": "13594,BB_30,",
+    "franchise2": "0009",
+    "franchise2_gave_up": "10903,",
+    "timestamp": "1565823414",
+    "type": "TRADE"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0005",
+    "timestamp": "1565818417",
+    "transaction": "14127,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0011",
+    "timestamp": "1565818390",
+    "transaction": "14057,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0002",
+    "timestamp": "1565818379",
+    "transaction": "12832,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0002",
+    "timestamp": "1565818368",
+    "transaction": "14077,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0008",
+    "timestamp": "1565818271",
+    "transaction": "6997,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0007",
+    "timestamp": "1565818254",
+    "transaction": "14096,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0008",
+    "timestamp": "1565818139",
+    "transaction": "13871,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0002",
+    "timestamp": "1565818116",
+    "transaction": "7422,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0003",
+    "timestamp": "1565818076",
+    "transaction": "13148,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0009",
+    "timestamp": "1565817995",
+    "transaction": "14115,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0005",
+    "timestamp": "1565663443",
+    "transaction": "|12887,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0005",
+    "timestamp": "1565663429",
+    "transaction": "|11754,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0005",
+    "timestamp": "1565663408",
+    "transaction": "|11689,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0005",
+    "timestamp": "1565663395",
+    "transaction": "|11688,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0008",
+    "timestamp": "1565558420",
+    "transaction": "10870,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0002",
+    "timestamp": "1565558357",
+    "transaction": "13863,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0011",
+    "timestamp": "1565558262",
+    "transaction": "10699,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0011",
+    "timestamp": "1565558251",
+    "transaction": "10709,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0007",
+    "timestamp": "1565558161",
+    "transaction": "14094,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0003",
+    "timestamp": "1565558028",
+    "transaction": "13240,|",
+    "type": "FREE_AGENT"
+   },
+   {
+    "demoted": "14109,14280,13606,13662,14140,",
+    "franchise": "0002",
+    "promoted": "",
+    "timestamp": "1564424848",
+    "type": "TAXI"
+   },
+   {
+    "activated": "",
+    "deactivated": "10960,",
+    "franchise": "0010",
+    "timestamp": "1564423211",
+    "type": "IR"
+   },
+   {
+    "demoted": "13591,14076,13868,",
+    "franchise": "0010",
+    "promoted": "",
+    "timestamp": "1564423191",
+    "type": "TAXI"
+   },
+   {
+    "demoted": "14120,13636,13668,13617,14086,",
+    "franchise": "0009",
+    "promoted": "",
+    "timestamp": "1564369946",
+    "type": "TAXI"
+   },
+   {
+    "activated": "",
+    "deactivated": "13138,9662,14195,",
+    "franchise": "0009",
+    "timestamp": "1564369907",
+    "type": "IR"
+   },
+   {
+    "by_commish": "1",
+    "demoted": "",
+    "franchise": "0012",
+    "promoted": "13589,13135,13168,13157,",
+    "timestamp": "1564359842",
+    "type": "TAXI"
+   },
+   {
+    "by_commish": "1",
+    "demoted": "",
+    "franchise": "0011",
+    "promoted": "13816,13882,13639,13165,13671,",
+    "timestamp": "1564359808",
+    "type": "TAXI"
+   },
+   {
+    "by_commish": "1",
+    "demoted": "",
+    "franchise": "0010",
+    "promoted": "13424,13591,13868,13235,",
+    "timestamp": "1564359792",
+    "type": "TAXI"
+   },
+   {
+    "by_commish": "1",
+    "demoted": "",
+    "franchise": "0009",
+    "promoted": "13115,13617,13668,13793,",
+    "timestamp": "1564359781",
+    "type": "TAXI"
+   },
+   {
+    "by_commish": "1",
+    "demoted": "",
+    "franchise": "0008",
+    "promoted": "13619,13637,13674,",
+    "timestamp": "1564359742",
+    "type": "TAXI"
+   },
+   {
+    "by_commish": "1",
+    "demoted": "",
+    "franchise": "0006",
+    "promoted": "13613,13645,13190,13763,",
+    "timestamp": "1564359726",
+    "type": "TAXI"
+   },
+   {
+    "by_commish": "1",
+    "demoted": "",
+    "franchise": "0005",
+    "promoted": "13418,13640,13367,13155,13776,",
+    "timestamp": "1564359712",
+    "type": "TAXI"
+   },
+   {
+    "by_commish": "1",
+    "demoted": "",
+    "franchise": "0004",
+    "promoted": "13620,",
+    "timestamp": "1564359700",
+    "type": "TAXI"
+   },
+   {
+    "by_commish": "1",
+    "demoted": "",
+    "franchise": "0003",
+    "promoted": "13590,13789,13657,13316,13246,",
+    "timestamp": "1564359692",
+    "type": "TAXI"
+   },
+   {
+    "by_commish": "1",
+    "demoted": "",
+    "franchise": "0002",
+    "promoted": "13662,",
+    "timestamp": "1564359676",
+    "type": "TAXI"
+   },
+   {
+    "by_commish": "1",
+    "demoted": "",
+    "franchise": "0001",
+    "promoted": "13601,13726,13647,13658,13254,",
+    "timestamp": "1564359665",
+    "type": "TAXI"
+   },
+   {
+    "activated": "11192,9250,11250,10743,11697,",
+    "by_commish": "1",
+    "deactivated": "",
+    "franchise": "0012",
+    "timestamp": "1564359648",
+    "type": "IR"
+   },
+   {
+    "activated": "13594,12631,9823,12443,",
+    "by_commish": "1",
+    "deactivated": "",
+    "franchise": "0011",
+    "timestamp": "1564359637",
+    "type": "IR"
+   },
+   {
+    "activated": "12154,12447,",
+    "by_commish": "1",
+    "deactivated": "",
+    "franchise": "0010",
+    "timestamp": "1564359628",
+    "type": "IR"
+   },
+   {
+    "activated": "11760,13138,13636,12676,12208,",
+    "by_commish": "1",
+    "deactivated": "",
+    "franchise": "0009",
+    "timestamp": "1564359617",
+    "type": "IR"
+   },
+   {
+    "activated": "10369,11342,13166,11672,",
+    "by_commish": "1",
+    "deactivated": "",
+    "franchise": "0008",
+    "timestamp": "1564359606",
+    "type": "IR"
+   },
+   {
+    "activated": "13357,13137,13814,9467,12669,",
+    "by_commish": "1",
+    "deactivated": "",
+    "franchise": "0006",
+    "timestamp": "1564359589",
+    "type": "IR"
+   },
+   {
+    "activated": "12887,11761,12665,11688,11754,",
+    "by_commish": "1",
+    "deactivated": "",
+    "franchise": "0005",
+    "timestamp": "1564359575",
+    "type": "IR"
+   },
+   {
+    "activated": "13638,",
+    "by_commish": "1",
+    "deactivated": "",
+    "franchise": "0004",
+    "timestamp": "1564359562",
+    "type": "IR"
+   },
+   {
+    "activated": "10261,11681,11890,13193,8416,",
+    "by_commish": "1",
+    "deactivated": "",
+    "franchise": "0003",
+    "timestamp": "1564359553",
+    "type": "IR"
+   },
+   {
+    "activated": "9075,",
+    "by_commish": "1",
+    "deactivated": "",
+    "franchise": "0002",
+    "timestamp": "1564359541",
+    "type": "IR"
+   },
+   {
+    "activated": "12386,13605,13768,13289,12465,",
+    "by_commish": "1",
+    "deactivated": "",
+    "franchise": "0001",
+    "timestamp": "1564359532",
+    "type": "IR"
+   },
+   {
+    "activated": "10313,11516,",
+    "deactivated": "",
+    "franchise": "0007",
+    "timestamp": "1564345926",
+    "type": "IR"
+   },
+   {
+    "franchise": "0007",
+    "timestamp": "1564345926",
+    "transaction": "|12623,10413,12629,9427,12645,8247,12678,11904,8670,13725,13673,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1564856122",
+    "franchise": "0002",
+    "franchise1_gave_up": "DP_3_8,FP_0002_2020_2,",
+    "franchise2": "0003",
+    "franchise2_gave_up": "DP_1_5,",
+    "timestamp": "1564253446",
+    "type": "TRADE"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1564854855",
+    "franchise": "0002",
+    "franchise1_gave_up": "DP_0_8,",
+    "franchise2": "0010",
+    "franchise2_gave_up": "DP_1_9,DP_3_9,FP_0010_2020_2,",
+    "timestamp": "1564250603",
+    "type": "TRADE"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1564851600",
+    "franchise": "0011",
+    "franchise1_gave_up": "DP_0_9,FP_0011_2020_2,",
+    "franchise2": "0001",
+    "franchise2_gave_up": "13277,",
+    "timestamp": "1564250382",
+    "type": "TRADE"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1564854281",
+    "franchise": "0003",
+    "franchise1_gave_up": "DP_0_6,",
+    "franchise2": "0006",
+    "franchise2_gave_up": "FP_0006_2020_1,DP_1_5,",
+    "timestamp": "1564250340",
+    "type": "TRADE"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1564624800",
+    "franchise": "0009",
+    "franchise1_gave_up": "DP_2_3,",
+    "franchise2": "0007",
+    "franchise2_gave_up": "DP_3_11,",
+    "timestamp": "1564020932",
+    "type": "TRADE"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1564624800",
+    "franchise": "0002",
+    "franchise1_gave_up": "DP_1_8,",
+    "franchise2": "0008",
+    "franchise2_gave_up": "DP_0_4,DP_1_4,",
+    "timestamp": "1564020900",
+    "type": "TRADE"
+   },
+   {
+    "franchise": "0010",
+    "timestamp": "1563807896",
+    "transaction": "|12660,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1564186184",
+    "franchise": "0007",
+    "franchise1_gave_up": "13404,DP_3_11,",
+    "franchise2": "0009",
+    "franchise2_gave_up": "DP_2_3,13646,",
+    "timestamp": "1563726033",
+    "type": "TRADE"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0010",
+    "timestamp": "1562435338",
+    "transaction": "|14071,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "franchise": "0012",
+    "timestamp": "1562435324",
+    "transaction": "|14073,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0010",
+    "timestamp": "1562179477",
+    "transaction": "|11654,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "franchise": "0010",
+    "timestamp": "1561730861",
+    "transaction": "|10527,",
+    "type": "FREE_AGENT"
+   },
+   {
+    "by_commish": "1",
+    "comments": "",
+    "expires": "1561745384",
+    "franchise": "0002",
+    "franchise1_gave_up": "13592,DP_1_8,",
+    "franchise2": "0008",
+    "franchise2_gave_up": "DP_0_4,DP_1_4,",
+    "timestamp": "1561195871",
+    "type": "TRADE"
+   },
+   {
+    "activated": "13188,13134,",
+    "deactivated": "",
+    "franchise": "0002",
+    "timestamp": "1559869778",
+    "type": "IR"
+   },
+   {
+    "demoted": "",
+    "franchise": "0002",
+    "promoted": "13154,13592,",
+    "timestamp": "1559869645",
+    "type": "TAXI"
+   },
+   {
+    "franchise": "0002",
+    "timestamp": "1559869562",
+    "transaction": "|10709,12177,10870,13675,13642,",
+    "type": "FREE_AGENT"
+   }
+  ]
+ },
+ "version": "1.0"
+}

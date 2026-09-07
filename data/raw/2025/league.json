@@ -1,0 +1,268 @@
+{
+ "encoding": "utf-8",
+ "league": {
+  "baseURL": "https://www45.myfantasyleague.com",
+  "bbidConditional": "No",
+  "bbidFCFSCharge": "",
+  "bbidIncrement": "1",
+  "bbidMinimum": "1",
+  "bbidSeasonLimit": "200",
+  "bbidTiebreaker": "SORT",
+  "bestLineup": "No",
+  "currentWaiverType": "BBID",
+  "defaultTradeExpirationDays": "7",
+  "divisions": {
+   "count": "3",
+   "division": [
+    {
+     "id": "00",
+     "name": "Porch"
+    },
+    {
+     "id": "01",
+     "name": "Red Room"
+    },
+    {
+     "id": "02",
+     "name": "Green Room"
+    }
+   ]
+  },
+  "draftLimitHours": "12:00",
+  "draftPlayerPool": "Rookie",
+  "draftTimer": "OFF",
+  "draft_kind": "email",
+  "endWeek": "17",
+  "franchises": {
+   "count": "12",
+   "franchise": [
+    {
+     "bbidAvailableBalance": "673.00",
+     "division": "00",
+     "icon": "https://www45.myfantasyleague.com/fflnetdynamic2019/65522_franchise_icon0001.png",
+     "id": "0001",
+     "logo": "http://www.cafcc.org/LOGO[1].jpg",
+     "name": "The Youth Academy",
+     "waiverSortOrder": "12"
+    },
+    {
+     "bbidAvailableBalance": "1181.00",
+     "division": "00",
+     "icon": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_icon0002.jpg",
+     "id": "0002",
+     "logo": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_logo0002.jpg",
+     "name": "A.J. Mudbone",
+     "waiverSortOrder": "1"
+    },
+    {
+     "bbidAvailableBalance": "527.00",
+     "division": "00",
+     "id": "0003",
+     "name": "Jeff Janis Fan Club",
+     "waiverSortOrder": "4"
+    },
+    {
+     "bbidAvailableBalance": "548.00",
+     "division": "01",
+     "icon": "https://www45.myfantasyleague.com/fflnetdynamic2021/65522_franchise_icon0004.jpg",
+     "id": "0004",
+     "name": "WhatDaTruck",
+     "waiverSortOrder": "11"
+    },
+    {
+     "abbrev": "FH",
+     "bbidAvailableBalance": "154.00",
+     "division": "00",
+     "icon": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_icon0005.jpg",
+     "id": "0005",
+     "logo": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_logo0005.jpg",
+     "name": "Free Hernandez Bad Boyz ",
+     "waiverSortOrder": "6"
+    },
+    {
+     "abbrev": "DYJ",
+     "bbidAvailableBalance": "788.00",
+     "division": "01",
+     "icon": "https://www45.myfantasyleague.com/fflnetdynamic2016/79873_franchise_icon0006.jpg",
+     "id": "0006",
+     "name": "Do Your Job",
+     "waiverSortOrder": "9"
+    },
+    {
+     "bbidAvailableBalance": "191.00",
+     "division": "02",
+     "icon": "https://www45.myfantasyleague.com/fflnetdynamic2023/65522_franchise_icon0007.jpg",
+     "id": "0007",
+     "name": "you know why i'm here",
+     "waiverSortOrder": "5"
+    },
+    {
+     "abbrev": "FTK",
+     "bbidAvailableBalance": "521.00",
+     "division": "01",
+     "icon": "https://s-media-cache-ak0.pinimg.com/564x/24/a7/06/24a706e363581b918793bbe23ab21335.jpg",
+     "id": "0008",
+     "logo": "http://static1.squarespace.com/static/5254be44e4b0e9fd10b5bc42/t/5344832de4b0116fb11dfaec/1396998958175/",
+     "name": "Fuck the King",
+     "sound": "https://www45.myfantasyleague.com/fflnetdynamic2019/65522_franchise_sound0008.mp3",
+     "stadium": "Root's third asshole",
+     "waiverSortOrder": "2"
+    },
+    {
+     "bbidAvailableBalance": "534.00",
+     "division": "02",
+     "id": "0009",
+     "name": "Suck My Ditka",
+     "waiverSortOrder": "3"
+    },
+    {
+     "bbidAvailableBalance": "653.00",
+     "division": "02",
+     "icon": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_icon0010.jpg",
+     "id": "0010",
+     "name": "Marcus Peters' Peter Peckers",
+     "sound": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_sound0010.mp3",
+     "stadium": "The Bone Dome",
+     "waiverSortOrder": "10"
+    },
+    {
+     "abbrev": "SSA",
+     "bbidAvailableBalance": "324.00",
+     "division": "02",
+     "icon": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_icon0011.png",
+     "id": "0011",
+     "logo": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_icon0011.png",
+     "name": "Second Stringers Anonymous",
+     "stadium": "Ligma Capital LLC Headquarters",
+     "waiverSortOrder": "8"
+    },
+    {
+     "bbidAvailableBalance": "615.00",
+     "division": "01",
+     "icon": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_icon0012.jpg",
+     "id": "0012",
+     "name": "Rodger Goodella",
+     "sound": "https://youtu.be/R2zC3dKQ42Y",
+     "waiverSortOrder": "7"
+    }
+   ]
+  },
+  "h2h": "YES",
+  "history": {
+   "league": [
+    {
+     "url": "https://www45.myfantasyleague.com/2025/home/65522",
+     "year": "2025"
+    },
+    {
+     "url": "https://www45.myfantasyleague.com/2016/home/79873",
+     "year": "2016"
+    },
+    {
+     "url": "http://www45.myfantasyleague.com/2017/home/65522",
+     "year": "2017"
+    },
+    {
+     "url": "http://www45.myfantasyleague.com/2018/home/65522",
+     "year": "2018"
+    },
+    {
+     "url": "http://www45.myfantasyleague.com/2019/home/65522",
+     "year": "2019"
+    },
+    {
+     "url": "https://www45.myfantasyleague.com/2020/home/65522",
+     "year": "2020"
+    },
+    {
+     "url": "https://www45.myfantasyleague.com/2021/home/65522",
+     "year": "2021"
+    },
+    {
+     "url": "https://www45.myfantasyleague.com/2022/home/65522",
+     "year": "2022"
+    },
+    {
+     "url": "https://www45.myfantasyleague.com/2023/home/65522",
+     "year": "2023"
+    },
+    {
+     "url": "https://www45.myfantasyleague.com/2024/home/65522",
+     "year": "2024"
+    },
+    {
+     "url": "https://www45.myfantasyleague.com/2026/home/65522",
+     "year": "2026"
+    }
+   ]
+  },
+  "id": "65522",
+  "injuredReserve": "2",
+  "keeperType": "dynasty",
+  "lastRegularSeasonWeek": "14",
+  "leagueLogo": "https://www45.myfantasyleague.com/fflnetdynamic2019/65522_league_logo.jpg",
+  "loadRosters": "email_draft",
+  "lockout": "No",
+  "maxWaiverRounds": "4",
+  "mobileAlerts": "",
+  "name": "Barbara Dodson's Fantasy League",
+  "nflPoolEndWeek": "17",
+  "nflPoolStartWeek": "1",
+  "nflPoolType": "Confidence",
+  "partialLineupAllowed": "NO",
+  "playerLimitUnit": "LEAGUE",
+  "precision": "1",
+  "rosterLimits": {
+   "position": [
+    {
+     "limit": "0-0",
+     "name": "QB"
+    },
+    {
+     "limit": "0-0",
+     "name": "RB"
+    },
+    {
+     "limit": "0-0",
+     "name": "WR"
+    },
+    {
+     "limit": "0-0",
+     "name": "TE"
+    }
+   ]
+  },
+  "rosterSize": "30",
+  "rostersPerPlayer": "1",
+  "standingsSort": "PCT,PTS,H2H,DIVPCT,",
+  "startWeek": "1",
+  "starters": {
+   "count": "8",
+   "position": [
+    {
+     "limit": "1",
+     "name": "QB"
+    },
+    {
+     "limit": "2-4",
+     "name": "RB"
+    },
+    {
+     "limit": "2-4",
+     "name": "WR"
+    },
+    {
+     "limit": "1-3",
+     "name": "TE"
+    }
+   ]
+  },
+  "survivorPool": "Yes",
+  "survivorPoolEndWeek": "17",
+  "survivorPoolStartWeek": "1",
+  "taxiSquad": "0",
+  "usesContractYear": "0",
+  "usesSalaries": "0"
+ },
+ "version": "1.0"
+}

@@ -1,0 +1,1717 @@
+{
+ "encoding": "utf-8",
+ "version": "1.0",
+ "weeklyResults": {
+  "matchup": [
+   {
+    "franchise": [
+     {
+      "id": "0011",
+      "isHome": "0",
+      "nonstarters": "9064,9898,11977,10276,11656,11213,11456,9823,10721,10289,11695,13610,10699,13639,",
+      "opt_pts": "97",
+      "optimal": "11186,9064,12625,13156,11695,12184,13192,13639,",
+      "player": [
+       {
+        "id": "9099",
+        "score": "9.8",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "12625",
+        "score": "16.1",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "11186",
+        "score": "21.8",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "10527",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "11673",
+        "score": "1.5",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "12184",
+        "score": "4.7",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "13156",
+        "score": "14.4",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "13192",
+        "score": "2.8",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "9064",
+        "score": "21.7",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "9898",
+        "score": "-0.3",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11977",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10276",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11656",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11213",
+        "score": "0.1",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11456",
+        "score": "1.2",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "9823",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10721",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10289",
+        "score": "2.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11695",
+        "score": "13.1",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13610",
+        "score": "2.1",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10699",
+        "score": "5.6",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13639",
+        "score": "2.4",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       }
+      ],
+      "result": "L",
+      "score": "71.1",
+      "starters": "9099,12625,11186,10527,11673,12184,13156,13192,"
+     },
+     {
+      "comments": " ",
+      "id": "0010",
+      "isHome": "1",
+      "nonstarters": "12610,11654,13234,12660,12188,11676,12176,12934,11249,13612,13633,12657,",
+      "opt_pts": "137.6",
+      "optimal": "12801,13116,12154,12188,12634,10312,10960,13612,",
+      "player": [
+       {
+        "id": "13116",
+        "score": "28.3",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "12154",
+        "score": "20.2",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "12634",
+        "score": "13.2",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "10960",
+        "score": "8.2",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "12801",
+        "score": "38.8",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "10723",
+        "score": "3.8",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "11244",
+        "score": "1.1",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "10312",
+        "score": "7.6",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "12610",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11654",
+        "score": "3.6",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13234",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12660",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12188",
+        "score": "16.1",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11676",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12176",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12934",
+        "score": "3.3",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11249",
+        "score": "1.9",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13612",
+        "score": "5.2",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13633",
+        "score": "0.9",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12657",
+        "score": "2.2",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       }
+      ],
+      "result": "W",
+      "score": "121.2",
+      "starters": "13116,12154,12634,10960,12801,10723,11244,10312,"
+     }
+    ],
+    "regularSeason": "1"
+   },
+   {
+    "franchise": [
+     {
+      "comments": " Lineup submitted by API call",
+      "id": "0008",
+      "isHome": "0",
+      "nonstarters": "11642,7813,11182,11657,12627,10308,13166,11850,12647,10500,12658,12833,12211,13195,",
+      "opt_pts": "151.1",
+      "optimal": "10308,11227,13131,7813,12171,11516,11222,13164,",
+      "player": [
+       {
+        "id": "7401",
+        "score": "12.0",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "12171",
+        "score": "15.2",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "13131",
+        "score": "23.4",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "11222",
+        "score": "20.8",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "11227",
+        "score": "24.6",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "13164",
+        "score": "15.3",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "10369",
+        "score": "7.0",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "11516",
+        "score": "7.5",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "11642",
+        "score": "14.2",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "7813",
+        "score": "19.6",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11182",
+        "score": "7.4",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11657",
+        "score": "13.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12627",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10308",
+        "score": "24.7",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13166",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11850",
+        "score": "15.3",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12647",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10500",
+        "score": "6.4",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12658",
+        "score": "7.3",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12833",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12211",
+        "score": "7.5",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13195",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       }
+      ],
+      "result": "W",
+      "score": "125.8",
+      "starters": "7401,12171,13131,11222,11227,13164,10369,11516,"
+     },
+     {
+      "comments": " Lineup submitted by commissioner",
+      "id": "0012",
+      "isHome": "1",
+      "nonstarters": "10700,11192,10737,11975,9250,12183,9918,11951,10743,7236,11697,13607,8687,11677,",
+      "opt_pts": "102.9",
+      "optimal": "7836,9918,8673,11248,12639,11179,11951,10738,",
+      "player": [
+       {
+        "id": "7836",
+        "score": "24.9",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "12639",
+        "score": "1.7",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "11179",
+        "score": "0.9",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "8673",
+        "score": "17.8",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "10983",
+        "score": "1.6",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "10738",
+        "score": "7.4",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "11211",
+        "score": "1.1",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "11248",
+        "score": "12.8",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "10700",
+        "score": "20.4",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11192",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10737",
+        "score": "2.5",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11975",
+        "score": "5.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "9250",
+        "score": "3.1",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12183",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "9918",
+        "score": "24.5",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11951",
+        "score": "12.9",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10743",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "7236",
+        "score": "4.6",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11697",
+        "score": "4.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13607",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "8687",
+        "score": "4.3",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11677",
+        "score": "1.9",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       }
+      ],
+      "result": "L",
+      "score": "68.2",
+      "starters": "7836,12639,11179,8673,10983,10738,11211,11248,"
+     }
+    ],
+    "regularSeason": "1"
+   },
+   {
+    "franchise": [
+     {
+      "comments": " Lineup submitted by API call",
+      "id": "0003",
+      "isHome": "0",
+      "nonstarters": "13378,12632,10077,12261,12444,11199,11783,11681,13316,11890,11705,10948,13789,13348,",
+      "opt_pts": "128.9",
+      "optimal": "7394,10389,11675,10261,11747,8416,11680,11783,",
+      "player": [
+       {
+        "id": "7394",
+        "score": "29.0",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "9448",
+        "score": "2.6",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "10389",
+        "score": "19.5",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "11675",
+        "score": "17.3",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "10261",
+        "score": "16.2",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "11680",
+        "score": "14.1",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "8416",
+        "score": "7.2",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "11747",
+        "score": "13.6",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "13378",
+        "score": "5.6",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12632",
+        "score": "10.4",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10077",
+        "score": "0.3",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12261",
+        "score": "3.8",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12444",
+        "score": "0.5",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11199",
+        "score": "4.5",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11783",
+        "score": "12.0",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11681",
+        "score": "4.2",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13316",
+        "score": "4.8",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11890",
+        "score": "5.3",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11705",
+        "score": "2.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10948",
+        "score": "22.2",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13789",
+        "score": "7.6",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13348",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       }
+      ],
+      "result": "W",
+      "score": "119.5",
+      "starters": "7394,9448,10389,11675,10261,11680,8416,11747,"
+     },
+     {
+      "comments": " Lineup submitted by API call",
+      "id": "0002",
+      "isHome": "1",
+      "nonstarters": "8062,13290,11390,8658,11239,13154,9474,10709,9075,12177,12187,12505,7422,10870,",
+      "opt_pts": "201.2",
+      "optimal": "8062,13146,12652,9075,9474,8658,12187,13154,",
+      "player": [
+       {
+        "id": "13113",
+        "score": "12.0",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "13128",
+        "score": "10.5",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "12652",
+        "score": "30.0",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "12175",
+        "score": "2.3",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "12110",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "12637",
+        "score": "6.9",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "13146",
+        "score": "31.7",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "12181",
+        "score": "9.5",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "8062",
+        "score": "42.3",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13290",
+        "score": "5.6",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11390",
+        "score": "4.2",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "8658",
+        "score": "21.6",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11239",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13154",
+        "score": "10.6",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "9474",
+        "score": "22.5",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10709",
+        "score": "2.7",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "9075",
+        "score": "29.1",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12177",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12187",
+        "score": "13.4",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12505",
+        "score": "4.2",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "7422",
+        "score": "6.4",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10870",
+        "score": "1.8",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       }
+      ],
+      "result": "L",
+      "score": "102.9",
+      "starters": "13113,13128,12652,12175,12110,12637,13146,12181,"
+     }
+    ],
+    "regularSeason": "1"
+   },
+   {
+    "franchise": [
+     {
+      "comments": " Lineup submitted by API call",
+      "id": "0006",
+      "isHome": "0",
+      "nonstarters": "11640,12616,9714,12141,11643,11193,10300,11886,12930,10973,12814,12179,13629,13167,",
+      "opt_pts": "132.7",
+      "optimal": "4925,11671,9902,12186,10708,12152,12814,10973,",
+      "player": [
+       {
+        "id": "4925",
+        "score": "30.6",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "12630",
+        "score": "8.1",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "10708",
+        "score": "11.4",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "12152",
+        "score": "11.0",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "12186",
+        "score": "12.6",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "11671",
+        "score": "24.2",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "9902",
+        "score": "19.8",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "11247",
+        "score": "7.3",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "11640",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12616",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "9714",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12141",
+        "score": "3.6",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11643",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11193",
+        "score": "1.4",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10300",
+        "score": "0.8",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11886",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12930",
+        "score": "9.7",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10973",
+        "score": "10.8",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12814",
+        "score": "12.3",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12179",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13629",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13167",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       }
+      ],
+      "result": "W",
+      "score": "125",
+      "starters": "4925,12630,10708,12152,12186,11671,9902,11247,"
+     },
+     {
+      "id": "0004",
+      "isHome": "1",
+      "nonstarters": "9817,11644,7391,7877,10302,12636,9308,9118,10956,13280,13608,13631,13595,13620,",
+      "opt_pts": "74.5",
+      "optimal": "10273,11679,7393,13129,11660,13189,13608,7877,",
+      "player": [
+       {
+        "id": "10273",
+        "score": "18.2",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "13129",
+        "score": "7.0",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "11660",
+        "score": "6.5",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "13139",
+        "score": "4.7",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "11679",
+        "score": "16.5",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "7393",
+        "score": "11.1",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "9525",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "13189",
+        "score": "2.8",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "9817",
+        "score": "3.8",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11644",
+        "score": "9.2",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "7391",
+        "score": "8.2",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "7877",
+        "score": "6.1",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10302",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12636",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "9308",
+        "score": "4.6",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "9118",
+        "score": "3.8",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10956",
+        "score": "4.2",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13280",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13608",
+        "score": "6.3",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13631",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13595",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13620",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       }
+      ],
+      "result": "L",
+      "score": "66.8",
+      "starters": "10273,13129,11660,13139,11679,7393,9525,13189,"
+     }
+    ],
+    "regularSeason": "1"
+   },
+   {
+    "franchise": [
+     {
+      "comments": " Lineup submitted by API call",
+      "id": "0009",
+      "isHome": "0",
+      "nonstarters": "11760,12159,11454,12626,11188,7942,12650,11925,10903,12391,12212,10409,12665,12680,",
+      "opt_pts": "116.3",
+      "optimal": "10271,10695,9831,12159,13617,11250,12665,9884,",
+      "player": [
+       {
+        "id": "10695",
+        "score": "20.5",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "12628",
+        "score": "6.4",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "13138",
+        "score": "4.9",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "10271",
+        "score": "23.0",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "9831",
+        "score": "17.4",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "11250",
+        "score": "5.9",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "13617",
+        "score": "7.1",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "9884",
+        "score": "15.3",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "11760",
+        "score": "12.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12159",
+        "score": "11.7",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11454",
+        "score": "3.5",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12626",
+        "score": "3.6",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11188",
+        "score": "6.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "7942",
+        "score": "5.2",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12650",
+        "score": "4.1",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11925",
+        "score": "2.5",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10903",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12391",
+        "score": "7.8",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12212",
+        "score": "1.4",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10409",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12665",
+        "score": "15.4",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12680",
+        "score": "1.6",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       }
+      ],
+      "result": "W",
+      "score": "100.5",
+      "starters": "10695,12628,13138,10271,9831,11250,13617,9884,"
+     },
+     {
+      "comments": " Lineup submitted by commissioner",
+      "id": "0001",
+      "isHome": "1",
+      "nonstarters": "12620,12155,12912,12153,12648,13163,13277,13176,12465,11678,11670,12678,12677,13672,",
+      "opt_pts": "112.6",
+      "optimal": "10703,13604,13277,12153,11938,12677,12912,13163,",
+      "player": [
+       {
+        "id": "10703",
+        "score": "22.4",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "13604",
+        "score": "19.8",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "13364",
+        "score": "7.4",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "13412",
+        "score": "6.9",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "13153",
+        "score": "9.2",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "11232",
+        "score": "11.1",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "11938",
+        "score": "13.2",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "13382",
+        "score": "3.4",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "12620",
+        "score": "8.7",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12155",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12912",
+        "score": "12.4",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12153",
+        "score": "14.4",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12648",
+        "score": "1.6",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13163",
+        "score": "11.6",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13277",
+        "score": "14.9",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13176",
+        "score": "4.1",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12465",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11678",
+        "score": "8.1",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11670",
+        "score": "3.6",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12678",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12677",
+        "score": "3.9",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13672",
+        "score": "1.6",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       }
+      ],
+      "result": "L",
+      "score": "93.4",
+      "starters": "10703,13604,13364,13412,13153,11232,11938,13382,"
+     }
+    ],
+    "regularSeason": "1"
+   },
+   {
+    "franchise": [
+     {
+      "comments": ". Lineup submitted by API call",
+      "id": "0007",
+      "isHome": "0",
+      "nonstarters": "10313,10413,12629,13404,8670,9101,8360,12645,13158,11007,12351,11904,11367,11381,",
+      "opt_pts": "153",
+      "optimal": "13132,10413,12151,9988,8360,11904,13404,8670,",
+      "player": [
+       {
+        "id": "9431",
+        "score": "12.0",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "8247",
+        "score": "1.4",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "11674",
+        "score": "11.8",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "9988",
+        "score": "19.8",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "13130",
+        "score": "10.5",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "13132",
+        "score": "38.6",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "12151",
+        "score": "23.1",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "9427",
+        "score": "11.3",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "10313",
+        "score": "17.5",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10413",
+        "score": "24.6",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12629",
+        "score": "2.5",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13404",
+        "score": "21.1",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "8670",
+        "score": "11.9",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "9101",
+        "score": "0.8",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "8360",
+        "score": "12.1",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12645",
+        "score": "2.8",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13158",
+        "score": "7.6",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11007",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12351",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11904",
+        "score": "1.8",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11367",
+        "score": "6.1",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11381",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       }
+      ],
+      "result": "W",
+      "score": "128.5",
+      "starters": "9431,8247,11674,9988,13130,13132,12151,9427,"
+     },
+     {
+      "comments": ". Lineup submitted by API call",
+      "id": "0005",
+      "isHome": "1",
+      "nonstarters": "6589,10697,12887,11689,11812,11076,9843,12792,13155,13640,13776,",
+      "opt_pts": "110",
+      "optimal": "5848,11668,12150,10729,11689,9925,11812,13155,",
+      "player": [
+       {
+        "id": "5848",
+        "score": "22.3",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "11668",
+        "score": "22.2",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "12150",
+        "score": "22.2",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "12157",
+        "score": "3.0",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "12205",
+        "score": "5.6",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "10729",
+        "score": "13.1",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "11228",
+        "score": "5.8",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "9925",
+        "score": "1.8",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "6589",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "10697",
+        "score": "15.6",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12887",
+        "score": "0.7",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11689",
+        "score": "11.7",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11812",
+        "score": "9.9",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "11076",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "9843",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "12792",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13155",
+        "score": "6.8",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13640",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13776",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       }
+      ],
+      "result": "L",
+      "score": "96",
+      "starters": "5848,11668,12150,12157,12205,10729,11228,9925,"
+     }
+    ],
+    "regularSeason": "1"
+   }
+  ],
+  "week": "1"
+ }
+}

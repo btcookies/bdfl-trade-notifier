@@ -11,6 +11,7 @@ from bdfl.mfl import (
     MflError,
     MflNotFound,
     MflThrottled,
+    RequestPacer,
 )
 
 LEAGUE_ID = "65522"
@@ -205,17 +206,57 @@ def test_detect_league_propagates_throttle_and_server_errors():
 
 
 @responses.activate
-def test_network_errors_are_wrapped_and_still_pace_the_next_request():
+def test_a_transient_connection_error_is_retried_and_recovered():
+    """MFL's server occasionally resets a pooled keep-alive connection right around our
+    pacing gap; that isn't a rate-limit signal, so it's worth retrying within the same call."""
     responses.get(f"{BASE_URL}/2026/export", body=requests.exceptions.ConnectionError("reset"))
     responses.get(f"{BASE_URL}/2026/export", json={"transactions": {}})
     slept = []
     clock = FakeClock()
     client = make_client(sleep=slept.append, clock=clock)
-    with pytest.raises(MflError):
+    assert client.transactions(2026) == {"transactions": {}}
+    assert slept == [pytest.approx(1.0)]  # paced before the retry too, same as any request
+
+
+@responses.activate
+def test_connection_errors_give_up_after_exhausting_retries():
+    responses.get(f"{BASE_URL}/2026/export", body=requests.exceptions.ConnectionError("reset"))
+    responses.get(f"{BASE_URL}/2026/export", body=requests.exceptions.ConnectionError("reset"))
+    responses.get(f"{BASE_URL}/2026/export", body=requests.exceptions.ConnectionError("reset"))
+    client = make_client(sleep=lambda s: None)
+    with pytest.raises(MflError, match="reset"):
         client.transactions(2026)
-    clock.now += 0.25
-    client.transactions(2026)
-    assert slept == [pytest.approx(0.75)]
+    assert len(responses.calls) == 3
+
+
+@responses.activate
+def test_a_timeout_is_not_retried():
+    """This client is shared with the notifier Lambda's tight processing budget (see
+    poller.py's RUN_TIME_BUDGET_SECONDS); blindly retrying a slow request that times out,
+    rather than just a fast connection reset, could blow it. Only ConnectionError is retried."""
+    responses.get(f"{BASE_URL}/2026/export", body=requests.exceptions.Timeout("slow"))
+    client = make_client(sleep=lambda s: None)
+    with pytest.raises(MflError, match="slow"):
+        client.transactions(2026)
+    assert len(responses.calls) == 1
+
+
+@responses.activate
+def test_two_clients_sharing_a_pacer_are_paced_against_each_other():
+    """Two MflClient instances for different league ids (e.g. one season under a different MFL
+    league id than the current one) sharing one requests.Session must also share pacing, or the
+    second client fires immediately with no memory of the first client's last request."""
+    responses.get(f"{BASE_URL}/2016/export", json={"transactions": {}})
+    responses.get(f"{BASE_URL}/2026/export", json={"transactions": {}})
+    slept = []
+    clock = FakeClock()
+    pacer = RequestPacer()
+    first = make_client(league_id="79873", sleep=slept.append, clock=clock, pacer=pacer)
+    second = make_client(league_id=LEAGUE_ID, sleep=slept.append, clock=clock, pacer=pacer)
+    first.transactions(2016)
+    clock.now = 100.4
+    second.transactions(2026)
+    assert slept == [pytest.approx(0.6)]
 
 
 @responses.activate
@@ -275,3 +316,24 @@ def test_players_strips_the_id_key_too():
     players = make_client().players(2026, ["13299"])
     assert list(players) == ["13299"]
     assert players["13299"].id == "13299"
+
+
+@responses.activate
+def test_export_passes_params_and_returns_body():
+    responses.get(
+        f"{BASE_URL}/2020/export",
+        json={"weeklyResults": {"week": "1"}},
+        match=[
+            responses.matchers.query_param_matcher(
+                {"TYPE": "weeklyResults", "L": LEAGUE_ID, "JSON": "1", "W": "1"}
+            )
+        ],
+    )
+    assert make_client().export(2020, "weeklyResults", W="1") == {"weeklyResults": {"week": "1"}}
+
+
+@responses.activate
+def test_export_raises_on_error_body():
+    responses.get(f"{BASE_URL}/2016/export", json={"error": {"$t": "Invalid league ID 65522"}})
+    with pytest.raises(MflError, match="Invalid league ID"):
+        make_client().export(2016, "league")

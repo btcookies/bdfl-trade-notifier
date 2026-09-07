@@ -1,0 +1,14 @@
+{
+ "encoding": "utf-8",
+ "playoffBrackets": {
+  "playoffBracket": {
+   "bracketWinnerTitle": "League Champion",
+   "id": "1",
+   "name": "BDFL Championship",
+   "startWeek": "15",
+   "startWeekGames": "2",
+   "teamsInvolved": "6"
+  }
+ },
+ "version": "1.0"
+}

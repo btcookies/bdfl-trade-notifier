@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import time
 from collections.abc import Callable, Iterable
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
 
@@ -14,6 +15,7 @@ from bdfl.models import LeagueInfo, Player, as_list
 
 BASE_URL = "https://api.myfantasyleague.com"
 MIN_SECONDS_BETWEEN_REQUESTS = 1.0
+CONNECTION_RETRIES = 2  # extra attempts after a transient connection error, not an HTTP error
 DEFAULT_TYPES = "TRADE,BBID_WAIVER"
 
 log = logging.getLogger(__name__)
@@ -35,6 +37,20 @@ class LeagueNotFound(MflError):
     pass
 
 
+@dataclass
+class RequestPacer:
+    """Last-request timestamp, shared across every MflClient that passes the same instance in.
+
+    Pacing lives here rather than on MflClient itself so that multiple clients reusing one
+    requests.Session (e.g. one per MFL league id, all hitting the same host) collectively
+    respect the one-request-per-second limit -- otherwise a freshly built client has no memory
+    of a sibling client's last request and fires immediately, which can hit the shared
+    connection before the server is done with it.
+    """
+
+    last_request_at: float | None = None
+
+
 class MflClient:
     def __init__(
         self,
@@ -44,6 +60,7 @@ class MflClient:
         sleep: Callable[[float], None] = time.sleep,
         clock: Callable[[], float] = time.monotonic,
         timeout: float | tuple[float, float] = (3.05, 7.0),
+        pacer: RequestPacer | None = None,
     ):
         self.league_id = league_id
         self.user_agent = user_agent
@@ -51,7 +68,7 @@ class MflClient:
         self.sleep = sleep
         self.clock = clock
         self.timeout = timeout
-        self._last_request_at: float | None = None
+        self.pacer = pacer if pacer is not None else RequestPacer()
 
     # --- public API ---------------------------------------------------------
 
@@ -111,6 +128,14 @@ class MflClient:
             if "id" in p
         }
 
+    def export(self, year: int, type_: str, **params: str) -> dict[str, Any]:
+        """Fetch any export TYPE for a year and return the parsed body.
+
+        Raises MflError on an error body; the hall of records uses this for every export
+        the notifier does not need by name.
+        """
+        return self._require_ok(self._get(year, type_, **params), type_)
+
     # --- internals ----------------------------------------------------------
 
     def _require_ok(self, data: dict[str, Any], what: str) -> dict[str, Any]:
@@ -119,21 +144,8 @@ class MflClient:
         return data
 
     def _get(self, year: int, type_: str, **extra: str) -> dict[str, Any]:
-        self._pace()
         query = {"TYPE": type_, "L": self.league_id, "JSON": "1", **extra}
-        try:
-            response = self.session.get(
-                f"{BASE_URL}/{year}/export",
-                params=query,
-                headers={"User-Agent": self.user_agent},
-                timeout=self.timeout,
-            )
-        except requests.RequestException as exc:
-            # The URL carries only public ids today; if an APIKEY is ever added, redact it here.
-            raise MflError(f"MFL request failed: {exc}") from exc
-        finally:
-            # In a finally so a failed request still counts against MFL's one-per-second rule.
-            self._last_request_at = self.clock()
+        response = self._request(year, query)
         if response.status_code == 429:
             raise MflThrottled(f"MFL throttled TYPE={type_} for {year}")
         if response.status_code == 404:
@@ -148,9 +160,44 @@ class MflClient:
             raise MflError("MFL returned a non-object JSON body")
         return data
 
+    def _request(self, year: int, query: dict[str, str]) -> requests.Response:
+        """GET, retrying a transient connection reset a couple of times.
+
+        MFL's server occasionally resets a pooled keep-alive connection right around our
+        one-per-second pacing gap -- not a rate-limit signal (that's a 429, handled by the
+        caller), just server-side flakiness worth one or two retries before giving up. Only a
+        ConnectionError is retried: this client is shared with the notifier Lambda's tight
+        processing budget, and blindly retrying a slow request that times out could blow it.
+        """
+        last_exc: requests.RequestException | None = None
+        for attempt in range(CONNECTION_RETRIES + 1):
+            self._pace()
+            try:
+                return self.session.get(
+                    f"{BASE_URL}/{year}/export",
+                    params=query,
+                    headers={"User-Agent": self.user_agent},
+                    timeout=self.timeout,
+                )
+            except requests.ConnectionError as exc:
+                last_exc = exc
+                if attempt < CONNECTION_RETRIES:
+                    log.warning(
+                        "MFL connection error for %s (attempt %d/%d), retrying: %s",
+                        query.get("TYPE"), attempt + 1, CONNECTION_RETRIES + 1, exc,
+                    )
+            except requests.RequestException as exc:
+                last_exc = exc
+                break
+            finally:
+                # In a finally so a failed request still counts against MFL's one-per-second rule.
+                self.pacer.last_request_at = self.clock()
+        # The URL carries only public ids today; if an APIKEY is ever added, redact it here.
+        raise MflError(f"MFL request failed: {last_exc}") from last_exc
+
     def _pace(self) -> None:
-        if self._last_request_at is None:
+        if self.pacer.last_request_at is None:
             return
-        elapsed = self.clock() - self._last_request_at
+        elapsed = self.clock() - self.pacer.last_request_at
         if elapsed < MIN_SECONDS_BETWEEN_REQUESTS:
             self.sleep(MIN_SECONDS_BETWEEN_REQUESTS - elapsed)

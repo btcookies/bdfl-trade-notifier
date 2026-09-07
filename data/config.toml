@@ -1,0 +1,21 @@
+# Hall of Records configuration. Read by `python -m hof`; see docs/superpowers/specs/2026-09-06-hall-of-records-design.md section 5.
+
+[league]
+id = "65522"
+site_base_url = "https://btcookies.github.io/bdfl-trade-notifier/"
+
+# Seasons that lived under a different MFL league id.
+[seasons.overrides]
+2016 = "79873"
+
+[hall_of_fame]
+player_min_vor = 400.0
+player_min_starts = 30
+franchise_min_titles = 2
+watch_list_margin = 100.0
+
+# Optional manager names, shown on franchise pages when present. Repeat the block per entry.
+# [[managers]]
+# franchise = "0001"
+# name = "Example Name"
+# from = 2016
