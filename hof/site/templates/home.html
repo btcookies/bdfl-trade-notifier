@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<h1>{{ league_name }}</h1>
+<p class="lede">Every start, every trade, every title since {{ first_year }}.</p>
+
+<section>
+  <h2>Hall of Fame{% if class_year %} · Class of {{ class_year }}{% endif %}</h2>
+  {% if new_class %}
+  <div class="plaques">
+    {% for p in new_class %}
+    <a class="plaque" href="{{ site.url('player', p.player_id) }}">
+      <b>{{ p.name }}</b> <span class="pos">{{ p.position }}</span><br>
+      {{ p.points|pts }} pts · {{ p.vor|pts }} VOR · {{ p.titles }} title{{ 's' if p.titles != 1 }}
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p>No inductees yet.</p>
+  {% endif %}
+  <p><a href="{{ site.url('hall') }}">All inductees and the watch list</a></p>
+</section>
+
+<section>
+  <h2>Champions</h2>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Year</th><th>Champion</th><th>Runner-up</th></tr></thead>
+    <tbody>
+    {% for year, champion, runner_up in champions %}
+    <tr>
+      <td>{{ year }}</td>
+      <td><a href="{{ site.url('franchise', champion) }}">{{ name_in(champion, year) }}</a></td>
+      <td><a href="{{ site.url('franchise', runner_up) }}">{{ name_in(runner_up, year) }}</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section>
+  <h2>Career leaders</h2>
+  <ol class="leaders">
+    {% for c in leaders %}
+    <li><a href="{{ site.url('player', c.player_id) }}">{{ c.name }}</a> <span class="pos">{{ c.position }}</span> · {{ c.vor|pts }} VOR · {{ c.points|pts }} pts · {{ c.starts }} starts</li>
+    {% endfor %}
+  </ol>
+  <p><a href="{{ site.url('players') }}">Every player</a> · <a href="{{ site.url('records') }}">Records book</a></p>
+</section>
+{% endblock %}

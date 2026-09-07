@@ -1,0 +1,56 @@
+:root { --ink: #222; --muted: #666; --line: #e3e3e3; --bg: #fff; --panel: #f5f7fa; --link: #1a56b5; --gold: #b08d2b; }
+* { box-sizing: border-box; }
+body { margin: 0; font: 15px/1.45 -apple-system, "Segoe UI", system-ui, sans-serif; color: var(--ink); background: var(--bg); }
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+header.top { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; padding: 12px 20px; border-bottom: 2px solid var(--ink); }
+header.top .brand { font-weight: 700; font-size: 18px; color: var(--ink); }
+header.top nav a { margin-right: 14px; }
+main { max-width: 980px; margin: 0 auto; padding: 18px 20px 40px; }
+footer { max-width: 980px; margin: 0 auto; padding: 18px 20px 40px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); }
+h1 { font-size: 28px; margin: 6px 0 2px; }
+h2 { font-size: 17px; margin: 26px 0 8px; border-bottom: 2px solid var(--ink); padding-bottom: 3px; }
+h3 { font-size: 15px; margin: 16px 0 6px; }
+h3 small, .muted { color: var(--muted); font-weight: 400; }
+.lede { color: var(--muted); margin-top: 0; }
+.pos { display: inline-block; font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 3px; padding: 0 4px; vertical-align: middle; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { padding: 4px 7px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+th { background: #f0f0f0; color: #444; font-weight: 600; font-size: 12px; }
+td:first-child, th:first-child, td.l, th.l { text-align: left; }
+tr.sub td { background: #fafafa; font-weight: 600; }
+table.sortable th { cursor: pointer; user-select: none; }
+table.sortable th.asc::after { content: " \25B4"; }
+table.sortable th.desc::after { content: " \25BE"; }
+.stats { display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 10px 0 8px; padding: 10px 14px; background: var(--panel); border-radius: 6px; }
+.stats div { text-align: center; }
+.stats b { display: block; font-size: 20px; }
+.stats span { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
+.era { border-left: 4px solid #5b8def; padding-left: 12px; margin: 10px 0 18px; }
+.era.old { border-left-color: #c9c9c9; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 720px) { .two { grid-template-columns: 1fr; } }
+.plaques { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+.plaque { display: block; border: 2px solid var(--gold); background: #fff8e1; border-radius: 6px; padding: 8px 10px; color: var(--ink); }
+.plaque b { color: #7a5c00; }
+.leaders li { margin: 3px 0; }
+.tenure { display: flex; height: 14px; border-radius: 3px; overflow: hidden; margin: 6px 0 10px; }
+.tenure span { display: block; height: 100%; }
+.legend span { display: inline-block; margin-right: 12px; font-size: 12px; }
+.legend i { display: inline-block; width: 10px; height: 10px; margin-right: 4px; border-radius: 2px; vertical-align: middle; }
+.h2h details { border-bottom: 1px solid var(--line); }
+.h2h summary { display: grid; grid-template-columns: 2fr repeat(6, 1fr) 2fr; gap: 6px; padding: 5px 7px; cursor: pointer; font-size: 13px; }
+.h2h summary span { text-align: right; }
+.h2h summary span:first-child, .h2h summary span:last-child { text-align: left; }
+.h2h .head { display: grid; grid-template-columns: 2fr repeat(6, 1fr) 2fr; gap: 6px; padding: 4px 7px; background: #f0f0f0; font-size: 12px; font-weight: 600; color: #444; }
+.h2h .head span { text-align: right; }
+.h2h .head span:first-child, .h2h .head span:last-child { text-align: left; }
+.h2h details table { margin: 4px 0 8px 12px; width: auto; }
+.trade { border: 1px solid var(--line); border-radius: 6px; padding: 8px 12px; margin: 10px 0; }
+.trade .verdict { color: var(--muted); font-size: 13px; }
+.trade ul { margin: 4px 0 6px 18px; padding: 0; }
+.callout { background: #fff8e1; border: 1px solid #e8d89a; border-radius: 4px; padding: 6px 10px; font-size: 13px; margin: 8px 0; }
+.search { width: 100%; max-width: 360px; padding: 6px 8px; font-size: 14px; margin: 6px 0 10px; }
+.timeline li { margin: 3px 0; }
+.badge { display: inline-block; background: #1f7a3e; color: #fff; font-size: 11px; padding: 1px 6px; border-radius: 3px; vertical-align: middle; }

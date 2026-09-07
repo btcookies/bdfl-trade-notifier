@@ -1,4 +1,4 @@
-"""Command line: python -m hof [--data DIR] [--config FILE] {fetch,stats}."""
+"""Command line: python -m hof [--data DIR] [--config FILE] {fetch,stats,build}."""
 
 from __future__ import annotations
 
@@ -17,6 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from bdfl.mfl import MflClient, RequestPacer  # noqa: E402
 from hof import fetch
 from hof.config import Config
+from hof.site.build import build_site
 from hof.snapshots import load_all
 from hof.stats.model import compute
 
@@ -70,6 +71,8 @@ def main(argv: list[str] | None = None) -> int:
         "--year", type=int, action="append", help="only this season; repeat for several"
     )
     commands.add_parser("stats", help="compute everything and print a calibration report")
+    build_parser = commands.add_parser("build", help="render the site into a directory")
+    build_parser.add_argument("--out", type=Path, default=Path("dist"), help="output directory (default: dist)")
     args = parser.parse_args(argv)
 
     logging.basicConfig(level=args.log_level.upper(), format="%(levelname)s %(name)s: %(message)s")
@@ -84,6 +87,12 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "stats":
         model = compute(load_all(args.data), config.hall)
         print_report(model, config.hall)
+        return 0
+    if args.command == "build":
+        model = compute(load_all(args.data), config.hall)
+        build_site(model, config, args.out)
+        pages = sum(1 for _ in args.out.rglob("index.html"))
+        print(f"built {pages} pages into {args.out}")
         return 0
     return 2
 
