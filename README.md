@@ -97,11 +97,20 @@ Add `--send` with `DISCORD_WEBHOOK_URL` set in the environment to post them for 
 ```bash
 source .venv/bin/activate
 pytest                 # unit tests; no network, no AWS
-ruff check src tests scripts
+ruff check src tests scripts hof
 sam validate --lint
 ```
 
 Layout: `src/handler.py` is the Lambda entry point; `src/bdfl/` holds the MFL client, rendering, Discord client, store, and poller; `tests/` mirrors it.
+
+## Hall of Records (in progress)
+
+`hof/` fetches every BDFL season from MFL into `data/raw/<year>/` and will build the records site. Design: `docs/superpowers/specs/2026-09-06-hall-of-records-design.md`.
+
+```bash
+python -m hof fetch            # refresh the current season; completed seasons are skipped
+python -m hof fetch --year 2024   # refetch one season (delete data/raw/2024 first if it is marked complete)
+```
 
 ## Operations
 
