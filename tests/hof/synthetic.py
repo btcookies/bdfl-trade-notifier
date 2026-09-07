@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import replace
 
 from hof.model.players import PlayerInfo
-from hof.model.season import BracketGame, Franchise, Lineup, Season, Week
+from hof.model.season import BracketGame, DraftPick, Franchise, Lineup, Season, Standing, Week
 from hof.model.transactions import TransactionLog
 
 
@@ -41,6 +41,8 @@ def build_season(
     complete: bool = True,
     transactions: TransactionLog | None = None,
     names: dict[str, str] | None = None,
+    draft: tuple[DraftPick, ...] = (),
+    standings: tuple[Standing, ...] = (),
 ) -> Season:
     """weeks maps week number to (home, away) lineup pairs; results are filled from scores.
 
@@ -73,8 +75,8 @@ def build_season(
         last_regular_season_week=last_regular_season_week,
         weeks=week_objects,
         bracket=bracket,
-        standings=(),
-        draft=(),
+        standings=standings,
+        draft=draft,
         round1_order=(),
         transactions=transactions or TransactionLog((), (), (), (), ()),
         players={pid: PlayerInfo(pid, name, position, "") for pid, (name, position) in players.items()},
