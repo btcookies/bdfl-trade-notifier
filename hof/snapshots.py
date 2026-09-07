@@ -31,20 +31,32 @@ def read_json(path: Path) -> dict[str, Any]:
     except FileNotFoundError:
         log.warning("missing snapshot %s", path)
         return {}
-    except ValueError as exc:
+    except OSError as exc:
         log.warning("unreadable snapshot %s: %s", path, exc)
+        return {}
+    except ValueError as exc:
+        log.warning("invalid JSON in snapshot %s: %s", path, exc)
         return {}
     return data if isinstance(data, dict) else {}
 
 
 def load_season(season_dir: Path) -> Season:
+    """Build a Season from a snapshot directory; raises if league.json has no franchises.
+
+    Every other file tolerates being missing or corrupt (a season with no trade log is still
+    usable), but league.json is the only source of franchise identity and week boundaries, so
+    a season silently loaded from an empty league.json would look valid while being wrong.
+    """
     year = int(season_dir.name)
     meta = read_json(season_dir / "meta.json")
     settings = parse_league(read_json(season_dir / "league.json"))
+    if not settings.franchises:
+        raise ValueError(f"{season_dir}: league.json missing or unparseable (no franchises)")
     weeks = {}
     for path in sorted((season_dir / "weeklyResults").glob("W*.json")):
         match = WEEK_FILE.match(path.name)
         if match is None:
+            log.warning("unexpected file in weeklyResults: %s", path)
             continue
         week = parse_week(read_json(path), number=int(match.group(1)))
         weeks[week.number] = week
