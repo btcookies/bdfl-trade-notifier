@@ -28,3 +28,12 @@ def test_fetch_command_calls_run_with_years(monkeypatch, tmp_path, capsys):
 def test_missing_config_is_a_clean_error(tmp_path):
     with pytest.raises(ConfigError):
         cli.main(["--data", str(tmp_path), "fetch"])
+
+
+def test_stats_command_prints_a_report(tmp_path, fixtures_dir, capsys):
+    code = cli.main(["--data", str(fixtures_dir), "--config", str(CONFIG), "stats"])
+    assert code == 0
+    out = capsys.readouterr().out
+    assert "champions: 2020 Marcus Peters' Peter Peckers" in out
+    assert "Hall of Fame at vor>=400" in out
+    assert "records book, top entry per table:" in out

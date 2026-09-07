@@ -110,6 +110,7 @@ Layout: `src/handler.py` is the Lambda entry point; `src/bdfl/` holds the MFL cl
 ```bash
 python -m hof fetch            # refresh the current season; completed seasons are skipped
 python -m hof fetch --year 2024   # refetch one season (delete data/raw/2024 first if it is marked complete)
+python -m hof stats            # compute every stat and print the Hall of Fame calibration report
 ```
 
 ## Operations
