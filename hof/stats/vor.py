@@ -47,9 +47,9 @@ def baselines(season: Season) -> Baselines:
     return result
 
 
-def starts(season: Season, base: Baselines | None = None) -> list[Start]:
+def starts(season: Season) -> list[Start]:
     """One row per starter in every counted game, in week order."""
-    base = baselines(season) if base is None else base
+    base = baselines(season)
     rows: list[Start] = []
     for game in season.games():
         for lineup in (game.home, game.away):
