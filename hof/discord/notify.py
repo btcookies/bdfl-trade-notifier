@@ -139,7 +139,8 @@ def run(
     force: tuple[int, int] | None = None,
 ) -> Outcome:
     """Post the newest complete week once. With dry_run, print the embed instead; with force,
-    build the given (year, week) regardless of completion or state (previews only)."""
+    build the given (year, week) regardless of completion or state -- for a preview, or, without
+    dry_run, for a one-time real post that (per the caller) never writes state."""
     if force is not None:
         year, week = force
         decision: Decision | None = Decision(_kind_for(model, year, week), year, week)
