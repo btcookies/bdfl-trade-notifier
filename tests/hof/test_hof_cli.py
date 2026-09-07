@@ -37,3 +37,18 @@ def test_stats_command_prints_a_report(tmp_path, fixtures_dir, capsys):
     assert "champions: 2020 Marcus Peters' Peter Peckers" in out
     assert "Hall of Fame at vor>=500" in out
     assert "records book, top entry per table:" in out
+
+
+def test_notify_dry_run_prints_an_embed(tmp_path, fixtures_dir, capsys):
+    code = cli.main(["--data", str(fixtures_dir), "--config", str(CONFIG), "notify", "--dry-run", "--year", "2020", "--week", "16"])
+    assert code == 0
+    out = capsys.readouterr().out
+    assert '"title": "🏆 2020 season wrap"' in out
+    assert "Marcus Peters' Peter Peckers" in out
+
+
+def test_notify_without_a_webhook_url_fails_clearly(tmp_path, fixtures_dir, monkeypatch, capsys):
+    monkeypatch.delenv("DISCORD_WEBHOOK_URL", raising=False)
+    code = cli.main(["--data", str(fixtures_dir), "--config", str(CONFIG), "notify", "--year", "2020", "--week", "16"])
+    assert code == 1
+    assert "DISCORD_WEBHOOK_URL" in capsys.readouterr().err
