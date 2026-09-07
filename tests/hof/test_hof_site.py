@@ -6,8 +6,9 @@ import pytest
 from synthetic import four_team_league
 
 from hof.config import Config, HallRules
-from hof.site.build import build_site
+from hof.site.build import build_site, tenure_segments
 from hof.site.slugs import slugify, unique_slugs
+from hof.stats.careers import Career, Stint
 from hof.stats.model import compute
 
 CONFIG = Config(
@@ -122,3 +123,33 @@ def test_player_page_tells_the_whole_story(built):
     assert "Active" in html
     inactive = read(out, "players/qb-a3-a3")
     assert "Active" not in inactive and "Left Gamma" in inactive
+
+
+def test_tenure_segments_renders_gaps_and_multiple_franchises(built):
+    _, site, model = built
+    index = {(2020, w): w - 1 for w in range(1, 6)}  # weeks 1..5 -> positions 0..4
+    stints = (
+        Stint(player_id="zz", franchise_id="0001", start=(2020, 1), end=(2020, 1)),
+        # gap: weeks 2-3 off every roster
+        Stint(player_id="zz", franchise_id="0002", start=(2020, 4), end=(2020, 5)),
+    )
+    career = Career(
+        player_id="zz", name="Test Player", position="QB",
+        first_year=2020, last_year=2020, active=False,
+        seasons=(), stints=stints, moves=(),
+        starts=0, points=0.0, vor=0.0, bench_points=0.0,
+        playoff_starts=0, playoff_points=0, titles=0,
+        franchise_ids=("0001", "0002"),
+    )
+    segments = tenure_segments(career, index, model, site)
+    # 3 segments: franchise 0001 (1 week), gap (2 weeks), franchise 0002 (2 weeks) -- total 5 weeks
+    assert len(segments) == 3
+    assert segments[0]["color"] == site.colors["0001"]
+    assert segments[1]["color"] is None  # the gap
+    assert segments[2]["color"] == site.colors["0002"]
+    widths = [float(s["width"]) for s in segments]
+    assert sum(widths) == pytest.approx(100.0)
+    assert widths[0] == pytest.approx(20.0)  # 1 of 5 weeks
+    assert widths[1] == pytest.approx(40.0)  # 2 of 5 weeks (the gap)
+    assert widths[2] == pytest.approx(40.0)  # 2 of 5 weeks
+    assert model.league.current_name("0002") in segments[2]["label"]
