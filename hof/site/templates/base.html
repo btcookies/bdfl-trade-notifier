@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{% endblock %} · BDFL Hall of Records</title>
+<link rel="stylesheet" href="{{ site.url('static', 'site.css') }}">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="{{ site.url('home') }}">BDFL Hall of Records</a>
+  <nav>
+    <a href="{{ site.url('players') }}">Players</a>
+    <a href="{{ site.url('franchises') }}">Franchises</a>
+    <a href="{{ site.url('records') }}">Records</a>
+    <a href="{{ site.url('hall') }}">Hall of Fame</a>
+    <a href="{{ site.url('drafts') }}">Drafts</a>
+    <a href="{{ site.url('trades') }}">Trades</a>
+  </nav>
+</header>
+<main>
+{% block content %}{% endblock %}
+</main>
+<footer>
+  <p>{{ league_name }} · {{ through }}.</p>
+  <p>VOR: points above the last guaranteed starter at the position that week. Data from MyFantasyLeague.</p>
+</footer>
+<script src="{{ site.url('static', 'site.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Trades{% endblock %}
+{% block content %}
+<h1>Trade ledger</h1>
+<p class="lede">Every trade, newest first. Each side is credited with what it received produced as starters for that team from the trade onward; picks count the player they became.</p>
+{% if by_year %}
+<p>{% for year in by_year %}<a href="#y{{ year }}">{{ year }}</a>{{ " · " if not loop.last }}{% endfor %}</p>
+{% for year, lines in by_year.items() %}
+<h2 id="y{{ year }}">{{ year }}</h2>
+{% for t in lines %}
+<article class="trade" id="t{{ t.year }}-{{ t.timestamp }}">
+  <p><b>{{ t.timestamp|date }}</b> · <a href="{{ site.url('franchise', t.sides[0].franchise_id) }}">{{ t.sides[0].name }}</a> ⇄ <a href="{{ site.url('franchise', t.sides[1].franchise_id) }}">{{ t.sides[1].name }}</a>{% if t.pending %} <span class="pos">Pending</span>{% endif %}</p>
+  <div class="two">
+    {% for side in t.sides %}
+    <div>
+      <b>{{ side.name }} received</b>
+      <ul>
+      {% for a in side.received %}
+        <li>{{ a.label }}{% if a.player_id and not t.pending %} <span class="muted">{{ a.starts }} GS, {{ a.points|pts }} pts, {{ a.vor|pts }} VOR</span>{% endif %}</li>
+      {% else %}
+        <li class="muted">nothing</li>
+      {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+  </div>
+  <p class="verdict">{{ t.verdict }}{% if t.comments %} · “{{ t.comments }}”{% endif %}</p>
+</article>
+{% endfor %}
+{% endfor %}
+{% else %}
+<p class="muted">No trades recorded.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}{{ d.year }} draft{% endblock %}
+{% block content %}
+<h1>{{ d.year }} {{ "startup" if d.startup else "rookie" }} draft</h1>
+<p class="lede">{{ d.rounds }} rounds. Points and VOR are what each player produced as a starter for the team that drafted them; career columns count every team.</p>
+{% if d.steal or d.bust %}
+<p class="callout">
+  {% if d.steal %}<b>Steal:</b> {{ d.steal.player_name }} at {{ d.steal.round }}.{{ "%02d"|format(d.steal.pick) }} by {{ d.steal.franchise_name }}, {{ d.steal.vor_for|pts }} VOR.{% endif %} {% if d.bust %}<b>Bust:</b> {{ d.bust.player_name }} at {{ d.bust.round }}.{{ "%02d"|format(d.bust.pick) }} by {{ d.bust.franchise_name }}, {{ d.bust.vor_for|pts }} VOR.{% endif %}
+</p>
+{% endif %}
+<div class="table-wrap">
+<table class="sortable">
+  <thead><tr><th>Pick</th><th class="l">Team</th><th class="l">Via</th><th class="l">Player</th><th>Pos</th><th>GS</th><th>Pts</th><th>VOR</th><th>Career pts</th><th>Career VOR</th></tr></thead>
+  <tbody>
+  {% for p in d.picks %}
+  <tr>
+    <td data-sort="{{ p.round * 100 + p.pick }}">{{ p.round }}.{{ "%02d"|format(p.pick) }}</td>
+    <td class="l"><a href="{{ site.url('franchise', p.franchise_id) }}">{{ p.franchise_name }}</a></td>
+    <td class="l">{% if p.original_owner_id and p.original_owner_id != p.franchise_id %}{{ name_in(p.original_owner_id, p.year) }}{% endif %}</td>
+    <td class="l">{% if p.player_id in site.player_slugs %}<a href="{{ site.url('player', p.player_id) }}">{{ p.player_name }}</a>{% else %}{{ p.player_name }}{% endif %}</td>
+    <td>{{ p.position }}</td>
+    <td>{{ p.starts_for }}</td>
+    <td>{{ p.points_for|pts }}</td>
+    <td>{{ p.vor_for|pts }}</td>
+    <td>{{ p.career_points|pts }}</td>
+    <td>{{ p.career_vor|pts }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

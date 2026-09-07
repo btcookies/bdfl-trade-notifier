@@ -103,15 +103,29 @@ sam validate --lint
 
 Layout: `src/handler.py` is the Lambda entry point; `src/bdfl/` holds the MFL client, rendering, Discord client, store, and poller; `tests/` mirrors it.
 
-## Hall of Records (in progress)
+## Hall of Records
 
-`hof/` fetches every BDFL season from MFL into `data/raw/<year>/` and will build the records site. Design: `docs/superpowers/specs/2026-09-06-hall-of-records-design.md`.
+`hof/` builds the league's records site from MFL history: every player's career as a BDFL starter, franchise histories, head-to-head series, a records book, a rule-based Hall of Fame, draft hindsight, and a trade ledger. Design: `docs/superpowers/specs/2026-09-06-hall-of-records-design.md`.
 
 ```bash
-python -m hof fetch            # refresh the current season; completed seasons are skipped
-python -m hof fetch --year 2024   # refetch one season (delete data/raw/2024 first if it is marked complete)
-python -m hof stats            # compute every stat and print the Hall of Fame calibration report
+python -m hof fetch                 # refresh the current season; completed seasons are skipped
+python -m hof stats                 # calibration report for the Hall of Fame thresholds in data/config.toml
+python -m hof build --out dist      # render the site
 ```
+
+Preview locally under the same path GitHub Pages uses:
+
+```bash
+python -m hof build --out preview/bdfl-trade-notifier && python -m http.server -d preview 8000
+```
+
+then open http://localhost:8000/bdfl-trade-notifier/.
+
+### Publishing
+
+`.github/workflows/hof.yml` runs every Tuesday at 11:00 UTC from September through January, and on any push to `main` that touches `hof/`, `data/`, or the MFL client. Each run refetches the current season from MFL, commits any changed snapshots to `main`, builds the site, and deploys it to GitHub Pages. One-time setup: in the repository settings under Pages, set the source to "GitHub Actions". The site is at `https://btcookies.github.io/bdfl-trade-notifier/`; change `site_base_url` in `data/config.toml` if it ever moves.
+
+Hall of Fame thresholds live in `data/config.toml`. Run `python -m hof stats` to see how many players each threshold would induct before changing them.
 
 ## Operations
 

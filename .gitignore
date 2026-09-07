@@ -9,3 +9,5 @@ htmlcov/
 .vscode/
 .DS_Store
 .superpowers/
+dist/
+preview/
