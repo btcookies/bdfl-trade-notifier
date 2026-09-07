@@ -78,8 +78,18 @@ def main(argv: list[str] | None = None) -> int:
     build_parser.add_argument("--out", type=Path, default=Path("dist"), help="output directory (default: dist)")
     notify_parser = commands.add_parser("notify", help="post the newest complete week's recap or the season wrap to Discord")
     notify_parser.add_argument("--dry-run", action="store_true", help="print the embed instead of posting; touches nothing")
-    notify_parser.add_argument("--year", type=int, help="with --week: build this week regardless of completion or state")
-    notify_parser.add_argument("--week", type=int)
+    notify_parser.add_argument(
+        "--year",
+        type=int,
+        help="with --week: build this week regardless of completion or state; "
+        "without --dry-run this really posts to Discord and does not update the dedupe state",
+    )
+    notify_parser.add_argument(
+        "--week",
+        type=int,
+        help="with --year: build this week regardless of completion or state; "
+        "without --dry-run this really posts to Discord and does not update the dedupe state",
+    )
     args = parser.parse_args(argv)
 
     logging.basicConfig(level=args.log_level.upper(), format="%(levelname)s %(name)s: %(message)s")
