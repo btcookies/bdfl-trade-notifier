@@ -832,8 +832,132 @@
      {
       "id": "0007",
       "isHome": "0",
+      "nonstarters": "13163,15712,15716,16582,16080,17058,13630,17098,17256,14085,17061,17205,15972,16165,14073,13671,16269,16174,14861,17549,17657,17353,",
+      "player": [
+       {
+        "id": "13593",
+        "status": "starter"
+       },
+       {
+        "id": "16181",
+        "status": "starter"
+       },
+       {
+        "id": "16161",
+        "status": "starter"
+       },
+       {
+        "id": "15290",
+        "status": "starter"
+       },
+       {
+        "id": "15754",
+        "status": "starter"
+       },
+       {
+        "id": "15282",
+        "status": "starter"
+       },
+       {
+        "id": "15284",
+        "status": "starter"
+       },
+       {
+        "id": "16214",
+        "status": "starter"
+       },
+       {
+        "id": "13163",
+        "status": "nonstarter"
+       },
+       {
+        "id": "15712",
+        "status": "nonstarter"
+       },
+       {
+        "id": "15716",
+        "status": "nonstarter"
+       },
+       {
+        "id": "16582",
+        "status": "nonstarter"
+       },
+       {
+        "id": "16080",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17058",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13630",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17098",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17256",
+        "status": "nonstarter"
+       },
+       {
+        "id": "14085",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17061",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17205",
+        "status": "nonstarter"
+       },
+       {
+        "id": "15972",
+        "status": "nonstarter"
+       },
+       {
+        "id": "16165",
+        "status": "nonstarter"
+       },
+       {
+        "id": "14073",
+        "status": "nonstarter"
+       },
+       {
+        "id": "13671",
+        "status": "nonstarter"
+       },
+       {
+        "id": "16269",
+        "status": "nonstarter"
+       },
+       {
+        "id": "16174",
+        "status": "nonstarter"
+       },
+       {
+        "id": "14861",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17549",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17657",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17353",
+        "status": "nonstarter"
+       }
+      ],
       "result": "T",
-      "spread": "0"
+      "spread": "0",
+      "starters": "13593,16181,16161,15290,15754,15282,15284,16214,"
      },
      {
       "id": "0009",
