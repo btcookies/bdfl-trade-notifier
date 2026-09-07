@@ -153,3 +153,26 @@ def test_tenure_segments_renders_gaps_and_multiple_franchises(built):
     assert widths[1] == pytest.approx(40.0)  # 2 of 5 weeks (the gap)
     assert widths[2] == pytest.approx(40.0)  # 2 of 5 weeks
     assert model.league.current_name("0002") in segments[2]["label"]
+
+
+def test_franchises_index_ranks_by_win_percentage(built):
+    out, _, _ = built
+    html = read(out, "franchises")
+    names = re.findall(r'href="/hof/franchises/[^"]+/">([^<]+)</a>', html)
+    assert names == ["Gamma", "Alpha Prime", "Delta", "Beta"]
+    assert "1.000" in html and ".667" in html
+
+
+def test_franchise_page_groups_seasons_by_era(built):
+    out, _, _ = built
+    html = read(out, "franchises/alpha-prime")
+    assert "<h1>Alpha Prime" in html
+    assert "Formerly" in html and "<b>Alpha</b> (2020)" in html
+    assert "As Alpha Prime" in html and "As Alpha <small>" in html
+    assert html.index("As Alpha Prime") < html.index("As Alpha <small>")  # newest era first
+    assert "Champion" in html and "In progress" in html
+    assert "<b>2-1-0</b>" in html  # all-time record in the summary row
+    assert "Head-to-head" in html and "<summary>" in html and ">Beta<" in html and "2-0-0" in html
+    assert "Final" in html and "Semifinal" in html  # playoff history
+    assert 'href="/hof/players/qb-a1-a1/">QB A1</a>' in html
+    assert "No draft picks" in html and "No trades" in html

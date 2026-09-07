@@ -167,7 +167,30 @@ def render_players(env: Environment, model: Model, site: Site) -> list[Page]:
     return pages
 
 
-RENDERERS: list[Renderer] = [render_home, render_players]
+def render_franchises(env: Environment, model: Model, site: Site) -> list[Page]:
+    histories = sorted(model.histories.values(), key=lambda h: (-h.totals.win_pct, -h.totals.points_for, h.name))
+    pages = [("franchises", env.get_template("franchises.html").render(histories=histories))]
+    template = env.get_template("franchise.html")
+    managers = env.globals["config"].managers
+    for history in histories:
+        eras = model.league.eras(history.id)
+        pages.append(
+            (
+                f"franchises/{site.franchise_slugs[history.id]}",
+                template.render(
+                    h=history,
+                    former=[era for era in eras if era.name != history.name],
+                    managers=sorted((m for m in managers if m.franchise == history.id), key=lambda m: -m.from_year),
+                    picks=[line for summary in reversed(model.drafts) for line in summary.picks if line.franchise_id == history.id],
+                    trades=[t for t in model.trades if any(side.franchise_id == history.id for side in t.sides)],
+                    top=history.top_starters[:25],
+                ),
+            )
+        )
+    return pages
+
+
+RENDERERS: list[Renderer] = [render_home, render_players, render_franchises]
 
 
 def write_page(out: Path, relative: str, html: str) -> None:

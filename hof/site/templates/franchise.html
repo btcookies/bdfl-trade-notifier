@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block title %}{{ h.name }}{% endblock %}
+{% block content %}
+{% macro years(first, last) %}{% if first == last %}{{ first }}{% else %}{{ first }}–{{ last }}{% endif %}{% endmacro %}
+<h1>{{ h.name }}</h1>
+<p class="lede">
+  {% if former %}Formerly {% for e in former %}<b>{{ e.name }}</b> ({{ years(e.first_year, e.last_year) }}){{ ", " if not loop.last }}{% endfor %}{% endif %}
+  {% if managers %}{% if former %} · {% endif %}Manager: {{ managers[0].name }}{% if managers|length > 1 %} (previously {% for m in managers[1:] %}{{ m.name }}{{ ", " if not loop.last }}{% endfor %}){% endif %}{% endif %}
+</p>
+
+<div class="stats">
+  <div><b>{{ h.totals.record }}</b><span>All-time</span></div>
+  <div><b>{{ h.totals.titles }}</b><span>Titles</span></div>
+  <div><b>{{ h.totals.playoff_apps }}</b><span>Playoff apps</span></div>
+  <div><b>{{ h.totals.playoff_wins }}-{{ h.totals.playoff_losses }}</b><span>Playoff rec</span></div>
+  <div><b>{{ h.totals.points_for|pts }}</b><span>Points for</span></div>
+  <div><b>{{ h.totals.points_against|pts }}</b><span>Points against</span></div>
+  <div><b>{{ h.streak or "—" }}</b><span>Streak</span></div>
+</div>
+
+<h2>Season by season</h2>
+{% for summary in h.eras %}
+<div class="era{% if not loop.first %} old{% endif %}">
+  <h3>As {{ summary.era.name }} <small>{{ years(summary.era.first_year, summary.era.last_year) }} · {{ summary.totals.record }} · {{ summary.totals.titles }} title{{ 's' if summary.totals.titles != 1 }}</small></h3>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Year</th><th>W-L-T</th><th>Div</th><th>PF</th><th>PA</th><th>Seed</th><th class="l">Finish</th><th class="l">Top starter</th></tr></thead>
+    <tbody>
+    {% for row in summary.rows %}
+    <tr>
+      <td>{{ row.year }}</td>
+      <td>{{ row.wins }}-{{ row.losses }}-{{ row.ties }}</td>
+      <td>{{ row.division_record }}</td>
+      <td>{{ row.points_for|pts }}</td>
+      <td>{{ row.points_against|pts }}</td>
+      <td>{{ row.seed or "–" }}</td>
+      <td class="l">{% if row.title %}🏆 {% endif %}{{ row.finish }}</td>
+      <td class="l">{% if row.top_starter %}<a href="{{ site.url('player', row.top_starter[0]) }}">{{ row.top_starter[1] }}</a> {{ row.top_starter[2]|pts }}{% endif %}</td>
+    </tr>
+    {% endfor %}
+    <tr class="sub">
+      <td>Era</td><td>{{ summary.totals.record }}</td><td></td>
+      <td>{{ summary.totals.points_for|pts }}</td><td>{{ summary.totals.points_against|pts }}</td><td></td>
+      <td class="l">{{ summary.totals.titles }} title{{ 's' if summary.totals.titles != 1 }} · {{ summary.totals.playoff_apps }} playoff app{{ 's' if summary.totals.playoff_apps != 1 }}</td><td></td>
+    </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+{% endfor %}
+
+<div class="two">
+  <div>
+    <h2>All-time top starters</h2>
+    <div class="table-wrap">
+    <table class="sortable">
+      <thead><tr><th>#</th><th class="l">Player</th><th>Pos</th><th>Yrs</th><th>GS</th><th>Pts</th><th>VOR</th></tr></thead>
+      <tbody>
+      {% for t in top %}
+      <tr><td>{{ loop.index }}</td><td class="l"><a href="{{ site.url('player', t.player_id) }}">{{ t.name }}</a></td><td>{{ t.position }}</td><td>{{ years(t.first_year, t.last_year) }}</td><td>{{ t.starts }}</td><td>{{ t.points|pts }}</td><td>{{ t.vor|pts }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div>
+    <h2>Playoff history</h2>
+    {% if h.playoff_games %}
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Year</th><th class="l">Round</th><th class="l">Opponent</th><th>Score</th><th>Res</th></tr></thead>
+      <tbody>
+      {% for m in h.playoff_games %}
+      <tr><td>{{ m.year }}</td><td class="l">{{ m.round_name }}</td><td class="l"><a href="{{ site.url('franchise', m.opponent_id) }}">{{ m.opponent_name }}</a></td><td>{{ m.own_score|pts }}–{{ m.opponent_score|pts }}</td><td>{{ m.result }}{% if m.result == "W" and m.round_name == "Final" %} 🏆{% endif %}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    {% else %}<p class="muted">No playoff games yet.</p>{% endif %}
+  </div>
+</div>
+
+<h2>Head-to-head</h2>
+<p class="callout">All-time series against every other franchise, by their current name. Open a row for every meeting, with the names both teams used at the time.</p>
+<div class="h2h">
+  <div class="head"><span>Opponent</span><span>All-time</span><span>Reg</span><span>Playoffs</span><span>PF</span><span>PA</span><span>Margin</span><span>Streak</span><span>Last meeting</span></div>
+  {% for s in h.series %}
+  <details>
+    <summary>
+      <span><a href="{{ site.url('franchise', s.opponent_id) }}">{{ s.opponent_name }}</a></span>
+      <span>{{ s.wins }}-{{ s.losses }}-{{ s.ties }}</span>
+      <span>{{ s.regular[0] }}-{{ s.regular[1] }}-{{ s.regular[2] }}</span>
+      <span>{% if s.playoff[0] + s.playoff[1] + s.playoff[2] %}{{ s.playoff[0] }}-{{ s.playoff[1] }}{% else %}–{% endif %}</span>
+      <span>{{ s.points_for|pts }}</span>
+      <span>{{ s.points_against|pts }}</span>
+      <span>{{ s.avg_margin|signed }}</span>
+      <span>{{ s.streak }}</span>
+      <span>{% if s.last %}{{ s.last.year }} {{ s.last.round_name or ("Wk " ~ s.last.week) }}, {{ s.last.result }} {{ s.last.own_score|pts }}–{{ s.last.opponent_score|pts }}{% endif %}</span>
+    </summary>
+    <table>
+      <thead><tr><th>Year</th><th>Wk</th><th class="l">Round</th><th class="l">As</th><th class="l">Opponent</th><th>Score</th><th>Res</th></tr></thead>
+      <tbody>
+      {% for m in s.meetings|reverse %}
+      <tr><td>{{ m.year }}</td><td>{{ m.week }}</td><td class="l">{{ m.round_name or "" }}</td><td class="l">{{ m.own_name }}</td><td class="l">{{ m.opponent_name }}</td><td>{{ m.own_score|pts }}–{{ m.opponent_score|pts }}</td><td>{{ m.result }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </details>
+  {% endfor %}
+</div>
+
+<div class="two">
+  <div>
+    <h2>Draft picks</h2>
+    {% if picks %}
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Year</th><th>Pick</th><th class="l">Player</th><th>Pts</th><th>VOR</th></tr></thead>
+      <tbody>
+      {% for p in picks %}
+      <tr><td><a href="{{ site.url('draft', p.year) }}">{{ p.year }}</a></td><td>{{ p.round }}.{{ "%02d"|format(p.pick) }}</td><td class="l">{% if p.player_id in site.player_slugs %}<a href="{{ site.url('player', p.player_id) }}">{{ p.player_name }}</a>{% else %}{{ p.player_name }}{% endif %}</td><td>{{ p.points_for|pts }}</td><td>{{ p.vor_for|pts }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    {% else %}<p class="muted">No draft picks recorded.</p>{% endif %}
+  </div>
+  <div>
+    <h2>Trades</h2>
+    {% if trades %}
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Date</th><th class="l">With</th><th class="l">Got</th><th class="l">Gave</th><th class="l">Verdict</th></tr></thead>
+      <tbody>
+      {% for t in trades %}
+      {% set own = t.sides[0] if t.sides[0].franchise_id == h.id else t.sides[1] %}
+      {% set other = t.sides[1] if t.sides[0].franchise_id == h.id else t.sides[0] %}
+      <tr>
+        <td><a href="{{ site.url('trades') }}#t{{ t.year }}-{{ t.timestamp }}">{{ t.timestamp|date }}</a></td>
+        <td class="l"><a href="{{ site.url('franchise', other.franchise_id) }}">{{ other.name }}</a></td>
+        <td class="l">{% for a in own.received %}{{ a.label }}{{ "; " if not loop.last }}{% endfor %}</td>
+        <td class="l">{% for a in other.received %}{{ a.label }}{{ "; " if not loop.last }}{% endfor %}</td>
+        <td class="l">{{ t.verdict }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    {% else %}<p class="muted">No trades recorded.</p>{% endif %}
+  </div>
+</div>
+{% endblock %}
