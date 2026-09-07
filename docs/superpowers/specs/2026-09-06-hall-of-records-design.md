@@ -18,7 +18,7 @@ Constraints: $0 to run, no manual work after the first deploy, and no exposure o
 | Surface | Static website first; Discord gets a weekly recap and a season wrap. Slash commands are a later spec. |
 | Pages | Player pages, franchise pages (with head-to-head on the page), records book, Hall of Fame, draft history, trade ledger. No season pages; the home page lists champions by year. |
 | Franchise identity | Aggregate by MFL franchise id, display only the current name, group the page body by the names the team has used. Ids never appear in HTML or URLs. |
-| Ranking stat | Value over replacement: points minus the median starter's score at the position that week (originally the last guaranteed starter slot; changed 2026-09-08). Raw points are always shown beside it. |
+| Ranking stat | Value over replacement: points minus the score of the starter at rank ⌈2n/3⌉ at the position that week (originally the last guaranteed starter slot; changed 2026-09-08). Raw points are always shown beside it. |
 | Hall of Fame | Rule-based and automatic, thresholds in config, with a watch list. A curated overlay can come later. |
 | Discord | Both posts: a recap every completed week of the season and a wrap after the final. |
 | Hosting | GitHub Actions and GitHub Pages. Raw MFL snapshots are committed to this repo as JSON. No new AWS resources. |
@@ -131,10 +131,10 @@ All figures derive from the raw snapshots at build time. Scores are kept to one 
 For each season, week, and position:
 
 1. Pool = every player with `status` starter in every lineup MFL lists for that week, including lineups that are not counted games, with their position from that season's players snapshot. Players with no score count as 0.0.
-2. Rank the pool by score, best first. Baseline = the score at position ⌈n/2⌉ for a pool of n starters: the 6th of 12 quarterbacks, the 12th of 24 running backs, the 7th of 13. That is the median starter at the position that week.
+2. Rank the pool by score, best first. Baseline = the score at position ⌈2n/3⌉ for a pool of n starters: the 8th of 12 quarterbacks, the 16th of 24 running backs, the 9th of 13. That is a starter at the top of the bottom third of the position that week.
 3. A pool of one starter is its own baseline (value 0).
 
-The baseline was originally the last guaranteed starter slot (the 12th QB, 24th RB). Changed on 2026-09-08 to the median starter because lineups from tanking teams that start unrealistic players were setting replacement level; the median ignores them. The site and Discord keep the short name VOR and define it as "points above the median starter at the position that week".
+The baseline was originally the last guaranteed starter slot (the 12th QB, 24th RB). Changed on 2026-09-08 because lineups from tanking teams that start unrealistic players were setting replacement level. The two-thirds rank keeps the baseline below average, the way baseball's replacement level sits a fixed distance below average, while the bottom third of starters never sets it. The median was considered and rejected: it compresses positions whose starters are bunched together, which dropped every quarterback out of the top of the leaderboard. The site and Discord keep the short name VOR and define it as "points above a bottom-third starter at the position that week".
 
 A start is worth `points - baseline`. Season, career, playoff, franchise-stint, draft-pick, and trade totals are sums over counted starts. Every leaderboard and "top starter" cell sorts on VOR and displays raw points beside it.
 
@@ -209,7 +209,7 @@ Static HTML rendered from Jinja2 templates, one hand-written stylesheet, and one
 | `/drafts/` and `/drafts/<year>/` | Franchise draft rankings; each draft with hindsight columns |
 | `/trades/` | Every trade newest first with per-season anchors and verdicts |
 
-Slugs are lowercase ASCII with hyphens. A renamed franchise moves to a new URL; nothing external links deeper than `/`. The player id suffix (an MFL player id, not a franchise id) keeps same-named players apart. All internal links are relative to `site_base_url` so the site works under the Pages project path. Tables wider than the viewport scroll horizontally inside their container. Every page's footer carries "through <year> Week <n>", "VOR: points above the median starter at the position that week", and "Data from MyFantasyLeague".
+Slugs are lowercase ASCII with hyphens. A renamed franchise moves to a new URL; nothing external links deeper than `/`. The player id suffix (an MFL player id, not a franchise id) keeps same-named players apart. All internal links are relative to `site_base_url` so the site works under the Pages project path. Tables wider than the viewport scroll horizontally inside their container. Every page's footer carries "through <year> Week <n>", "VOR: points above a bottom-third starter at the position that week", and "Data from MyFantasyLeague".
 
 Rendering is deterministic: the same snapshots produce byte-identical output, which keeps Pages deploys and tests stable.
 
