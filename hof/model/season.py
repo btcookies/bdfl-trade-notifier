@@ -301,6 +301,7 @@ def parse_week(body: dict[str, Any], number: int) -> Week:
 def parse_bracket(body: dict[str, Any]) -> tuple[BracketGame, ...]:
     games: list[BracketGame] = []
     rounds = as_list((body.get("playoffBracket") or {}).get("playoffRound"))
+    rounds = sorted(rounds, key=lambda r: int_or_none(r.get("week")) or 0)
     for round_index, round_ in enumerate(rounds):
         week = int_or_none(round_.get("week"))
         if week is None:

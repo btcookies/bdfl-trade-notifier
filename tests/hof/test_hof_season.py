@@ -88,6 +88,19 @@ def test_parse_bracket_before_it_is_set():
     assert games == (BracketGame(15, "1", 0, None, None, 3, 6),)
 
 
+def test_parse_bracket_orders_rounds_by_week_not_export_order():
+    body = {
+        "playoffBracket": {
+            "playoffRound": [
+                {"week": "16", "playoffGame": [{"game_id": "2", "home": {"seed": "1"}, "away": {"seed": "2"}}]},
+                {"week": "14", "playoffGame": [{"game_id": "1", "home": {"seed": "3"}, "away": {"seed": "6"}}]},
+            ]
+        }
+    }
+    games = parse_bracket(body)
+    assert [(g.week, g.round_index) for g in games] == [(14, 0), (16, 1)]
+
+
 def test_parse_standings(fixtures_dir):
     standings = parse_standings(load(fixtures_dir, "standings.json"))
     assert len(standings) == 12
