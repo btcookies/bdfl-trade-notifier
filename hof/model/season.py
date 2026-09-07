@@ -14,7 +14,7 @@ from hof.model.transactions import TransactionLog
 
 log = logging.getLogger(__name__)
 
-ROUND_NAMES = ("Final", "Semifinal", "Quarterfinal", "Round of 16")
+ROUND_NAMES = ("Final", "Semifinal")
 RESULTS = {"W", "L", "T"}
 
 
@@ -210,9 +210,16 @@ class Season:
         return max((g.round_index for g in self.bracket), default=-1) + 1
 
     def round_name(self, round_index: int) -> str:
+        """Final and Semifinal are named by distance from the final, since that's what those
+        words mean regardless of bracket size. The actual first round played is "First Round"
+        rather than a team-count-implying name like "Quarterfinal" -- BDFL's bracket has byes
+        (fewer than a full round's worth of teams play in round 0), so a name that implies a
+        specific team count would be wrong."""
         from_end = self.bracket_rounds - 1 - round_index
         if 0 <= from_end < len(ROUND_NAMES):
             return ROUND_NAMES[from_end]
+        if round_index == 0:
+            return "First Round"
         return f"Round {round_index + 1}"
 
     def playoff_weeks(self) -> set[int]:

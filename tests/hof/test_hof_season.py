@@ -253,8 +253,18 @@ def test_ties_have_no_winner():
 def test_round_names_count_back_from_the_final():
     season = synthetic_season()
     three = Season(**{**season.__dict__, "bracket": (BracketGame(2, "1", 0, None, None, 3, 6), BracketGame(3, "2", 1, None, None, 1, None), BracketGame(4, "3", 2, None, None, None, None))})
-    assert [three.round_name(i) for i in range(3)] == ["Quarterfinal", "Semifinal", "Final"]
+    assert [three.round_name(i) for i in range(3)] == ["First Round", "Semifinal", "Final"]
     assert three.playoff_weeks() == {2, 3, 4}
+
+
+def test_round_name_falls_back_to_a_generic_label_for_a_middle_round():
+    """A round that's neither the final, the semifinal, nor the first round played (only
+    possible with 4+ bracket rounds, which BDFL's format has never needed) gets a plain
+    generic label rather than a made-up team-count name."""
+    season = synthetic_season()
+    four = Season(**{**season.__dict__, "bracket": (), "bracket_info": BracketInfo(teams_involved=9)})
+    assert four.bracket_rounds == 4
+    assert [four.round_name(i) for i in range(4)] == ["First Round", "Round 2", "Semifinal", "Final"]
 
 
 def test_bracket_rounds_anchors_to_declared_team_count_not_posted_rounds():
@@ -270,7 +280,7 @@ def test_bracket_rounds_anchors_to_declared_team_count_not_posted_rounds():
         }
     )
     assert mid_playoffs.bracket_rounds == 3
-    assert mid_playoffs.round_name(0) == "Quarterfinal"
+    assert mid_playoffs.round_name(0) == "First Round"
     assert mid_playoffs.champion_id is None
 
 

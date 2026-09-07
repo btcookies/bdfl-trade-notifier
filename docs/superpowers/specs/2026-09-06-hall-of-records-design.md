@@ -147,7 +147,7 @@ A start is worth `points - baseline`. Season, career, playoff, franchise-stint, 
 ### Franchises
 
 - Per season: W-L-T, division record, PF, PA, seed, finish, top starter (by VOR, showing points).
-- **Finish** labels: `Champion`, `Runner-up`, then `Lost <round>` where rounds are named from the end of the bracket (`Final`, `Semifinal`, `Quarterfinal`, `Round of 16`), else `Missed playoffs`. The in-progress season shows `In progress`.
+- **Finish** labels: `Champion`, `Runner-up`, then `Lost <round>` where the last two rounds before the final are named `Semifinal` and `Final`, the first round played is `First Round` (never a team-count name like `Quarterfinal`, since BDFL's bracket has byes), and any round between those falls back to `Round <n>`; else `Missed playoffs`. The in-progress season shows `In progress`.
 - All-time and per-era: record, PF, PA, playoff appearances, playoff record, titles, best and worst season (by win percentage, then points for), longest win and loss streaks, current streak (across seasons).
 - All-time top starters: players ranked by VOR accumulated while starting for this franchise, with an era filter.
 - **Head-to-head** against each opponent, listed by the opponent's current name: all-time, regular-season, and playoff records, PF, PA, average margin, current streak, last meeting, and the full game log with the names both teams used at the time.

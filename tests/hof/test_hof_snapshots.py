@@ -28,7 +28,7 @@ def test_counted_games_in_the_2020_fixture(fixtures_dir):
         by_week.setdefault(game.week, []).append(game)
     assert {week: len(games) for week, games in by_week.items()} == {1: 6, 13: 6, 14: 2, 15: 2, 16: 1}
     assert all(not g.playoff for g in by_week[1] + by_week[13])
-    assert [g.round_name for g in by_week[14]] == ["Quarterfinal", "Quarterfinal"]
+    assert [g.round_name for g in by_week[14]] == ["First Round", "First Round"]
     assert [g.round_name for g in by_week[15]] == ["Semifinal", "Semifinal"]
     assert by_week[16][0].round_name == "Final"
     assert season.champion_id == "0010"
