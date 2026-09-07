@@ -1,0 +1,494 @@
+{
+ "draftResults": {
+  "draftUnit": {
+   "draftPick": [
+    {
+     "comments": "",
+     "franchise": "0001",
+     "pick": "01",
+     "player": "13129",
+     "round": "01",
+     "timestamp": "1499529894"
+    },
+    {
+     "comments": "Pick traded from Free hernandez.\n",
+     "franchise": "0001",
+     "pick": "02",
+     "player": "13153",
+     "round": "01",
+     "timestamp": "1499529919"
+    },
+    {
+     "comments": "Pick traded from Marcus Peters' Peter Peckers.",
+     "franchise": "0002",
+     "pick": "03",
+     "player": "13128",
+     "round": "01",
+     "timestamp": "1499533647"
+    },
+    {
+     "comments": "",
+     "franchise": "0002",
+     "pick": "04",
+     "player": "13154",
+     "round": "01",
+     "timestamp": "1499533670"
+    },
+    {
+     "comments": "",
+     "franchise": "0007",
+     "pick": "05",
+     "player": "13130",
+     "round": "01",
+     "timestamp": "1499533985"
+    },
+    {
+     "comments": "",
+     "franchise": "0008",
+     "pick": "06",
+     "player": "13131",
+     "round": "01",
+     "timestamp": "1499534244"
+    },
+    {
+     "comments": "",
+     "franchise": "0009",
+     "pick": "07",
+     "player": "13138",
+     "round": "01",
+     "timestamp": "1499537711"
+    },
+    {
+     "comments": "Pick traded from Ezekiel 23:20.",
+     "franchise": "0002",
+     "pick": "08",
+     "player": "13188",
+     "round": "01",
+     "timestamp": "1499537944"
+    },
+    {
+     "comments": "",
+     "franchise": "0012",
+     "pick": "09",
+     "player": "13157",
+     "round": "01",
+     "timestamp": "1499546694"
+    },
+    {
+     "comments": "",
+     "franchise": "0004",
+     "pick": "10",
+     "player": "13189",
+     "round": "01",
+     "timestamp": "1499550708"
+    },
+    {
+     "comments": "Pick traded from Do Your Job.\nPick traded from The Youth Academy.",
+     "franchise": "0005",
+     "pick": "11",
+     "player": "13155",
+     "round": "01",
+     "timestamp": "1499559201"
+    },
+    {
+     "comments": "",
+     "franchise": "0003",
+     "pick": "12",
+     "player": "13133",
+     "round": "01",
+     "timestamp": "1499561947"
+    },
+    {
+     "comments": "Pick traded from The Youth Academy.\nPick traded from Free hernandez.\n",
+     "franchise": "0007",
+     "pick": "01",
+     "player": "13132",
+     "round": "02",
+     "timestamp": "1499564147"
+    },
+    {
+     "comments": "Timer Expired",
+     "franchise": "0005",
+     "pick": "02",
+     "player": "9087",
+     "round": "02",
+     "timestamp": "1499607913"
+    },
+    {
+     "comments": "Pick traded from Marcus Peters' Peter Peckers.\nPick traded from The Youth Academy.\nPick traded from Free hernandez.\nPick traded from you know why i'm here.",
+     "franchise": "0010",
+     "pick": "03",
+     "player": "13234",
+     "round": "02",
+     "timestamp": "1499613402"
+    },
+    {
+     "comments": "Pick traded from Teenage Newton Ninja Turtles.",
+     "franchise": "0010",
+     "pick": "04",
+     "player": "13134",
+     "round": "02",
+     "timestamp": "1499613491"
+    },
+    {
+     "comments": "Pick traded from you know why i'm here.",
+     "franchise": "0002",
+     "pick": "05",
+     "player": "13113",
+     "round": "02",
+     "timestamp": "1499613514"
+    },
+    {
+     "comments": "Pick traded from Folk the King.\n",
+     "franchise": "0011",
+     "pick": "06",
+     "player": "13192",
+     "round": "02",
+     "timestamp": "1499613824"
+    },
+    {
+     "comments": "",
+     "franchise": "0009",
+     "pick": "07",
+     "player": "13116",
+     "round": "02",
+     "timestamp": "1499618992"
+    },
+    {
+     "comments": "Pick made based on Pre-Draft List",
+     "franchise": "0011",
+     "pick": "08",
+     "player": "13156",
+     "round": "02",
+     "timestamp": "1499618992"
+    },
+    {
+     "comments": "Pick traded from Salty Spittoon.\n",
+     "franchise": "0001",
+     "pick": "09",
+     "player": "13176",
+     "round": "02",
+     "timestamp": "1499635176"
+    },
+    {
+     "comments": "Timer Expired",
+     "franchise": "0004",
+     "pick": "10",
+     "player": "9087",
+     "round": "02",
+     "timestamp": "1499653814"
+    },
+    {
+     "comments": "",
+     "franchise": "0006",
+     "pick": "11",
+     "player": "13167",
+     "round": "02",
+     "timestamp": "1499657654"
+    },
+    {
+     "comments": "",
+     "franchise": "0003",
+     "pick": "12",
+     "player": "13114",
+     "round": "02",
+     "timestamp": "1499692421"
+    },
+    {
+     "comments": "",
+     "franchise": "0001",
+     "pick": "01",
+     "player": "13163",
+     "round": "03",
+     "timestamp": "1499695540"
+    },
+    {
+     "comments": "",
+     "franchise": "0005",
+     "pick": "02",
+     "player": "13171",
+     "round": "03",
+     "timestamp": "1499696363"
+    },
+    {
+     "comments": "",
+     "franchise": "0010",
+     "pick": "03",
+     "player": "13319",
+     "round": "03",
+     "timestamp": "1499698156"
+    },
+    {
+     "comments": "Pick traded from Teenage Newton Ninja Turtles.",
+     "franchise": "0007",
+     "pick": "04",
+     "player": "13236",
+     "round": "03",
+     "timestamp": "1499699839"
+    },
+    {
+     "comments": "Pick traded from you know why i'm here.\n",
+     "franchise": "0001",
+     "pick": "05",
+     "player": "13277",
+     "round": "03",
+     "timestamp": "1499700528"
+    },
+    {
+     "comments": "Pick made based on Pre-Draft List",
+     "franchise": "0008",
+     "pick": "06",
+     "player": "13164",
+     "round": "03",
+     "timestamp": "1499700528"
+    },
+    {
+     "comments": "",
+     "franchise": "0009",
+     "pick": "07",
+     "player": "13168",
+     "round": "03",
+     "timestamp": "1499706135"
+    },
+    {
+     "comments": "Pick traded from Ezekiel 23:20.",
+     "franchise": "0007",
+     "pick": "08",
+     "player": "13158",
+     "round": "03",
+     "timestamp": "1499708990"
+    },
+    {
+     "comments": "",
+     "franchise": "0012",
+     "pick": "09",
+     "player": "13135",
+     "round": "03",
+     "timestamp": "1499709311"
+    },
+    {
+     "comments": "",
+     "franchise": "0004",
+     "pick": "10",
+     "player": "13115",
+     "round": "03",
+     "timestamp": "1499718057"
+    },
+    {
+     "comments": "",
+     "franchise": "0006",
+     "pick": "11",
+     "player": "13146",
+     "round": "03",
+     "timestamp": "1499721693"
+    },
+    {
+     "comments": "",
+     "franchise": "0003",
+     "pick": "12",
+     "player": "13193",
+     "round": "03",
+     "timestamp": "1499723737"
+    },
+    {
+     "comments": "Pick traded from The Youth Academy.",
+     "franchise": "0006",
+     "pick": "01",
+     "player": "13137",
+     "round": "04",
+     "timestamp": "1499729980"
+    },
+    {
+     "comments": "Pick traded from Free hernandez.\nPick made based on Pre-Draft List",
+     "franchise": "0001",
+     "pick": "02",
+     "player": "13254",
+     "round": "04",
+     "timestamp": "1499729980"
+    },
+    {
+     "comments": "Pick traded from Marcus Peters' Peter Peckers.\nPick traded from Teenage Newton Ninja Turtles.",
+     "franchise": "0006",
+     "pick": "03",
+     "player": "13190",
+     "round": "04",
+     "timestamp": "1499731047"
+    },
+    {
+     "comments": "Pick traded from Teenage Newton Ninja Turtles.",
+     "franchise": "0006",
+     "pick": "04",
+     "player": "13143",
+     "round": "04",
+     "timestamp": "1499731074"
+    },
+    {
+     "comments": "Pick traded from you know why i'm here.",
+     "franchise": "0002",
+     "pick": "05",
+     "player": "13165",
+     "round": "04",
+     "timestamp": "1499731502"
+    },
+    {
+     "comments": "",
+     "franchise": "0008",
+     "pick": "06",
+     "player": "13173",
+     "round": "04",
+     "timestamp": "1499732332"
+    },
+    {
+     "comments": "",
+     "franchise": "0009",
+     "pick": "07",
+     "player": "13141",
+     "round": "04",
+     "timestamp": "1499733724"
+    },
+    {
+     "comments": "Pick traded from Ezekiel 23:20.",
+     "franchise": "0002",
+     "pick": "08",
+     "player": "13290",
+     "round": "04",
+     "timestamp": "1499734761"
+    },
+    {
+     "comments": "",
+     "franchise": "0012",
+     "pick": "09",
+     "player": "13244",
+     "round": "04",
+     "timestamp": "1499776470"
+    },
+    {
+     "comments": "Timer Expired",
+     "franchise": "0004",
+     "pick": "10",
+     "player": "9087",
+     "round": "04",
+     "timestamp": "1499795152"
+    },
+    {
+     "comments": "",
+     "franchise": "0006",
+     "pick": "11",
+     "player": "13160",
+     "round": "04",
+     "timestamp": "1499806592"
+    },
+    {
+     "comments": "",
+     "franchise": "0003",
+     "pick": "12",
+     "player": "13240",
+     "round": "04",
+     "timestamp": "1499809800"
+    },
+    {
+     "comments": "Pick traded from The Youth Academy.\nTimer Expired",
+     "franchise": "0004",
+     "pick": "01",
+     "player": "9087",
+     "round": "05",
+     "timestamp": "1499828403"
+    },
+    {
+     "comments": "Timer Expired",
+     "franchise": "0005",
+     "pick": "02",
+     "player": "10978",
+     "round": "05",
+     "timestamp": "1499871613"
+    },
+    {
+     "comments": "",
+     "franchise": "0010",
+     "pick": "03",
+     "player": "13169",
+     "round": "05",
+     "timestamp": "1499880002"
+    },
+    {
+     "comments": "Pick traded from Teenage Newton Ninja Turtles.",
+     "franchise": "0010",
+     "pick": "04",
+     "player": "13235",
+     "round": "05",
+     "timestamp": "1499880066"
+    },
+    {
+     "comments": "",
+     "franchise": "0007",
+     "pick": "05",
+     "player": "13334",
+     "round": "05",
+     "timestamp": "1499882759"
+    },
+    {
+     "comments": "Pick made based on Pre-Draft List",
+     "franchise": "0008",
+     "pick": "06",
+     "player": "13195",
+     "round": "05",
+     "timestamp": "1499882759"
+    },
+    {
+     "comments": "",
+     "franchise": "0009",
+     "pick": "07",
+     "player": "13191",
+     "round": "05",
+     "timestamp": "1499887335"
+    },
+    {
+     "comments": "",
+     "franchise": "0011",
+     "pick": "08",
+     "player": "13144",
+     "round": "05",
+     "timestamp": "1499887577"
+    },
+    {
+     "comments": "Timer Expired",
+     "franchise": "0012",
+     "pick": "09",
+     "player": "10998",
+     "round": "05",
+     "timestamp": "1499905859"
+    },
+    {
+     "comments": "Timer Expired",
+     "franchise": "0004",
+     "pick": "10",
+     "player": "10392",
+     "round": "05",
+     "timestamp": "1499949926"
+    },
+    {
+     "comments": "",
+     "franchise": "0006",
+     "pick": "11",
+     "player": "13299",
+     "round": "05",
+     "timestamp": "1499965184"
+    },
+    {
+     "comments": "",
+     "franchise": "0003",
+     "pick": "12",
+     "player": "13378",
+     "round": "05",
+     "timestamp": "1499965480"
+    }
+   ],
+   "draftType": "SAME",
+   "round1DraftOrder": "0001,0001,0002,0002,0007,0008,0009,0002,0012,0004,0005,0003,",
+   "static_url": "http://www45.myfantasyleague.com/fflnetdynamic2017/65522_LEAGUE_draft_results.xml",
+   "unit": "LEAGUE"
+  }
+ },
+ "encoding": "utf-8",
+ "version": "1.0"
+}

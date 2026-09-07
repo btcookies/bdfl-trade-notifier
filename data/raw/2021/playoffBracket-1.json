@@ -1,0 +1,87 @@
+{
+ "encoding": "utf-8",
+ "playoffBracket": {
+  "bracket_id": "1",
+  "playoffRound": [
+   {
+    "playoffGame": [
+     {
+      "away": {
+       "franchise_id": "0009",
+       "points": "90.5",
+       "seed": "6"
+      },
+      "game_id": "1",
+      "home": {
+       "franchise_id": "0008",
+       "points": "111.8",
+       "seed": "3"
+      }
+     },
+     {
+      "away": {
+       "franchise_id": "0007",
+       "points": "52.7",
+       "seed": "5"
+      },
+      "game_id": "2",
+      "home": {
+       "franchise_id": "0006",
+       "points": "70.3",
+       "seed": "4"
+      }
+     }
+    ],
+    "week": "15"
+   },
+   {
+    "playoffGame": [
+     {
+      "away": {
+       "franchise_id": "0008",
+       "points": "94.1",
+       "winner_of_game": "1"
+      },
+      "game_id": "3",
+      "home": {
+       "franchise_id": "0012",
+       "points": "131.6",
+       "seed": "1"
+      }
+     },
+     {
+      "away": {
+       "franchise_id": "0006",
+       "points": "129.5",
+       "winner_of_game": "2"
+      },
+      "game_id": "4",
+      "home": {
+       "franchise_id": "0003",
+       "points": "124.1",
+       "seed": "2"
+      }
+     }
+    ],
+    "week": "16"
+   },
+   {
+    "playoffGame": {
+     "away": {
+      "franchise_id": "0012",
+      "points": "119.1",
+      "winner_of_game": "3"
+     },
+     "game_id": "5",
+     "home": {
+      "franchise_id": "0006",
+      "points": "162.2",
+      "winner_of_game": "4"
+     }
+    },
+    "week": "17"
+   }
+  ]
+ },
+ "version": "1.0"
+}

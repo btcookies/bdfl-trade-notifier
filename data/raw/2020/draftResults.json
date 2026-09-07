@@ -1,0 +1,398 @@
+{
+ "draftResults": {
+  "draftUnit": {
+   "draftPick": [
+    {
+     "comments": "[Pick made by Commissioner.] ",
+     "franchise": "0006",
+     "pick": "01",
+     "player": "14803",
+     "round": "01",
+     "timestamp": "1595721663"
+    },
+    {
+     "comments": "[Pick made from Pre-Draft List] ",
+     "franchise": "0012",
+     "pick": "02",
+     "player": "14802",
+     "round": "01",
+     "timestamp": "1595721663"
+    },
+    {
+     "comments": "[Pick traded from Free hernandez.\nPick made from Pre-Draft List] ",
+     "franchise": "0004",
+     "pick": "03",
+     "player": "14800",
+     "round": "01",
+     "timestamp": "1595721663"
+    },
+    {
+     "comments": "[Pick made by Commissioner.] ",
+     "franchise": "0004",
+     "pick": "04",
+     "player": "14799",
+     "round": "01",
+     "timestamp": "1595721688"
+    },
+    {
+     "comments": "[Pick traded from Folk the King.\nPick made from Pre-Draft List] ",
+     "franchise": "0001",
+     "pick": "05",
+     "player": "14797",
+     "round": "01",
+     "timestamp": "1595721688"
+    },
+    {
+     "comments": "[Pick made from Pre-Draft List] ",
+     "franchise": "0003",
+     "pick": "06",
+     "player": "14832",
+     "round": "01",
+     "timestamp": "1595721688"
+    },
+    {
+     "comments": "[Pick made from Pre-Draft List] ",
+     "franchise": "0010",
+     "pick": "07",
+     "player": "14833",
+     "round": "01",
+     "timestamp": "1595721688"
+    },
+    {
+     "comments": "[Pick traded from Suck My Ditka.\nPick traded from Do Your Job.\nPick made by Commissioner.] ",
+     "franchise": "0004",
+     "pick": "08",
+     "player": "14836",
+     "round": "01",
+     "timestamp": "1595721700"
+    },
+    {
+     "comments": "[Pick made from Pre-Draft List] ",
+     "franchise": "0002",
+     "pick": "09",
+     "player": "14810",
+     "round": "01",
+     "timestamp": "1595721700"
+    },
+    {
+     "comments": "[Pick traded from you know why i'm here.\nPick made from Pre-Draft List] ",
+     "franchise": "0006",
+     "pick": "10",
+     "player": "14834",
+     "round": "01",
+     "timestamp": "1595721700"
+    },
+    {
+     "comments": "[Pick traded from The Youth Academy.\nPick made from Pre-Draft List] ",
+     "franchise": "0008",
+     "pick": "11",
+     "player": "14839",
+     "round": "01",
+     "timestamp": "1595721700"
+    },
+    {
+     "comments": "[Pick made from Pre-Draft List] ",
+     "franchise": "0011",
+     "pick": "12",
+     "player": "14835",
+     "round": "01",
+     "timestamp": "1595721700"
+    },
+    {
+     "comments": "[Pick made from Pre-Draft List] ",
+     "franchise": "0006",
+     "pick": "01",
+     "player": "14777",
+     "round": "02",
+     "timestamp": "1595721700"
+    },
+    {
+     "comments": "[Pick made by Commissioner.] ",
+     "franchise": "0012",
+     "pick": "02",
+     "player": "14842",
+     "round": "02",
+     "timestamp": "1595721723"
+    },
+    {
+     "comments": "[Pick traded from Free hernandez.\nPick made by Commissioner.] ",
+     "franchise": "0010",
+     "pick": "03",
+     "player": "14798",
+     "round": "02",
+     "timestamp": "1595721740"
+    },
+    {
+     "comments": "[Pick traded from WhatDaTruck.\nPick made by Commissioner.] ",
+     "franchise": "0005",
+     "pick": "04",
+     "player": "14840",
+     "round": "02",
+     "timestamp": "1595721762"
+    },
+    {
+     "comments": "[Pick made by Commissioner.] ",
+     "franchise": "0008",
+     "pick": "05",
+     "player": "14846",
+     "round": "02",
+     "timestamp": "1595721776"
+    },
+    {
+     "comments": "[Pick traded from Jeff Janis Fan Club.\nPick made by Commissioner.] ",
+     "franchise": "0009",
+     "pick": "06",
+     "player": "14852",
+     "round": "02",
+     "timestamp": "1595721793"
+    },
+    {
+     "comments": "[Pick traded from Marcus Peters' Peter Peckers.\nPick traded from D.K. Mudbone.\nPick made by Commissioner.] ",
+     "franchise": "0009",
+     "pick": "07",
+     "player": "14838",
+     "round": "02",
+     "timestamp": "1595721806"
+    },
+    {
+     "comments": "[Pick made by Commissioner.] ",
+     "franchise": "0009",
+     "pick": "08",
+     "player": "14844",
+     "round": "02",
+     "timestamp": "1595721826"
+    },
+    {
+     "comments": "[Pick traded from D.K. Mudbone.\nPick traded from Jeff Janis Fan Club.\nPick made by Commissioner.] ",
+     "franchise": "0002",
+     "pick": "09",
+     "player": "14778",
+     "round": "02",
+     "timestamp": "1595721840"
+    },
+    {
+     "comments": "[Pick traded from you know why i'm here.\nPick traded from Suck My Ditka.\nPick made by Commissioner.] ",
+     "franchise": "0002",
+     "pick": "10",
+     "player": "14805",
+     "round": "02",
+     "timestamp": "1595721858"
+    },
+    {
+     "comments": "[Pick made by Commissioner.] ",
+     "franchise": "0001",
+     "pick": "11",
+     "player": "14837",
+     "round": "02",
+     "timestamp": "1595721873"
+    },
+    {
+     "comments": "[Pick traded from Half Chubb.\nPick traded from The Youth Academy.\nPick made by Commissioner.] ",
+     "franchise": "0008",
+     "pick": "12",
+     "player": "14808",
+     "round": "02",
+     "timestamp": "1595721892"
+    },
+    {
+     "comments": "[Pick made from Pre-Draft List] ",
+     "franchise": "0006",
+     "pick": "01",
+     "player": "14867",
+     "round": "03",
+     "timestamp": "1595721892"
+    },
+    {
+     "comments": "[Pick made by Commissioner.] ",
+     "franchise": "0012",
+     "pick": "02",
+     "player": "14841",
+     "round": "03",
+     "timestamp": "1595721931"
+    },
+    {
+     "comments": "[Pick traded from Free hernandez.\nPick traded from Suck My Ditka.\nPick made by Commissioner.] ",
+     "franchise": "0002",
+     "pick": "03",
+     "player": "14864",
+     "round": "03",
+     "timestamp": "1595721949"
+    },
+    {
+     "comments": "[Pick made by Commissioner.] ",
+     "franchise": "0004",
+     "pick": "04",
+     "player": "14804",
+     "round": "03",
+     "timestamp": "1595722017"
+    },
+    {
+     "comments": "[Pick traded from Folk the King.\nPick made by Commissioner.] ",
+     "franchise": "0003",
+     "pick": "05",
+     "player": "14807",
+     "round": "03",
+     "timestamp": "1595722038"
+    },
+    {
+     "comments": "[Pick made by Commissioner.] ",
+     "franchise": "0003",
+     "pick": "06",
+     "player": "14863",
+     "round": "03",
+     "timestamp": "1595722057"
+    },
+    {
+     "comments": "[Pick made by Commissioner.] ",
+     "franchise": "0010",
+     "pick": "07",
+     "player": "14815",
+     "round": "03",
+     "timestamp": "1595722072"
+    },
+    {
+     "comments": "[Pick traded from Suck My Ditka.\nPick made by Commissioner.] ",
+     "franchise": "0011",
+     "pick": "08",
+     "player": "14779",
+     "round": "03",
+     "timestamp": "1595722090"
+    },
+    {
+     "comments": "[Pick made by Commissioner.] ",
+     "franchise": "0002",
+     "pick": "09",
+     "player": "14782",
+     "round": "03",
+     "timestamp": "1595722133"
+    },
+    {
+     "comments": "[Pick traded from you know why i'm here.\nPick traded from Marcus Peters' Peter Peckers.\nPick made by Commissioner.] ",
+     "franchise": "0007",
+     "pick": "10",
+     "player": "14801",
+     "round": "03",
+     "timestamp": "1595722154"
+    },
+    {
+     "comments": "[Pick made by Commissioner.] ",
+     "franchise": "0001",
+     "pick": "11",
+     "player": "14850",
+     "round": "03",
+     "timestamp": "1595722167"
+    },
+    {
+     "comments": "[Pick traded from Half Chubb.\nPick made by Commissioner.] ",
+     "franchise": "0002",
+     "pick": "12",
+     "player": "14869",
+     "round": "03",
+     "timestamp": "1595722183"
+    },
+    {
+     "comments": "[Pick made from Pre-Draft List] ",
+     "franchise": "0006",
+     "pick": "01",
+     "player": "14843",
+     "round": "04",
+     "timestamp": "1595722183"
+    },
+    {
+     "comments": "[Pick made by Commissioner.] ",
+     "franchise": "0012",
+     "pick": "02",
+     "player": "14847",
+     "round": "04",
+     "timestamp": "1595722207"
+    },
+    {
+     "comments": "[Pick traded from Free hernandez.\nPick made by Commissioner.] ",
+     "franchise": "0009",
+     "pick": "03",
+     "player": "14858",
+     "round": "04",
+     "timestamp": "1595722221"
+    },
+    {
+     "comments": "[Pick made by Commissioner.] ",
+     "franchise": "0004",
+     "pick": "04",
+     "player": "14870",
+     "round": "04",
+     "timestamp": "1595722238"
+    },
+    {
+     "comments": "[Pick made by Commissioner.] ",
+     "franchise": "0008",
+     "pick": "05",
+     "player": "14936",
+     "round": "04",
+     "timestamp": "1595722254"
+    },
+    {
+     "comments": "[Pick traded from Jeff Janis Fan Club.\nPick traded from you know why i'm here.\nPick traded from Marcus Peters' Peter Peckers.\nPick made by Commissioner.] ",
+     "franchise": "0003",
+     "pick": "06",
+     "player": "14806",
+     "round": "04",
+     "timestamp": "1595722273"
+    },
+    {
+     "comments": "[Pick traded from Marcus Peters' Peter Peckers.\nPick made by Commissioner.] ",
+     "franchise": "0003",
+     "pick": "07",
+     "player": "14783",
+     "round": "04",
+     "timestamp": "1595722297"
+    },
+    {
+     "comments": "[Pick traded from Suck My Ditka.\nPick made by Commissioner.] ",
+     "franchise": "0005",
+     "pick": "08",
+     "player": "14845",
+     "round": "04",
+     "timestamp": "1595722314"
+    },
+    {
+     "comments": "[Pick traded from D.K. Mudbone.\nPick traded from Suck My Ditka.\nPick made by Commissioner.] ",
+     "franchise": "0005",
+     "pick": "09",
+     "player": "14868",
+     "round": "04",
+     "timestamp": "1595722336"
+    },
+    {
+     "comments": "[Pick made by Commissioner.] ",
+     "franchise": "0007",
+     "pick": "10",
+     "player": "14780",
+     "round": "04",
+     "timestamp": "1595722350"
+    },
+    {
+     "comments": "[Pick traded from The Youth Academy.\nPick made by Commissioner.] ",
+     "franchise": "0010",
+     "pick": "11",
+     "player": "14875",
+     "round": "04",
+     "timestamp": "1595722368"
+    },
+    {
+     "comments": "[Pick traded from Half Chubb.\nPick traded from D.K. Mudbone.\nPick traded from Suck My Ditka.\nPick made by Commissioner.] ",
+     "franchise": "0005",
+     "pick": "12",
+     "player": "15021",
+     "round": "04",
+     "timestamp": "1595722383"
+    }
+   ],
+   "draftType": "SAME",
+   "round1DraftOrder": "0006,0012,0004,0004,0001,0003,0010,0004,0002,0006,0008,0011,",
+   "static_url": "https://www45.myfantasyleague.com/fflnetdynamic2020/65522_LEAGUE_draft_results.xml",
+   "unit": "LEAGUE"
+  }
+ },
+ "encoding": "utf-8",
+ "version": "1.0"
+}

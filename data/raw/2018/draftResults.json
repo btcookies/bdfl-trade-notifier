@@ -1,0 +1,494 @@
+{
+ "draftResults": {
+  "draftUnit": {
+   "draftPick": [
+    {
+     "comments": "",
+     "franchise": "0001",
+     "pick": "01",
+     "player": "13604",
+     "round": "01",
+     "timestamp": "1530984130"
+    },
+    {
+     "comments": "[Pick traded from Salty Spittoon.] ",
+     "franchise": "0001",
+     "pick": "02",
+     "player": "13605",
+     "round": "01",
+     "timestamp": "1530984181"
+    },
+    {
+     "comments": "[Pick traded from Teenage Newton Ninja Turtles.] unreal vibes (Comments Added Sat Jul 7 1:49:34 p.m. ET 2018)",
+     "franchise": "0004",
+     "pick": "03",
+     "player": "13608",
+     "round": "01",
+     "timestamp": "1530984339"
+    },
+    {
+     "comments": "",
+     "franchise": "0011",
+     "pick": "04",
+     "player": "13610",
+     "round": "01",
+     "timestamp": "1530984513"
+    },
+    {
+     "comments": "",
+     "franchise": "0006",
+     "pick": "05",
+     "player": "13629",
+     "round": "01",
+     "timestamp": "1530984558"
+    },
+    {
+     "comments": "[Pick traded from WhatDaTruck.] ",
+     "franchise": "0002",
+     "pick": "06",
+     "player": "13606",
+     "round": "01",
+     "timestamp": "1530984612"
+    },
+    {
+     "comments": "",
+     "franchise": "0008",
+     "pick": "07",
+     "player": "13635",
+     "round": "01",
+     "timestamp": "1530984664"
+    },
+    {
+     "comments": "[Pick traded from Free hernandez.] ",
+     "franchise": "0012",
+     "pick": "08",
+     "player": "13607",
+     "round": "01",
+     "timestamp": "1530984690"
+    },
+    {
+     "comments": "",
+     "franchise": "0003",
+     "pick": "09",
+     "player": "13630",
+     "round": "01",
+     "timestamp": "1530985082"
+    },
+    {
+     "comments": "stud. (Comments Added Sat Jul 7 1:09:25 p.m. CT 2018)",
+     "franchise": "0009",
+     "pick": "10",
+     "player": "13617",
+     "round": "01",
+     "timestamp": "1530985318"
+    },
+    {
+     "comments": "[Pick traded from you know why i'm here.] ",
+     "franchise": "0010",
+     "pick": "11",
+     "player": "13612",
+     "round": "01",
+     "timestamp": "1530985608"
+    },
+    {
+     "comments": "",
+     "franchise": "0010",
+     "pick": "12",
+     "player": "13633",
+     "round": "01",
+     "timestamp": "1530985629"
+    },
+    {
+     "comments": "",
+     "franchise": "0001",
+     "pick": "01",
+     "player": "13672",
+     "round": "02",
+     "timestamp": "1530985727"
+    },
+    {
+     "comments": "",
+     "franchise": "0012",
+     "pick": "02",
+     "player": "13646",
+     "round": "02",
+     "timestamp": "1530985729"
+    },
+    {
+     "comments": "",
+     "franchise": "0002",
+     "pick": "03",
+     "player": "13634",
+     "round": "02",
+     "timestamp": "1530985932"
+    },
+    {
+     "comments": "",
+     "franchise": "0011",
+     "pick": "04",
+     "player": "13639",
+     "round": "02",
+     "timestamp": "1530985973"
+    },
+    {
+     "comments": "",
+     "franchise": "0006",
+     "pick": "05",
+     "player": "13622",
+     "round": "02",
+     "timestamp": "1530986215"
+    },
+    {
+     "comments": "n",
+     "franchise": "0004",
+     "pick": "06",
+     "player": "13631",
+     "round": "02",
+     "timestamp": "1530986367"
+    },
+    {
+     "comments": "",
+     "franchise": "0008",
+     "pick": "07",
+     "player": "13674",
+     "round": "02",
+     "timestamp": "1530986410"
+    },
+    {
+     "comments": "[Pick traded from Free hernandez.] ",
+     "franchise": "0012",
+     "pick": "08",
+     "player": "13680",
+     "round": "02",
+     "timestamp": "1530986447"
+    },
+    {
+     "comments": "[Pick traded from Jeff Janis Fan Club.] ",
+     "franchise": "0010",
+     "pick": "09",
+     "player": "13591",
+     "round": "02",
+     "timestamp": "1530986620"
+    },
+    {
+     "comments": "[Pick traded from Suck My Ditka.] ",
+     "franchise": "0003",
+     "pick": "10",
+     "player": "13590",
+     "round": "02",
+     "timestamp": "1530986726"
+    },
+    {
+     "comments": "",
+     "franchise": "0007",
+     "pick": "11",
+     "player": "13593",
+     "round": "02",
+     "timestamp": "1530986815"
+    },
+    {
+     "comments": "[Pick traded from Marcus Peters' Peter Peckers.] ",
+     "franchise": "0002",
+     "pick": "12",
+     "player": "13662",
+     "round": "02",
+     "timestamp": "1530987102"
+    },
+    {
+     "comments": "",
+     "franchise": "0001",
+     "pick": "01",
+     "player": "13621",
+     "round": "03",
+     "timestamp": "1530987196"
+    },
+    {
+     "comments": "",
+     "franchise": "0012",
+     "pick": "02",
+     "player": "13589",
+     "round": "03",
+     "timestamp": "1530987358"
+    },
+    {
+     "comments": "",
+     "franchise": "0002",
+     "pick": "03",
+     "player": "13592",
+     "round": "03",
+     "timestamp": "1530987535"
+    },
+    {
+     "comments": "[Pick traded from Ezekiel 23:20.] ",
+     "franchise": "0003",
+     "pick": "04",
+     "player": "13789",
+     "round": "03",
+     "timestamp": "1530987883"
+    },
+    {
+     "comments": "",
+     "franchise": "0006",
+     "pick": "05",
+     "player": "13645",
+     "round": "03",
+     "timestamp": "1530988082"
+    },
+    {
+     "comments": "[Pick traded from WhatDaTruck.] ",
+     "franchise": "0009",
+     "pick": "06",
+     "player": "13668",
+     "round": "03",
+     "timestamp": "1530988519"
+    },
+    {
+     "comments": "",
+     "franchise": "0008",
+     "pick": "07",
+     "player": "13637",
+     "round": "03",
+     "timestamp": "1530988573"
+    },
+    {
+     "comments": "[Pick traded from Free hernandez.\nPick traded from Salty Spittoon.] ",
+     "franchise": "0001",
+     "pick": "08",
+     "player": "13726",
+     "round": "03",
+     "timestamp": "1530988634"
+    },
+    {
+     "comments": "[Pick traded from Jeff Janis Fan Club.] ",
+     "franchise": "0009",
+     "pick": "09",
+     "player": "13636",
+     "round": "03",
+     "timestamp": "1530988996"
+    },
+    {
+     "comments": "[Pick traded from Suck My Ditka.] ",
+     "franchise": "0003",
+     "pick": "10",
+     "player": "13657",
+     "round": "03",
+     "timestamp": "1530989211"
+    },
+    {
+     "comments": "[Pick traded from you know why i'm here.\nPick traded from Teenage Newton Ninja Turtles.] ",
+     "franchise": "0007",
+     "pick": "11",
+     "player": "13649",
+     "round": "03",
+     "timestamp": "1530989552"
+    },
+    {
+     "comments": "[Pick traded from Marcus Peters' Peter Peckers.\nPick traded from Teenage Newton Ninja Turtles.] ",
+     "franchise": "0005",
+     "pick": "12",
+     "player": "13640",
+     "round": "03",
+     "timestamp": "1530989575"
+    },
+    {
+     "comments": "",
+     "franchise": "0001",
+     "pick": "01",
+     "player": "13768",
+     "round": "04",
+     "timestamp": "1530989630"
+    },
+    {
+     "comments": "[Pick traded from Salty Spittoon.] ",
+     "franchise": "0001",
+     "pick": "02",
+     "player": "13658",
+     "round": "04",
+     "timestamp": "1530989639"
+    },
+    {
+     "comments": "",
+     "franchise": "0002",
+     "pick": "03",
+     "player": "13642",
+     "round": "04",
+     "timestamp": "1530989725"
+    },
+    {
+     "comments": "",
+     "franchise": "0011",
+     "pick": "04",
+     "player": "13671",
+     "round": "04",
+     "timestamp": "1530989898"
+    },
+    {
+     "comments": "",
+     "franchise": "0006",
+     "pick": "05",
+     "player": "13613",
+     "round": "04",
+     "timestamp": "1530989934"
+    },
+    {
+     "comments": "",
+     "franchise": "0004",
+     "pick": "06",
+     "player": "13595",
+     "round": "04",
+     "timestamp": "1530989990"
+    },
+    {
+     "comments": "",
+     "franchise": "0008",
+     "pick": "07",
+     "player": "13619",
+     "round": "04",
+     "timestamp": "1530990063"
+    },
+    {
+     "comments": "[Pick traded from Free hernandez.] ",
+     "franchise": "0012",
+     "pick": "08",
+     "player": "13678",
+     "round": "04",
+     "timestamp": "1530990139"
+    },
+    {
+     "comments": "",
+     "franchise": "0003",
+     "pick": "09",
+     "player": "13666",
+     "round": "04",
+     "timestamp": "1530990187"
+    },
+    {
+     "comments": "[Pick traded from Suck My Ditka.] ",
+     "franchise": "0004",
+     "pick": "10",
+     "player": "13620",
+     "round": "04",
+     "timestamp": "1530990206"
+    },
+    {
+     "comments": "",
+     "franchise": "0007",
+     "pick": "11",
+     "player": "13615",
+     "round": "04",
+     "timestamp": "1530990333"
+    },
+    {
+     "comments": "[Pick traded from Marcus Peters' Peter Peckers.] ",
+     "franchise": "0002",
+     "pick": "12",
+     "player": "13675",
+     "round": "04",
+     "timestamp": "1530990430"
+    },
+    {
+     "comments": "",
+     "franchise": "0001",
+     "pick": "01",
+     "player": "13601",
+     "round": "05",
+     "timestamp": "1530990482"
+    },
+    {
+     "comments": "[Pick traded from Salty Spittoon.] ",
+     "franchise": "0005",
+     "pick": "02",
+     "player": "13616",
+     "round": "05",
+     "timestamp": "1530990496"
+    },
+    {
+     "comments": "[Pick traded from Teenage Newton Ninja Turtles.] ",
+     "franchise": "0005",
+     "pick": "03",
+     "player": "13664",
+     "round": "05",
+     "timestamp": "1530990506"
+    },
+    {
+     "comments": "",
+     "franchise": "0011",
+     "pick": "04",
+     "player": "13772",
+     "round": "05",
+     "timestamp": "1530990724"
+    },
+    {
+     "comments": "",
+     "franchise": "0006",
+     "pick": "05",
+     "player": "13814",
+     "round": "05",
+     "timestamp": "1530990758"
+    },
+    {
+     "comments": "",
+     "franchise": "0004",
+     "pick": "06",
+     "player": "13638",
+     "round": "05",
+     "timestamp": "1530990772"
+    },
+    {
+     "comments": "",
+     "franchise": "0008",
+     "pick": "07",
+     "player": "13847",
+     "round": "05",
+     "timestamp": "1530990799"
+    },
+    {
+     "comments": "",
+     "franchise": "0005",
+     "pick": "08",
+     "player": "13776",
+     "round": "05",
+     "timestamp": "1530990817"
+    },
+    {
+     "comments": "[Pick traded from Jeff Janis Fan Club.] ",
+     "franchise": "0011",
+     "pick": "09",
+     "player": "13594",
+     "round": "05",
+     "timestamp": "1530990881"
+    },
+    {
+     "comments": "",
+     "franchise": "0009",
+     "pick": "10",
+     "player": "13793",
+     "round": "05",
+     "timestamp": "1530991196"
+    },
+    {
+     "comments": "",
+     "franchise": "0007",
+     "pick": "11",
+     "player": "13807",
+     "round": "05",
+     "timestamp": "1530991576"
+    },
+    {
+     "comments": "[Pick traded from Marcus Peters' Peter Peckers.\nPick traded from Teenage Newton Ninja Turtles.] ",
+     "franchise": "0005",
+     "pick": "12",
+     "player": "13660",
+     "round": "05",
+     "timestamp": "1530991650"
+    }
+   ],
+   "draftType": "SAME",
+   "round1DraftOrder": "0001,0001,0004,0011,0006,0002,0008,0012,0003,0009,0010,0010,",
+   "static_url": "https://www45.myfantasyleague.com/fflnetdynamic2018/65522_LEAGUE_draft_results.xml",
+   "unit": "LEAGUE"
+  }
+ },
+ "encoding": "utf-8",
+ "version": "1.0"
+}
