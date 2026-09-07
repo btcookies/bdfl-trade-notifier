@@ -5,6 +5,7 @@ import pytest
 from hof.model.players import PlayerInfo
 from hof.model.season import (
     BracketGame,
+    BracketInfo,
     Franchise,
     Game,
     Lineup,
@@ -13,6 +14,7 @@ from hof.model.season import (
     Week,
     normalize_name,
     parse_bracket,
+    parse_bracket_info,
     parse_draft,
     parse_league,
     parse_standings,
@@ -99,6 +101,16 @@ def test_parse_bracket_orders_rounds_by_week_not_export_order():
     }
     games = parse_bracket(body)
     assert [(g.week, g.round_index) for g in games] == [(14, 0), (16, 1)]
+
+
+def test_parse_bracket_info(fixtures_dir):
+    info = parse_bracket_info(load(fixtures_dir, "playoffBrackets.json"))
+    assert info == BracketInfo(teams_involved=6)
+
+
+def test_parse_bracket_info_missing_returns_none():
+    assert parse_bracket_info({}) is None
+    assert parse_bracket_info({"playoffBrackets": {"playoffBracket": {}}}) is None
 
 
 def test_parse_standings(fixtures_dir):
@@ -195,6 +207,44 @@ def test_games_counts_regular_matchups_and_bracket_games_only():
     assert season.final == final
 
 
+def test_games_uses_bracket_home_away_when_weeklyresults_has_no_matching_matchup():
+    """A week can list every franchise as a franchise-only entry with no matchup pairs at all
+    (the real shape of, e.g., week 17 in the 2020 fixture) -- a bracket week's participants can
+    show up the same way. The game must still be built from the two lineups the bracket names,
+    not dropped just because weeklyResults didn't pair them into a matchup."""
+    week2 = Week(
+        number=2,
+        lineups={
+            "0001": lineup("0001", {"q1": 12.0}, "L"),
+            "0003": lineup("0003", {"q3": 12.5}, "W"),
+        },
+        matchups=(),
+    )
+    season = Season(
+        year=2030,
+        league_id="1",
+        name="Test",
+        complete=False,
+        franchises={f: Franchise(f, f"Team {f}") for f in ("0001", "0003")},
+        starter_minimums={"QB": 1},
+        start_week=1,
+        end_week=2,
+        last_regular_season_week=1,
+        weeks={2: week2},
+        bracket=(BracketGame(2, "1", 0, "0003", "0001", 1, 2),),
+        standings=(),
+        draft=(),
+        round1_order=(),
+        transactions=TransactionLog((), (), (), (), ()),
+        players={p: PlayerInfo(p, p.upper(), "QB", "") for p in ("q1", "q3")},
+    )
+    games = season.games()
+    assert len(games) == 1
+    assert games[0].playoff and games[0].round_name == "Final"
+    assert {games[0].home.franchise_id, games[0].away.franchise_id} == {"0001", "0003"}
+    assert season.champion_id == "0003"
+
+
 def test_ties_have_no_winner():
     game = Game(2030, 1, lineup("0001", {"a": 1.0}), lineup("0002", {"b": 1.0}), playoff=False)
     assert game.winner is None and game.loser is None and game.tie
@@ -205,6 +255,23 @@ def test_round_names_count_back_from_the_final():
     three = Season(**{**season.__dict__, "bracket": (BracketGame(2, "1", 0, None, None, 3, 6), BracketGame(3, "2", 1, None, None, 1, None), BracketGame(4, "3", 2, None, None, None, None))})
     assert [three.round_name(i) for i in range(3)] == ["Quarterfinal", "Semifinal", "Final"]
     assert three.playoff_weeks() == {2, 3, 4}
+
+
+def test_bracket_rounds_anchors_to_declared_team_count_not_posted_rounds():
+    """Mid-playoffs, the bracket export only has results for the rounds played so far. Without
+    bracket_info, bracket_rounds would equal however many rounds happen to be posted -- naming
+    the latest one "Final" and crowning a champion before the bracket has actually finished."""
+    season = synthetic_season()
+    mid_playoffs = Season(
+        **{
+            **season.__dict__,
+            "bracket": (BracketGame(2, "1", 0, "0003", "0001", 3, 6),),  # only round 0 posted
+            "bracket_info": BracketInfo(teams_involved=6),
+        }
+    )
+    assert mid_playoffs.bracket_rounds == 3
+    assert mid_playoffs.round_name(0) == "Quarterfinal"
+    assert mid_playoffs.champion_id is None
 
 
 def test_franchise_name_and_player_fallbacks():

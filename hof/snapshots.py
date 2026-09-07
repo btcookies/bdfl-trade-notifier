@@ -12,6 +12,7 @@ from hof.model.players import parse_players
 from hof.model.season import (
     Season,
     parse_bracket,
+    parse_bracket_info,
     parse_draft,
     parse_league,
     parse_standings,
@@ -78,6 +79,7 @@ def load_season(season_dir: Path) -> Season:
         round1_order=round1_order,
         transactions=parse_transactions(read_json(season_dir / "transactions.json")),
         players=parse_players(read_json(season_dir / "players.json")),
+        bracket_info=parse_bracket_info(read_json(season_dir / "playoffBrackets.json")),
     )
 
 

@@ -17,6 +17,8 @@ def test_load_2020_fixture_season(fixtures_dir):
     assert len(season.draft) == 48
     assert len(season.transactions.trades) == 20
     assert season.player("9099").position == "QB"
+    assert season.bracket_info.teams_involved == 6
+    assert season.bracket_rounds == 3
 
 
 def test_counted_games_in_the_2020_fixture(fixtures_dir):

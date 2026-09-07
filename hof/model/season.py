@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import math
 import re
 from dataclasses import dataclass, field
 from typing import Any
@@ -77,6 +78,27 @@ class BracketGame:
     away_id: str | None
     home_seed: int | None
     away_seed: int | None
+
+
+@dataclass(frozen=True)
+class BracketInfo:
+    """The playoff bracket's declared shape, from playoffBrackets.json.
+
+    This exists independently of how many rounds have actually been played, so it's the
+    reliable way to know a bracket's total round count -- unlike counting round_index values in
+    the BracketGame list, which only reflects whatever rounds MFL has posted results for so far.
+    """
+
+    teams_involved: int | None
+
+
+def bracket_round_count(teams_involved: int) -> int:
+    """Single-elimination round count for a bracket of this many teams.
+
+    Byes fill any gap to the next power of two, e.g. 6 teams (two byes) still needs 3 rounds,
+    the same as a full 8-team bracket -- only the first round has fewer games.
+    """
+    return math.ceil(math.log2(teams_involved)) if teams_involved > 1 else 0
 
 
 @dataclass(frozen=True)
@@ -165,6 +187,7 @@ class Season:
     round1_order: tuple[str, ...]
     transactions: TransactionLog
     players: dict[str, PlayerInfo]
+    bracket_info: BracketInfo | None = None
 
     def player(self, player_id: str) -> PlayerInfo:
         return self.players.get(player_id) or PlayerInfo.unknown(player_id)
@@ -175,6 +198,15 @@ class Season:
 
     @property
     def bracket_rounds(self) -> int:
+        """The bracket's total round count.
+
+        Anchored to the bracket's declared size (bracket_info) when known, rather than to how
+        many rounds happen to be in the export -- a mid-playoffs season only has results for the
+        rounds played so far, and counting those would name the latest available round "Final"
+        and crown a champion before the bracket is actually finished.
+        """
+        if self.bracket_info is not None and self.bracket_info.teams_involved:
+            return bracket_round_count(self.bracket_info.teams_involved)
         return max((g.round_index for g in self.bracket), default=-1) + 1
 
     def round_name(self, round_index: int) -> str:
@@ -203,9 +235,14 @@ class Season:
                 pair = {bracket_game.home_id, bracket_game.away_id}
                 matchup = next((m for m in week.matchups if set(m) == pair), None)
                 if matchup is None:
-                    log.warning("%s week %s: bracket game %s has no matchup", self.year, number, bracket_game.game_id)
-                    continue
-                game = self._game(week, matchup[0], matchup[1], playoff=True, round_name=self.round_name(bracket_game.round_index))
+                    # weeklyResults didn't pair them as a matchup (e.g. both listed as
+                    # franchise-only entries); both lineups are still in week.lineups, so build
+                    # the game directly from the bracket's own home/away rather than dropping it.
+                    log.debug("%s week %s: bracket game %s has no matchup entry, using bracket home/away", self.year, number, bracket_game.game_id)
+                    home_id, away_id = bracket_game.home_id, bracket_game.away_id
+                else:
+                    home_id, away_id = matchup
+                game = self._game(week, home_id, away_id, playoff=True, round_name=self.round_name(bracket_game.round_index))
                 if game is not None:
                     games.append(game)
         return games
@@ -320,6 +357,21 @@ def parse_bracket(body: dict[str, Any]) -> tuple[BracketGame, ...]:
                 )
             )
     return tuple(games)
+
+
+def parse_bracket_info(body: dict[str, Any]) -> BracketInfo | None:
+    """The bracket's declared shape from playoffBrackets.json (the league's list of brackets,
+    not to be confused with playoffBracket-<id>.json's per-bracket game results).
+
+    A league with a consolation bracket alongside the championship one would list more than one
+    entry here; this takes the first that declares a team count, since only the championship
+    bracket's round count and champion matter to Season.
+    """
+    for entry in as_list((body.get("playoffBrackets") or {}).get("playoffBracket")):
+        teams = int_or_none(entry.get("teamsInvolved"))
+        if teams is not None:
+            return BracketInfo(teams_involved=teams)
+    return None
 
 
 def parse_standings(body: dict[str, Any]) -> tuple[Standing, ...]:
