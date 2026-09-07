@@ -222,7 +222,23 @@ def render_hall(env: Environment, model: Model, site: Site) -> list[Page]:
     return [("hall-of-fame", env.get_template("hall.html").render(**context))]
 
 
-RENDERERS: list[Renderer] = [render_home, render_players, render_franchises, render_records, render_hall]
+def render_drafts(env: Environment, model: Model, site: Site) -> list[Page]:
+    summaries = list(reversed(model.drafts))
+    pages = [("drafts", env.get_template("drafts.html").render(rankings=model.draft_rankings, summaries=summaries))]
+    template = env.get_template("draft.html")
+    for summary in summaries:
+        pages.append((f"drafts/{summary.year}", template.render(d=summary)))
+    return pages
+
+
+def render_trades(env: Environment, model: Model, site: Site) -> list[Page]:
+    by_year: dict[int, list] = {}
+    for line in model.trades:
+        by_year.setdefault(line.year, []).append(line)
+    return [("trades", env.get_template("trades.html").render(by_year=by_year))]
+
+
+RENDERERS: list[Renderer] = [render_home, render_players, render_franchises, render_records, render_hall, render_drafts, render_trades]
 
 
 def write_page(out: Path, relative: str, html: str) -> None:

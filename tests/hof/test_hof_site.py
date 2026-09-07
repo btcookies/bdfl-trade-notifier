@@ -197,3 +197,9 @@ def test_hall_of_fame_page(built):
     assert 'href="/hof/players/qb-a1-a1/"' in html and "Alpha Prime" in html
     assert "Watch list" in html and "QB A2" in html and "30.0" in html
     assert "40.0 value over replacement" in html and "3 starts" in html and "1 title" in html
+
+
+def test_drafts_and_trades_pages_exist_with_empty_states(built):
+    out, _, _ = built
+    assert "No drafts recorded" in read(out, "drafts")
+    assert "No trades recorded" in read(out, "trades")
