@@ -106,6 +106,11 @@ def newest_complete_week(league: League, now: datetime) -> tuple[int, int] | Non
     return None
 
 
+def _kind_for(model: Model, year: int, week: int) -> str:
+    final = model.league.season(year).final
+    return "wrap" if final is not None and final.week == week else "recap"
+
+
 def decide(model: Model, state: State | None, now: datetime) -> Decision | None:
     newest = newest_complete_week(model.league, now)
     if newest is None:
@@ -113,9 +118,7 @@ def decide(model: Model, state: State | None, now: datetime) -> Decision | None:
     if state is not None and state.key >= newest:
         return None
     year, week = newest
-    final = model.league.season(year).final
-    kind = "wrap" if final is not None and final.week == week else "recap"
-    return Decision(kind, year, week)
+    return Decision(_kind_for(model, year, week), year, week)
 
 
 def build_embed(model: Model, decision: Decision, site_url: str) -> dict[str, Any]:
@@ -139,10 +142,7 @@ def run(
     build the given (year, week) regardless of completion or state (previews only)."""
     if force is not None:
         year, week = force
-        final = model.league.season(year).final
-        decision: Decision | None = Decision(
-            "wrap" if final is not None and final.week == week else "recap", year, week
-        )
+        decision: Decision | None = Decision(_kind_for(model, year, week), year, week)
     else:
         state = load_state(state_path)
         decision = decide(model, state, now)

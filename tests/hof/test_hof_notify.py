@@ -150,3 +150,21 @@ def test_run_forced_week_ignores_state(tmp_path, capsys):
     outcome = notify.run(model, "https://example.test/", path, at(10 ** 9), webhook=None, dry_run=True, force=(2020, 2))
     assert outcome.decision == Decision("recap", 2020, 2)
     assert json.loads(capsys.readouterr().out)["title"] == "📜 Week 2 in the record books"
+
+
+def test_run_forced_post_never_writes_state(tmp_path):
+    league = league_with_locks()
+    model = compute(league.seasons, RULES)
+    posted: list[list[dict]] = []
+
+    class FakeWebhook:
+        def post(self, embeds):
+            posted.append(embeds)
+
+    path = tmp_path / "notify-state.json"
+    notify.save_state(path, State(2021, 1, "recap"))
+    outcome = notify.run(model, "https://example.test/", path, at(10 ** 9), FakeWebhook(), force=(2020, 2))
+    assert outcome.posted and outcome.decision == Decision("recap", 2020, 2)
+    assert len(posted) == 1 and posted[0][0]["title"] == "📜 Week 2 in the record books"
+    # a forced post must never touch the state file, even on a real (non-dry-run) post
+    assert notify.load_state(path) == State(2021, 1, "recap")
