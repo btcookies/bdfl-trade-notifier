@@ -46,7 +46,10 @@ def test_season_rows_record_finish_seed_and_top_starter():
     assert (r2020.points_for, r2020.points_against) == (32.0, 28.0)
     assert (r2020.seed, r2020.playoff_wins, r2020.playoff_losses) == (2, 2, 0)
     assert (r2020.finish, r2020.title, r2020.in_progress) == ("Champion", True, False)
-    assert r2020.top_starter == ("a1", "QB A1", 87.0, 48.0)
+    # a1's 2020 vor is 5.0 (week1) + 0.0 (week2) + 5.0 (week3) + 0.0 (week4) = 10.0 -- QB pools of
+    # 4 (weeks 1-2), 4 (week 3, playoff), and 2 (week 4, playoff final; the median is the better
+    # of the two, so a1's own 30.0 is the baseline).
+    assert r2020.top_starter == ("a1", "QB A1", 87.0, 10.0)
     r2021 = rows[2021]
     assert (r2021.name, r2021.finish, r2021.in_progress, r2021.seed) == ("Alpha Prime", "In progress", True, None)
 
@@ -115,7 +118,10 @@ def test_top_starters_for_a_franchise():
     history = franchises.franchise_history(league(), "0001")
     assert [t.player_id for t in history.top_starters] == ["a1"]
     a1 = history.top_starters[0]
-    assert (a1.name, a1.position, a1.first_year, a1.last_year, a1.starts, a1.points, a1.vor) == ("QB A1", "QB", 2020, 2021, 5, 97.0, 53.0)
+    # Career vor is the 2020 total (10.0, see above) plus 2021 Week 1: a1 scores 10.0 against
+    # a2's 5.0, a pool of two whose median is the better score -- a1's own 10.0 -- so a1's vor
+    # that week is 0.0. Career total stays 10.0.
+    assert (a1.name, a1.position, a1.first_year, a1.last_year, a1.starts, a1.points, a1.vor) == ("QB A1", "QB", 2020, 2021, 5, 97.0, 10.0)
 
 
 def test_all_franchises_covers_every_id():

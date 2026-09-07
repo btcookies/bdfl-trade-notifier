@@ -52,12 +52,18 @@ def test_team_season_records_use_finished_seasons_only(book):
 
 def test_player_records(book):
     assert book["player_game_high"].entries[0] == RecordEntry(30.0, "QB A1", "Alpha, 2020 Week 4 (Final)", 2020, 4, True, "0001", "a1")
-    assert book["player_game_vor"].entries[0] == RecordEntry(20.0, "QB A1", "Alpha, 2020 Week 3 (Semifinal)", 2020, 3, True, "0001", "a1")
+    # All four franchises play in week 2 (regular season), so the QB pool is [18 (a3), 12 (a1),
+    # 11 (a4), 9 (a2)]; median rank (4+1)//2 = 2 -> baseline 12.0. a3's vor is 18.0 - 12.0 = 6.0,
+    # the highest single-game vor anywhere in the league (a1's best games, weeks 1 and 3, are
+    # both only 5.0: pool baselines 15.0 and 20.0 against scores 20.0 and 25.0).
+    assert book["player_game_vor"].entries[0] == RecordEntry(6.0, "QB A3", "Gamma, 2020 Week 2", 2020, 2, False, "0003", "a3")
     assert book["player_season_high"].entries[0] == RecordEntry(87.0, "QB A1", "Alpha, 2020", 2020, None, False, "0001", "a1")
-    assert book["player_season_vor"].entries[0].value == 48.0
+    # a1's 2020 season vor is 10.0 (see test_hof_franchises), the highest of the four.
+    assert book["player_season_vor"].entries[0].value == 10.0
     assert book["player_season_starts"].entries[0].value == 4
     assert book["career_points"].entries[0] == RecordEntry(97.0, "QB A1", "2020–2021", 2020, None, False, None, "a1")
-    assert book["career_vor"].entries[0].value == 53.0
+    # a1's career vor is 10.0 (see test_hof_franchises), the highest of the four.
+    assert book["career_vor"].entries[0].value == 10.0
     assert book["career_starts"].entries[0].value == 5
     assert book["career_titles"].entries[0] == RecordEntry(1, "QB A1", "2020–2021", 2020, None, False, None, "a1")
 

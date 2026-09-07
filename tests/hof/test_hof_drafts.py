@@ -43,22 +43,29 @@ def test_summaries_credit_value_for_the_drafting_franchise():
     assert [s.year for s in summaries] == [2020]
     summary = summaries[0]
     assert (summary.rounds, summary.startup) == (2, False)
-    assert summary.picks[0] == PickLine(2020, 1, 1, "0001", "Alpha", "0001", "a1", "QB A1", "QB", 5, 97.0, 53.0, 97.0, 53.0)
+    # a1's career vor is 10.0 (QB pool medians: see test_hof_careers/franchises); a1 played only
+    # for 0001, so vor_for as a starter for the drafting franchise equals the full career total.
+    assert summary.picks[0] == PickLine(2020, 1, 1, "0001", "Alpha", "0001", "a1", "QB A1", "QB", 5, 97.0, 10.0, 97.0, 10.0)
     assert summary.picks[1].original_owner_id == "0002"
     assert summary.picks[3].original_owner_id is None
-    assert (summary.picks[1].starts_for, summary.picks[1].vor_for) == (4, 34.0)
+    # a3 played only for 0003 all four 2020 starts; career (and drafting-franchise) vor is -4.0.
+    assert (summary.picks[1].starts_for, summary.picks[1].vor_for) == (4, -4.0)
+    # steal = best vor_for outside round one: a2's -23.0 beats a4's -26.0.
     assert summary.steal.player_id == "a2"
+    # bust = worst vor_for in round one: a3's -4.0 is worse than a1's 10.0.
     assert summary.bust.player_id == "a3"
 
 
 def test_rankings_sum_value_by_drafting_franchise():
     league = league_with_draft()
     summaries = drafts.draft_summaries(league, careers.careers(league))
+    # Each franchise made exactly one pick, so its ranking vor is that player's career vor:
+    # a1 10.0, a3 -4.0, a2 -23.0, a4 -26.0, same relative order as before.
     assert drafts.draft_rankings(league, summaries) == [
-        DraftRanking("0001", "Alpha Prime", 1, 53.0),
-        DraftRanking("0003", "Gamma", 1, 34.0),
-        DraftRanking("0002", "Beta", 1, 10.0),
-        DraftRanking("0004", "Delta", 1, 2.0),
+        DraftRanking("0001", "Alpha Prime", 1, 10.0),
+        DraftRanking("0003", "Gamma", 1, -4.0),
+        DraftRanking("0002", "Beta", 1, -23.0),
+        DraftRanking("0004", "Delta", 1, -26.0),
     ]
 
 

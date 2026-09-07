@@ -1,14 +1,20 @@
 """Value over replacement: each start scored against a weekly positional baseline.
 
-The baseline for a position in a week is the N-th best score among every starter at that
-position across every lineup MFL listed that week who actually has a recorded score, where N is
-the number of franchises times the position's minimum starters. Fewer than N such starters means
-the lowest available score is the baseline. A starter MFL never scored -- an eliminated or
-inactive franchise's stale lineup, not a real 0-point performance -- does not feed the pool: for
-a fixed one-starter position like QB, the required count equals the number of played lineups
-every week, so counting one phantom zero would collapse replacement level to 0 outright. A start
-in an actual counted game with no recorded score still scores 0.0 points, same as always -- this
-only changes who sets the baseline, not who gets scored against it.
+The baseline for a position in a week is the median score among every starter at that position
+across every lineup MFL listed that week who actually has a recorded score. Rank the pool best
+first and take the score at 1-based position (n + 1) // 2 for a pool of n starters: the 6th of
+12 quarterbacks, the 12th of 24 running backs, the 7th of 13. A pool of one starter is its own
+baseline. The median replaced the old N-th-best-starter rule (N = franchises times the position's
+minimum starters) because a tanking franchise's lineup -- backups, practice-squad players,
+anyone MFL would let them start -- could sink that low-ranked slot and drag replacement level
+down with it. Those unrealistic scores now land in the tail of the ranked pool, not at its
+center, so they no longer move the baseline.
+
+A starter MFL never scored -- an eliminated or inactive franchise's stale lineup, not a real
+0-point performance -- does not feed the pool at all: pooling it as a real 0.0 would still bias
+the median low whenever such lineups make up a large share of a position's pool. A start in an
+actual counted game with no recorded score still scores 0.0 points, same as always -- this only
+changes who sets the baseline, not who gets scored against it.
 """
 
 from __future__ import annotations
@@ -35,7 +41,6 @@ class Start:
 
 
 def baselines(season: Season) -> Baselines:
-    franchise_count = len(season.franchises)
     result: Baselines = {}
     for week in season.weeks.values():
         pool: dict[str, list[float]] = defaultdict(list)
@@ -49,9 +54,9 @@ def baselines(season: Season) -> Baselines:
                 if position != UNKNOWN_POSITION:
                     pool[position].append(lineup.points(player_id))
         for position, scores in pool.items():
-            required = franchise_count * season.starter_minimums.get(position, 1)
             scores.sort(reverse=True)
-            result[(week.number, position)] = scores[required - 1] if len(scores) >= required else scores[-1]
+            median_rank = (len(scores) + 1) // 2
+            result[(week.number, position)] = scores[median_rank - 1]
     return result
 
 
