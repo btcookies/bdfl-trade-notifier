@@ -120,7 +120,7 @@ RENDERERS: list[Renderer] = [render_home]
 def write_page(out: Path, relative: str, html: str) -> None:
     target = (out / relative if relative else out) / "index.html"
     target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(html)
+    target.write_text(html, encoding="utf-8")
 
 
 def build_site(model: Model, config: Config, out: Path) -> Site:
