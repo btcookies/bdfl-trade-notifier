@@ -203,3 +203,26 @@ def test_drafts_and_trades_pages_exist_with_empty_states(built):
     out, _, _ = built
     assert "No drafts recorded" in read(out, "drafts")
     assert "No trades recorded" in read(out, "trades")
+
+
+def test_draft_callout_separates_steal_and_bust_with_a_space(built):
+    from hof.site.build import environment
+    from hof.stats.drafts import DraftSummary, PickLine
+
+    _, site, model = built
+
+    def pick(round_, pick_no, name):
+        return PickLine(
+            year=2020, round=round_, pick=pick_no, franchise_id="0001", franchise_name="Alpha Prime",
+            original_owner_id=None, player_id="zz", player_name=name, position="QB",
+            starts_for=1, points_for=10.0, vor_for=5.0, career_points=10.0, career_vor=5.0,
+        )
+    steal = pick(3, 1, "Steal Guy")
+    bust = pick(1, 1, "Bust Guy")
+    summary = DraftSummary(year=2020, startup=False, rounds=3, picks=(steal, bust), steal=steal, bust=bust)
+
+    env = environment(model, CONFIG, site)
+    html = env.get_template("draft.html").render(d=summary)
+    assert "Steal Guy" in html and "Bust Guy" in html
+    assert "VOR.<b>Bust:</b>" not in html  # the bug: fragments ran together with no separator
+    assert "VOR. <b>Bust:</b>" in html
