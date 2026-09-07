@@ -49,12 +49,12 @@ jobs:
       # start the notifier's deploy or a second copy of this run.
       - name: Commit refreshed snapshots
         run: |
-          if git diff --quiet -- data/raw; then
+          git add data/raw
+          if git diff --cached --quiet; then
             echo "no snapshot changes"
           else
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add data/raw
             git commit -m "data: MFL snapshots $(date -u +%F)"
             git push
           fi
