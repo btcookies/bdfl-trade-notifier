@@ -15,6 +15,7 @@ from bdfl.models import LeagueInfo, Player, as_list
 
 BASE_URL = "https://api.myfantasyleague.com"
 MIN_SECONDS_BETWEEN_REQUESTS = 1.0
+CONNECTION_RETRIES = 2  # extra attempts after a transient connection error, not an HTTP error
 DEFAULT_TYPES = "TRADE,BBID_WAIVER"
 
 log = logging.getLogger(__name__)
@@ -143,21 +144,8 @@ class MflClient:
         return data
 
     def _get(self, year: int, type_: str, **extra: str) -> dict[str, Any]:
-        self._pace()
         query = {"TYPE": type_, "L": self.league_id, "JSON": "1", **extra}
-        try:
-            response = self.session.get(
-                f"{BASE_URL}/{year}/export",
-                params=query,
-                headers={"User-Agent": self.user_agent},
-                timeout=self.timeout,
-            )
-        except requests.RequestException as exc:
-            # The URL carries only public ids today; if an APIKEY is ever added, redact it here.
-            raise MflError(f"MFL request failed: {exc}") from exc
-        finally:
-            # In a finally so a failed request still counts against MFL's one-per-second rule.
-            self.pacer.last_request_at = self.clock()
+        response = self._request(year, query)
         if response.status_code == 429:
             raise MflThrottled(f"MFL throttled TYPE={type_} for {year}")
         if response.status_code == 404:
@@ -171,6 +159,37 @@ class MflClient:
         if not isinstance(data, dict):
             raise MflError("MFL returned a non-object JSON body")
         return data
+
+    def _request(self, year: int, query: dict[str, str]) -> requests.Response:
+        """GET, retrying a transient connection error a couple of times.
+
+        MFL's server occasionally resets a pooled keep-alive connection right around our
+        one-per-second pacing gap, which surfaces as a connection error rather than a real HTTP
+        response -- it isn't a rate-limit signal (that's a 429, handled by the caller), just
+        server-side flakiness worth one or two retries before giving up.
+        """
+        last_exc: requests.RequestException | None = None
+        for attempt in range(CONNECTION_RETRIES + 1):
+            self._pace()
+            try:
+                return self.session.get(
+                    f"{BASE_URL}/{year}/export",
+                    params=query,
+                    headers={"User-Agent": self.user_agent},
+                    timeout=self.timeout,
+                )
+            except requests.RequestException as exc:
+                last_exc = exc
+                if attempt < CONNECTION_RETRIES:
+                    log.warning(
+                        "MFL connection error for %s (attempt %d/%d), retrying: %s",
+                        query.get("TYPE"), attempt + 1, CONNECTION_RETRIES + 1, exc,
+                    )
+            finally:
+                # In a finally so a failed request still counts against MFL's one-per-second rule.
+                self.pacer.last_request_at = self.clock()
+        # The URL carries only public ids today; if an APIKEY is ever added, redact it here.
+        raise MflError(f"MFL request failed: {last_exc}") from last_exc
 
     def _pace(self) -> None:
         if self.pacer.last_request_at is None:

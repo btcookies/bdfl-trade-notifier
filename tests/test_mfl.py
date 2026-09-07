@@ -206,17 +206,27 @@ def test_detect_league_propagates_throttle_and_server_errors():
 
 
 @responses.activate
-def test_network_errors_are_wrapped_and_still_pace_the_next_request():
+def test_a_transient_connection_error_is_retried_and_recovered():
+    """MFL's server occasionally resets a pooled keep-alive connection right around our
+    pacing gap; that isn't a rate-limit signal, so it's worth retrying within the same call."""
     responses.get(f"{BASE_URL}/2026/export", body=requests.exceptions.ConnectionError("reset"))
     responses.get(f"{BASE_URL}/2026/export", json={"transactions": {}})
     slept = []
     clock = FakeClock()
     client = make_client(sleep=slept.append, clock=clock)
-    with pytest.raises(MflError):
+    assert client.transactions(2026) == {"transactions": {}}
+    assert slept == [pytest.approx(1.0)]  # paced before the retry too, same as any request
+
+
+@responses.activate
+def test_connection_errors_give_up_after_exhausting_retries():
+    responses.get(f"{BASE_URL}/2026/export", body=requests.exceptions.ConnectionError("reset"))
+    responses.get(f"{BASE_URL}/2026/export", body=requests.exceptions.ConnectionError("reset"))
+    responses.get(f"{BASE_URL}/2026/export", body=requests.exceptions.ConnectionError("reset"))
+    client = make_client(sleep=lambda s: None)
+    with pytest.raises(MflError, match="reset"):
         client.transactions(2026)
-    clock.now += 0.25
-    client.transactions(2026)
-    assert slept == [pytest.approx(0.75)]
+    assert len(responses.calls) == 3
 
 
 @responses.activate
