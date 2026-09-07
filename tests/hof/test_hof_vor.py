@@ -61,13 +61,31 @@ def test_non_counted_lineups_feed_the_pool_but_yield_no_starts():
     assert next(s for s in week_two if s.player_id == "q2").vor == 28.0
 
 
-def test_missing_score_counts_as_zero_points():
+def test_missing_score_counts_as_zero_points_but_does_not_set_the_baseline():
     weeks = {1: [(lineup("0001", {"q1": None}), lineup("0002", {"q2": 10.0}))]}
     season = build_season(2030, PLAYERS, weeks, last_regular_season_week=1, franchises=("0001", "0002"))
     rows = {s.player_id: s for s in starts(season)}
     assert rows["q1"].points == 0.0
-    assert rows["q1"].vor == 0.0  # two franchises, one QB each: q1 is the 2nd-best, the baseline itself
-    assert rows["q2"].vor == 10.0
+    # q1 never fed the baseline pool (MFL never scored them), so q2's 10.0 -- the only real QB
+    # performance -- is the (lowest-available) baseline: q2 sits at replacement, q1 below it.
+    assert rows["q2"].vor == 0.0
+    assert rows["q1"].vor == -10.0
+
+
+def test_an_unscored_starter_does_not_drag_the_baseline_to_a_phantom_zero():
+    """A franchise that set no real lineup (eliminated, inactive) still has a starter slot MFL
+    lists with no score. Pooling that as a real 0.0 would collapse replacement level whenever a
+    position's required count exactly equals the number of played lineups -- which happens every
+    week for a fixed one-starter position like QB. It must not count toward the pool at all."""
+    weeks = {
+        1: [
+            (lineup("0001", {"q1": 20.0}), lineup("0002", {"q2": 8.0})),
+            (lineup("0003", {"q3": 12.0}), lineup("0004", {"q4": None})),
+        ]
+    }
+    season = build_season(2030, PLAYERS, weeks, last_regular_season_week=1)
+    base = baselines(season)
+    assert base[(1, "QB")] == 8.0
 
 
 def test_unknown_position_is_excluded_from_pools_and_worth_zero():

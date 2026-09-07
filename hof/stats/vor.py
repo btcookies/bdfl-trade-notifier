@@ -1,8 +1,14 @@
 """Value over replacement: each start scored against a weekly positional baseline.
 
 The baseline for a position in a week is the N-th best score among every starter at that
-position across every lineup MFL listed that week, where N is the number of franchises times
-the position's minimum starters. Fewer than N starters means the lowest score is the baseline.
+position across every lineup MFL listed that week who actually has a recorded score, where N is
+the number of franchises times the position's minimum starters. Fewer than N such starters means
+the lowest available score is the baseline. A starter MFL never scored -- an eliminated or
+inactive franchise's stale lineup, not a real 0-point performance -- does not feed the pool: for
+a fixed one-starter position like QB, the required count equals the number of played lineups
+every week, so counting one phantom zero would collapse replacement level to 0 outright. A start
+in an actual counted game with no recorded score still scores 0.0 points, same as always -- this
+only changes who sets the baseline, not who gets scored against it.
 """
 
 from __future__ import annotations
@@ -37,6 +43,8 @@ def baselines(season: Season) -> Baselines:
             if not lineup.played:
                 continue
             for player_id in lineup.starters:
+                if player_id not in lineup.scores:
+                    continue
                 position = season.player(player_id).position
                 if position != UNKNOWN_POSITION:
                     pool[position].append(lineup.points(player_id))
