@@ -122,9 +122,50 @@ def test_players_without_a_start_are_excluded():
     assert "b" not in careers.careers(league)
 
 
+def test_ir_gaps_do_not_break_a_stint_unless_the_player_was_moved_off():
+    """MFL lineups omit IR and taxi players; r1 vanishes for a week and returns, q2 is dropped and re-signed."""
+    log = TransactionLog(
+        trades=(),
+        waivers=(),
+        free_agents=(FreeAgentMove(150, "0002", (), ("q2",)), FreeAgentMove(250, "0002", ("q2",), ())),
+        roster_moves=(),
+        lock_times=LOCKS,
+    )
+    season = build_season(
+        2020,
+        PLAYERS,
+        {
+            1: [(lineup("0001", {"q1": 1.0, "r1": 2.0}), lineup("0002", {"q2": 3.0}))],
+            2: [(lineup("0001", {"q1": 1.0}), lineup("0002", {"r2": 3.0}))],
+            3: [(lineup("0001", {"q1": 1.0, "r1": 2.0}), lineup("0002", {"q2": 3.0}))],
+        },
+        last_regular_season_week=3,
+        franchises=("0001", "0002"),
+        transactions=log,
+    )
+    league = League.build([season])
+    all_stints = careers.roster_stints(league)
+    assert all_stints["r1"] == [careers.Stint("r1", "0001", (2020, 1), (2020, 3))]
+    assert all_stints["q2"] == [
+        careers.Stint("q2", "0002", (2020, 1), (2020, 1)),
+        careers.Stint("q2", "0002", (2020, 3), (2020, 3)),
+    ]
+    assert [m.kind for m in careers.careers(league)["q2"].moves] == ["joined", "dropped", "signed"]
+    assert [m.kind for m in careers.careers(league)["r1"].moves] == ["joined"]
+
+
 def test_effective_key_maps_offseason_trades_to_next_season():
     league = league_with_moves()
     season = league.season(2020)
     assert careers.effective_key(season, 150) == (2020, 2)
     assert careers.effective_key(season, 99) == (2020, 1)
     assert careers.effective_key(season, 999) == (2021, 0)
+
+
+def test_effective_key_before_the_first_lock_is_week_one():
+    """An offseason trade in a season whose locks have not fired yet lands in week 1, not next year."""
+    league = league_with_moves()
+    season = league.season(2021)  # built with no lock times
+    assert season.transactions.lock_times == ()
+    assert careers.effective_key(season, 5) == (2021, 1)
+    assert careers.effective_key(season, 10_000) == (2021, 1)

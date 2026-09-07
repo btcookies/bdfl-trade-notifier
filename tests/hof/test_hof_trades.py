@@ -46,11 +46,11 @@ def trade_league():
         names=NAMES,
     )
     log_2021 = TransactionLog(
-        trades=(Trade(50, "0001", "0002", ("rk2",), ("q1",), ""),),
+        trades=(Trade(5000, "0001", "0002", ("rk2",), ("q1",), ""),),  # after week 1 locked
         waivers=(),
         free_agents=(),
         roster_moves=(),
-        lock_times=(),
+        lock_times=(1000,),
     )
     s2021 = build_season(
         2021,
@@ -73,7 +73,7 @@ def ledger():
 
 def test_ledger_is_newest_first_with_effective_weeks():
     lines = ledger()
-    assert [(line.year, line.timestamp) for line in lines] == [(2021, 50), (2020, 999), (2020, 160), (2020, 150)]
+    assert [(line.year, line.timestamp) for line in lines] == [(2021, 5000), (2020, 999), (2020, 160), (2020, 150)]
     assert [line.effective for line in lines] == [(2022, 0), (2021, 0), (2020, 2), (2020, 2)]
     assert [line.pending for line in lines] == [True, False, False, False]
 

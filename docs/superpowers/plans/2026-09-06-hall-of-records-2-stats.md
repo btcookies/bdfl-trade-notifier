@@ -3015,3 +3015,11 @@ Expected: no lint issues; every test passes.
 
 - The owner reads the calibration report and sets `player_min_vor` (and possibly `player_min_starts`) in `data/config.toml`. Nothing else in the pipeline depends on the choice, so it can be changed any time before or after Plan 3 ships.
 - Plan 3 renders `Model` into the site and adds the workflow. Plan 4 turns `RecapFacts`, `SeasonAwards`, and the Hall of Fame class into Discord embeds and adds `notify`.
+
+## Amendments after review (2026-09-07)
+
+Three changes landed on top of the executed plan, all in `hof/stats/`:
+
+1. `careers.effective_key`: a season with no lock times yet (the whole offseason and the days before week 1) puts every transaction in week 1 of that season, not in the next season. Before this, the 19 trades of the 2026 offseason showed as effective in 2027 and "Pending" for the wrong reason, and their arrivals could not be matched.
+2. `careers.bridge_gaps` and `careers.roster_stints`: MFL's weekly lineups omit players on injured reserve and the taxi squad, so a stint is no longer broken by a gap unless a drop or a trade away falls inside it. On the real backfill this removed 534 spurious stints (2,582 to 2,048) and every false "joined" arrival. `careers()` accepts the bridged stints so `compute()` builds them once and shares them with the trade ledger.
+3. `trades.trade_ledger`: a trade is pending until a *played* week reaches its effective week. MFL lists week 1 lineups before kickoff, so "newest rostered week" was already 2026 week 1 and marked those trades settled with an "Even" verdict.

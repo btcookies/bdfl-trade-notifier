@@ -54,7 +54,8 @@ def champions(league: League) -> list[tuple[int, str, str]]:
 
 def compute(seasons: list[Season], rules: HallRules) -> Model:
     league = League.build(seasons)
-    careers = careers_mod.careers(league)
+    all_stints = careers_mod.roster_stints(league)
+    careers = careers_mod.careers(league, all_stints)
     histories = franchises_mod.all_franchises(league)
     records = records_mod.records_book(league, careers)
     drafts = drafts_mod.draft_summaries(league, careers)
@@ -66,7 +67,7 @@ def compute(seasons: list[Season], rules: HallRules) -> Model:
         hall=hall_mod.hall_of_fame(league, careers, histories, rules),
         drafts=drafts,
         draft_rankings=drafts_mod.draft_rankings(league, drafts),
-        trades=trades_mod.trade_ledger(league, careers_mod.stints(league)),
+        trades=trades_mod.trade_ledger(league, all_stints),
         through=latest_played_week(league),
         champions=champions(league),
     )

@@ -1,7 +1,11 @@
+from dataclasses import replace
+
 import pytest
 from synthetic import four_team_league
 
+from hof.model.season import Standing
 from hof.stats import careers, milestones, records
+from hof.stats.league import League
 
 
 @pytest.fixture(scope="module")
@@ -52,6 +56,16 @@ def test_playoff_picture_in_the_regular_season(league, tables):
     facts = milestones.recap_facts(league, tables, (2020, 2))
     assert facts.playoff_picture == ("1. Gamma 2-0-0", "2. Alpha 1-1-0", "3. Delta 1-1-0", "4. Beta 0-2-0")
     assert facts.bracket == ()
+
+
+def test_playoff_picture_follows_mfl_standings_order_when_present(league, tables):
+    """MFL applies the league's tiebreakers; its order wins over the win-pct fallback."""
+    standings = tuple(
+        Standing(fid, 0, 0, 0, 0.0, 0.0, "", "") for fid in ("0004", "0002", "0001", "0003")
+    )
+    reordered = League.build([replace(league.season(2020), standings=standings), league.season(2021)])
+    facts = milestones.recap_facts(reordered, tables, (2020, 2))
+    assert facts.playoff_picture == ("1. Delta 1-1-0", "2. Beta 0-2-0", "3. Alpha 1-1-0", "4. Gamma 2-0-0")
 
 
 def test_bracket_summary_in_playoff_weeks(league, tables):

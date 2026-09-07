@@ -74,7 +74,14 @@ class Transfer:
 
 
 def effective_key(season: Season, timestamp: int) -> WeekKey:
-    """The (year, week) a transaction takes effect; (year + 1, 0) once the season's locks are past."""
+    """The (year, week) a transaction takes effect.
+
+    Before a season's first weekly lock fires (the whole offseason, and the days before week 1)
+    the log has no lock times at all, and every transaction takes effect in the first week.
+    Once the last lock has passed, a transaction rolls into the next season as (year + 1, 0).
+    """
+    if not season.transactions.lock_times:
+        return (season.year, season.start_week)
     week = season.transactions.effective_week(timestamp, season.start_week)
     return (season.year, week) if week is not None else (season.year + 1, 0)
 
@@ -145,6 +152,36 @@ def transfers(league: League) -> tuple[dict[str, list[Transfer]], dict[str, list
     return adding, removing
 
 
+def bridge_gaps(all_stints: dict[str, list[Stint]], removing: dict[str, list[Transfer]]) -> dict[str, list[Stint]]:
+    """Join consecutive stints on one franchise when nothing moved the player off it in between.
+
+    MFL's weekly lineups omit players on injured reserve and the taxi squad, so a player who
+    spent weeks on IR looks like they left and came back. The transaction log says otherwise:
+    only a drop or a trade away inside the gap means the player really left.
+    """
+    bridged: dict[str, list[Stint]] = {}
+    for pid, rows in all_stints.items():
+        merged: list[Stint] = []
+        for stint in rows:
+            last = merged[-1] if merged else None
+            gap_moves = [
+                t for t in removing.get(pid, [])
+                if last is not None and t.franchise_id == stint.franchise_id and last.end < t.key <= stint.start
+            ]
+            if last is not None and last.franchise_id == stint.franchise_id and last.end < stint.start and not gap_moves:
+                merged[-1] = Stint(pid, stint.franchise_id, last.start, stint.end)
+            else:
+                merged.append(stint)
+        bridged[pid] = merged
+    return bridged
+
+
+def roster_stints(league: League, rosters: Rosters | None = None) -> dict[str, list[Stint]]:
+    """Stints with IR and taxi gaps bridged; what careers and the trade ledger should use."""
+    _, removing = transfers(league)
+    return bridge_gaps(stints(league, rosters), removing)
+
+
 def _drafted(league: League, stint: Stint) -> Move | None:
     season = league.season(stint.start[0])
     for pick in season.draft:
@@ -202,12 +239,16 @@ def title_starters(season: Season) -> set[str]:
     return set(final.winner.starters)
 
 
-def careers(league: League) -> dict[str, Career]:
-    """Every player with at least one counted start, keyed by player id."""
+def careers(league: League, all_stints: dict[str, list[Stint]] | None = None) -> dict[str, Career]:
+    """Every player with at least one counted start, keyed by player id.
+
+    Pass the result of roster_stints() when the caller also needs it, to compute it once.
+    """
     rosters = rosters_by_year(league)
     following = following_weeks(rosters)
-    all_stints = stints(league, rosters)
     adding, removing = transfers(league)
+    if all_stints is None:
+        all_stints = bridge_gaps(stints(league, rosters), removing)
     newest = league.latest_rostered_week()
     by_player_year: dict[str, dict[int, list]] = defaultdict(lambda: defaultdict(list))
     for row in league.all_starts():

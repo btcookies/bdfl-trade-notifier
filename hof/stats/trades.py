@@ -37,7 +37,7 @@ class TradeLine:
     year: int
     timestamp: int
     effective: WeekKey
-    pending: bool  # takes effect after the newest rostered week, so nothing has been produced yet
+    pending: bool  # takes effect after the newest played week, so nothing has been produced yet
     sides: tuple[TradeSide, TradeSide]
     comments: str
     verdict: str
@@ -139,7 +139,8 @@ def trade_ledger(league: League, all_stints: dict[str, list[Stint]]) -> list[Tra
     index: StartIndex = defaultdict(list)
     for row in league.all_starts():
         index[(row.player_id, row.franchise_id)].append(row)
-    newest = league.latest_rostered_week() or (0, 0)
+    played = [(season.year, game.week) for season in league.seasons for game in season.games()]
+    newest = max(played) if played else (0, 0)  # rosters can exist before kickoff; only played weeks settle a trade
     lines: list[TradeLine] = []
     for season in league.seasons:
         for trade in season.transactions.trades:
