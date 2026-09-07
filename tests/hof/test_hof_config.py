@@ -13,7 +13,7 @@ def test_loads_the_repo_config():
     assert config.site_base_url == "https://btcookies.github.io/bdfl-trade-notifier/"
     assert config.league_id_for(2016) == "79873"
     assert config.league_id_for(2020) == "65522"
-    assert config.hall == HallRules(400.0, 30, 2, 100.0)
+    assert config.hall == HallRules(500.0, 30, 2, 100.0)
     assert config.managers == ()
 
 

@@ -7,9 +7,9 @@ from hof.stats.model import compute
 
 def test_compute_bundles_every_stat_for_the_synthetic_league():
     league = four_team_league()
-    # a1's 2020 (finished-season) vor is 10.0, the only one of the four to clear 10 (see
-    # test_hof_franchises and test_hof_records for the arithmetic).
-    model = compute(league.seasons, HallRules(player_min_vor=10, player_min_starts=3, franchise_min_titles=1))
+    # a1's 2020 (finished-season) vor is 36.0, the only one of the four to clear 30 (a3's is
+    # 22.0; see test_hof_franchises and test_hof_records for the arithmetic).
+    model = compute(league.seasons, HallRules(player_min_vor=30, player_min_starts=3, franchise_min_titles=1))
     assert model.through == (2021, 1)
     assert sorted(model.careers) == ["a1", "a2", "a3", "a4"]
     assert model.histories["0001"].totals.titles == 1

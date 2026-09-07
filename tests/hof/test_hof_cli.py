@@ -35,5 +35,5 @@ def test_stats_command_prints_a_report(tmp_path, fixtures_dir, capsys):
     assert code == 0
     out = capsys.readouterr().out
     assert "champions: 2020 Marcus Peters' Peter Peckers" in out
-    assert "Hall of Fame at vor>=400" in out
+    assert "Hall of Fame at vor>=500" in out
     assert "records book, top entry per table:" in out

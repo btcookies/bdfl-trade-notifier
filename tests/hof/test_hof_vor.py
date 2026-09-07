@@ -1,7 +1,10 @@
+import math
+
+import pytest
 from synthetic import build_season, lineup
 
 from hof.model.season import BracketGame
-from hof.stats.vor import Start, baselines, starts
+from hof.stats.vor import BASELINE_FRACTION, Start, baselines, starts
 
 PLAYERS = {
     "q1": ("QB One", "QB"),
@@ -23,13 +26,21 @@ def week_one():
     ]
 
 
-def test_baseline_is_the_median_score():
+@pytest.mark.parametrize(
+    ("n", "expected_rank"),
+    [(1, 1), (2, 2), (3, 2), (4, 3), (12, 8), (13, 9), (24, 16)],
+)
+def test_baseline_rank_is_the_top_of_the_bottom_third(n, expected_rank):
+    assert math.ceil(n * BASELINE_FRACTION) == expected_rank
+
+
+def test_baseline_is_the_two_thirds_score():
     season = build_season(2030, PLAYERS, {1: week_one()}, last_regular_season_week=1)
     base = baselines(season)
-    # QB pool [30, 20, 10, 5], median rank (4+1)//2 = 2 -> the 2nd-best score, 20.0.
-    assert base[(1, "QB")] == 20.0
-    # RB pool [12, 9, 6, 3], median rank (4+1)//2 = 2 -> the 2nd-best score, 9.0.
-    assert base[(1, "RB")] == 9.0
+    # QB pool [30, 20, 10, 5], n=4, rank = ceil(4 * 2/3) = ceil(8/3) = 3 -> the 3rd-best score, 10.0.
+    assert base[(1, "QB")] == 10.0
+    # RB pool [12, 9, 6, 3], n=4, rank = 3 -> the 3rd-best score, 6.0.
+    assert base[(1, "RB")] == 6.0
 
 
 def test_start_values_subtract_the_baseline():
@@ -37,14 +48,14 @@ def test_start_values_subtract_the_baseline():
     rows = starts(season)
     assert len(rows) == 8
     by_player = {s.player_id: s for s in rows}
-    # QB baseline 20.0 (see above): q1 scored 30.0, so vor = 30.0 - 20.0 = 10.0.
-    assert by_player["q1"] == Start(2030, 1, "0001", "q1", "QB", 30.0, 10.0, False)
-    # q4 scored 5.0 against the same 20.0 baseline: vor = 5.0 - 20.0 = -15.0.
-    assert by_player["q4"].vor == -15.0
-    # RB baseline 9.0: r1 scored 12.0, so vor = 12.0 - 9.0 = 3.0.
-    assert by_player["r1"].vor == 3.0
-    # r4 scored 3.0 against the same 9.0 baseline: vor = 3.0 - 9.0 = -6.0.
-    assert by_player["r4"].vor == -6.0
+    # QB baseline 10.0 (see above): q1 scored 30.0, so vor = 30.0 - 10.0 = 20.0.
+    assert by_player["q1"] == Start(2030, 1, "0001", "q1", "QB", 30.0, 20.0, False)
+    # q4 scored 5.0 against the same 10.0 baseline: vor = 5.0 - 10.0 = -5.0.
+    assert by_player["q4"].vor == -5.0
+    # RB baseline 6.0: r1 scored 12.0, so vor = 12.0 - 6.0 = 6.0.
+    assert by_player["r1"].vor == 6.0
+    # r4 scored 3.0 against the same 6.0 baseline: vor = 3.0 - 6.0 = -3.0.
+    assert by_player["r4"].vor == -3.0
 
 
 def test_non_counted_lineups_feed_the_pool_but_yield_no_starts():
@@ -59,14 +70,14 @@ def test_non_counted_lineups_feed_the_pool_but_yield_no_starts():
     season = build_season(2030, PLAYERS, weeks, last_regular_season_week=1, bracket=bracket)
     base = baselines(season)
     # QB pool [30, 12, 8, 2] (all four week-2 lineups feed the pool, including the consolation
-    # game), median rank (4+1)//2 = 2 -> the 2nd-best score, 12.0. q4's consolation start still
+    # game), n=4, rank = ceil(8/3) = 3 -> the 3rd-best score, 8.0. q4's consolation start still
     # sets the baseline even though it produces no start of its own.
-    assert base[(2, "QB")] == 12.0
+    assert base[(2, "QB")] == 8.0
     week_two = [s for s in starts(season) if s.week == 2]
     assert {s.player_id for s in week_two} == {"q1", "q2"}
     assert all(s.playoff for s in week_two)
-    # q2 scored 30.0 against the 12.0 baseline: vor = 30.0 - 12.0 = 18.0.
-    assert next(s for s in week_two if s.player_id == "q2").vor == 18.0
+    # q2 scored 30.0 against the 8.0 baseline: vor = 30.0 - 8.0 = 22.0.
+    assert next(s for s in week_two if s.player_id == "q2").vor == 22.0
 
 
 def test_missing_score_counts_as_zero_points_but_does_not_set_the_baseline():
@@ -75,7 +86,7 @@ def test_missing_score_counts_as_zero_points_but_does_not_set_the_baseline():
     rows = {s.player_id: s for s in starts(season)}
     assert rows["q1"].points == 0.0
     # q1 never fed the baseline pool (MFL never scored them), leaving a pool of one: q2's 10.0.
-    # A pool of one is its own baseline, median rank (1+1)//2 = 1 -> 10.0. q2 sits at replacement,
+    # A pool of one is its own baseline, rank = ceil(1 * 2/3) = 1 -> 10.0. q2 sits at replacement,
     # vor = 10.0 - 10.0 = 0.0; q1 scores 0.0 against the same baseline, vor = 0.0 - 10.0 = -10.0.
     assert rows["q2"].vor == 0.0
     assert rows["q1"].vor == -10.0
@@ -83,7 +94,7 @@ def test_missing_score_counts_as_zero_points_but_does_not_set_the_baseline():
 
 def test_an_unscored_starter_does_not_drag_the_baseline_to_a_phantom_zero():
     """A franchise that set no real lineup (eliminated, inactive) still has a starter slot MFL
-    lists with no score. Pooling that as a real 0.0 would still bias the median toward zero
+    lists with no score. Pooling that as a real 0.0 would still bias the baseline toward zero
     whenever such lineups make up a large share of a position's pool. It must not count toward
     the pool at all."""
     weeks = {
@@ -95,7 +106,7 @@ def test_an_unscored_starter_does_not_drag_the_baseline_to_a_phantom_zero():
     season = build_season(2030, PLAYERS, weeks, last_regular_season_week=1)
     base = baselines(season)
     # q4 has no recorded score and is excluded, leaving a QB pool of [20, 12, 8] (three
-    # scorers). Median rank (3+1)//2 = 2 -> the 2nd-best score, 12.0.
+    # scorers). Rank = ceil(3 * 2/3) = ceil(2) = 2 -> the 2nd-best score, 12.0.
     assert base[(1, "QB")] == 12.0
 
 
@@ -104,13 +115,13 @@ def test_unknown_position_is_excluded_from_pools_and_worth_zero():
     season = build_season(2030, PLAYERS, weeks, last_regular_season_week=1, franchises=("0001", "0002"))
     base = baselines(season)
     assert set(base) == {(1, "QB")}
-    # QB pool [20, 10], median rank (2+1)//2 = 1 -> the best score, 20.0.
-    assert base[(1, "QB")] == 20.0
+    # QB pool [20, 10], n=2, rank = ceil(2 * 2/3) = ceil(4/3) = 2 -> the worse score, 10.0.
+    assert base[(1, "QB")] == 10.0
     mystery = next(s for s in starts(season) if s.player_id == "x1")
     assert (mystery.points, mystery.vor) == (50.0, 0.0)
 
 
-def test_odd_pool_uses_the_middle_score():
+def test_five_pool_rounds_up_to_the_fourth_best():
     players = {**PLAYERS, "q5": ("QB Five", "QB"), "q6": ("QB Six", "QB")}
     weeks = {
         1: [
@@ -124,8 +135,8 @@ def test_odd_pool_uses_the_middle_score():
     )
     base = baselines(season)
     # q6 has no recorded score and doesn't feed the pool, leaving five real QB scores:
-    # [50, 40, 30, 20, 10]. Median rank (5+1)//2 = 3 -> the 3rd-best score, 30.0.
-    assert base[(1, "QB")] == 30.0
+    # [50, 40, 30, 20, 10]. Rank = ceil(5 * 2/3) = ceil(10/3) = 4 -> the 4th-best score, 20.0.
+    assert base[(1, "QB")] == 20.0
 
 
 def test_pool_of_one_is_its_own_baseline():
@@ -133,7 +144,7 @@ def test_pool_of_one_is_its_own_baseline():
     season = build_season(2030, PLAYERS, weeks, last_regular_season_week=1, franchises=("0001", "0002"))
     base = baselines(season)
     # Exactly one QB starter and one RB starter this week; a pool of one is its own baseline,
-    # median rank (1+1)//2 = 1.
+    # rank = ceil(1 * 2/3) = 1.
     assert base[(1, "QB")] == 17.0
     assert base[(1, "RB")] == 8.0
     rows = {s.player_id: s for s in starts(season)}
