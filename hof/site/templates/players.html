@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Players{% endblock %}
+{% block content %}
+<h1>Players</h1>
+<p class="lede">Everyone who ever started a game, ranked by career value over replacement. Click a column to sort.</p>
+<input id="player-search" class="search" type="search" placeholder="Search players" aria-label="Search players">
+<div class="table-wrap">
+<table id="players" class="sortable">
+  <thead><tr><th class="l">Player</th><th>Pos</th><th>Years</th><th class="l">Franchises</th><th>GS</th><th>Pts</th><th>VOR</th><th>Titles</th><th>Active</th></tr></thead>
+  <tbody>
+  {% for c in careers %}
+  <tr data-name="{{ c.name|lower }}">
+    <td class="l"><a href="{{ site.url('player', c.player_id) }}">{{ c.name }}</a></td>
+    <td>{{ c.position }}</td>
+    <td>{% if c.first_year == c.last_year %}{{ c.first_year }}{% else %}{{ c.first_year }}–{{ c.last_year }}{% endif %}</td>
+    <td class="l">{% for fid in c.franchise_ids %}<a href="{{ site.url('franchise', fid) }}">{{ current_name(fid) }}</a>{{ ", " if not loop.last }}{% endfor %}</td>
+    <td>{{ c.starts }}</td>
+    <td>{{ c.points|pts }}</td>
+    <td>{{ c.vor|pts }}</td>
+    <td>{{ c.titles }}</td>
+    <td>{{ "Yes" if c.active else "" }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

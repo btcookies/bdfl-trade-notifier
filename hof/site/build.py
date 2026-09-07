@@ -13,6 +13,8 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from hof.config import Config
 from hof.site.slugs import slugify, unique_slugs
+from hof.stats import careers as careers_mod
+from hof.stats.careers import Career
 from hof.stats.model import Model
 
 PACKAGE_DIR = Path(__file__).parent
@@ -114,7 +116,58 @@ def render_home(env: Environment, model: Model, site: Site) -> list[Page]:
     return [("", env.get_template("home.html").render(**context))]
 
 
-RENDERERS: list[Renderer] = [render_home]
+def week_index(model: Model) -> dict[tuple[int, int], int]:
+    """Every rostered (year, week) -> its position in the league's timeline."""
+    rosters = careers_mod.rosters_by_year(model.league)
+    keys = [(year, week) for year in sorted(rosters) for week in sorted(rosters[year])]
+    return {key: i for i, key in enumerate(keys)}
+
+
+def tenure_segments(career: Career, index: dict[tuple[int, int], int], model: Model, site: Site) -> list[dict]:
+    """Bar segments across the player's career span: colored per franchise, uncolored for gaps."""
+    if not career.stints:
+        return []
+    first = index[career.stints[0].start]
+    last = max(index[s.end] for s in career.stints)
+    total = last - first + 1
+    segments: list[dict] = []
+    cursor = first
+    for stint in career.stints:
+        start, end = index[stint.start], index[stint.end]
+        if start > cursor:
+            segments.append({"color": None, "width": f"{(start - cursor) / total * 100:.2f}", "label": ""})
+        start = max(start, cursor)
+        if end >= start:
+            name = model.league.current_name(stint.franchise_id)
+            years = f"{stint.start[0]}" if stint.start[0] == stint.end[0] else f"{stint.start[0]}–{stint.end[0]}"
+            segments.append({"color": site.colors[stint.franchise_id], "width": f"{(end - start + 1) / total * 100:.2f}", "label": f"{name} {years}"})
+            cursor = end + 1
+    return segments
+
+
+def render_players(env: Environment, model: Model, site: Site) -> list[Page]:
+    careers = sorted(model.careers.values(), key=lambda c: (-c.vor, -c.points, c.name))
+    pages = [("players", env.get_template("players.html").render(careers=careers))]
+    index = week_index(model)
+    plaques = {p.player_id: p for p in model.hall.players}
+    template = env.get_template("player.html")
+    for career in careers:
+        pages.append(
+            (
+                f"players/{site.player_slugs[career.player_id]}",
+                template.render(
+                    career=career,
+                    info=model.league.player_info(career.player_id),
+                    plaque=plaques.get(career.player_id),
+                    tenure=tenure_segments(career, index, model, site),
+                    legend=[(fid, model.league.current_name(fid), site.colors[fid]) for fid in career.franchise_ids],
+                ),
+            )
+        )
+    return pages
+
+
+RENDERERS: list[Renderer] = [render_home, render_players]
 
 
 def write_page(out: Path, relative: str, html: str) -> None:

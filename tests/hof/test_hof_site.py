@@ -98,3 +98,27 @@ def test_no_franchise_id_reaches_the_html(built):
     leak = re.compile(r"(?<![\d-])000[1-4](?!\d)")
     for name, html in all_html(out).items():
         assert not leak.search(html), f"franchise id in {name}"
+
+
+def test_players_index_lists_every_career_sorted_by_value(built):
+    out, _, _ = built
+    html = read(out, "players")
+    assert 'id="player-search"' in html
+    assert re.findall(r'data-name="([^"]+)"', html) == ["qb a1", "qb a3", "qb a2", "qb a4"]
+    assert 'href="/hof/players/qb-a1-a1/"' in html
+    assert "Alpha Prime" in html  # franchises are listed by current name
+
+
+def test_player_page_tells_the_whole_story(built):
+    out, _, _ = built
+    html = read(out, "players/qb-a1-a1")
+    assert "<h1>QB A1" in html
+    assert "Hall of Fame · Class of 2020" in html
+    assert ">Alpha<" in html and ">Alpha Prime<" in html  # season rows use the name at the time
+    assert "Joined Alpha" in html
+    assert "🏆" in html
+    assert "97.0" in html and "53.0" in html and "Career" in html
+    assert 'class="tenure"' in html and "width:100.00%" in html
+    assert "Active" in html
+    inactive = read(out, "players/qb-a3-a3")
+    assert "Active" not in inactive and "Left Gamma" in inactive
