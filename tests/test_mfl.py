@@ -11,6 +11,7 @@ from bdfl.mfl import (
     MflError,
     MflNotFound,
     MflThrottled,
+    RequestPacer,
 )
 
 LEAGUE_ID = "65522"
@@ -216,6 +217,24 @@ def test_network_errors_are_wrapped_and_still_pace_the_next_request():
     clock.now += 0.25
     client.transactions(2026)
     assert slept == [pytest.approx(0.75)]
+
+
+@responses.activate
+def test_two_clients_sharing_a_pacer_are_paced_against_each_other():
+    """Two MflClient instances for different league ids (e.g. one season under a different MFL
+    league id than the current one) sharing one requests.Session must also share pacing, or the
+    second client fires immediately with no memory of the first client's last request."""
+    responses.get(f"{BASE_URL}/2016/export", json={"transactions": {}})
+    responses.get(f"{BASE_URL}/2026/export", json={"transactions": {}})
+    slept = []
+    clock = FakeClock()
+    pacer = RequestPacer()
+    first = make_client(league_id="79873", sleep=slept.append, clock=clock, pacer=pacer)
+    second = make_client(league_id=LEAGUE_ID, sleep=slept.append, clock=clock, pacer=pacer)
+    first.transactions(2016)
+    clock.now = 100.4
+    second.transactions(2026)
+    assert slept == [pytest.approx(0.6)]
 
 
 @responses.activate

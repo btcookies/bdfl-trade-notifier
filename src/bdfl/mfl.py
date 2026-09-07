@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import time
 from collections.abc import Callable, Iterable
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
 
@@ -35,6 +36,20 @@ class LeagueNotFound(MflError):
     pass
 
 
+@dataclass
+class RequestPacer:
+    """Last-request timestamp, shared across every MflClient that passes the same instance in.
+
+    Pacing lives here rather than on MflClient itself so that multiple clients reusing one
+    requests.Session (e.g. one per MFL league id, all hitting the same host) collectively
+    respect the one-request-per-second limit -- otherwise a freshly built client has no memory
+    of a sibling client's last request and fires immediately, which can hit the shared
+    connection before the server is done with it.
+    """
+
+    last_request_at: float | None = None
+
+
 class MflClient:
     def __init__(
         self,
@@ -44,6 +59,7 @@ class MflClient:
         sleep: Callable[[float], None] = time.sleep,
         clock: Callable[[], float] = time.monotonic,
         timeout: float | tuple[float, float] = (3.05, 7.0),
+        pacer: RequestPacer | None = None,
     ):
         self.league_id = league_id
         self.user_agent = user_agent
@@ -51,7 +67,7 @@ class MflClient:
         self.sleep = sleep
         self.clock = clock
         self.timeout = timeout
-        self._last_request_at: float | None = None
+        self.pacer = pacer if pacer is not None else RequestPacer()
 
     # --- public API ---------------------------------------------------------
 
@@ -141,7 +157,7 @@ class MflClient:
             raise MflError(f"MFL request failed: {exc}") from exc
         finally:
             # In a finally so a failed request still counts against MFL's one-per-second rule.
-            self._last_request_at = self.clock()
+            self.pacer.last_request_at = self.clock()
         if response.status_code == 429:
             raise MflThrottled(f"MFL throttled TYPE={type_} for {year}")
         if response.status_code == 404:
@@ -157,8 +173,8 @@ class MflClient:
         return data
 
     def _pace(self) -> None:
-        if self._last_request_at is None:
+        if self.pacer.last_request_at is None:
             return
-        elapsed = self.clock() - self._last_request_at
+        elapsed = self.clock() - self.pacer.last_request_at
         if elapsed < MIN_SECONDS_BETWEEN_REQUESTS:
             self.sleep(MIN_SECONDS_BETWEEN_REQUESTS - elapsed)

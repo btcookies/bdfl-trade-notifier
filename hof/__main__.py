@@ -14,16 +14,20 @@ import requests
 # running `python -m hof` directly needs the same path scripts/dry_run.py adds by hand.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from bdfl.mfl import MflClient  # noqa: E402
+from bdfl.mfl import MflClient, RequestPacer  # noqa: E402
 from hof import fetch
 from hof.config import Config
 
 
 def client_factory(session: requests.Session):
-    """Build MFL clients that share one HTTP session; one client per league id."""
+    """Build MFL clients that share one HTTP session and one request pacer, one client per
+    league id -- sharing the pacer, not just the session, matters because a season's history
+    can span league ids (e.g. 2016's), and a freshly built client for a new league id must not
+    fire immediately just because it has no memory of the *other* client's last request."""
+    pacer = RequestPacer()
 
     def make(league_id: str) -> MflClient:
-        return MflClient(league_id=league_id, user_agent=fetch.USER_AGENT, session=session)
+        return MflClient(league_id=league_id, user_agent=fetch.USER_AGENT, session=session, pacer=pacer)
 
     return make
 
