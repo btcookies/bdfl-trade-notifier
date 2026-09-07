@@ -226,3 +226,48 @@ def test_draft_callout_separates_steal_and_bust_with_a_space(built):
     assert "Steal Guy" in html and "Bust Guy" in html
     assert "VOR.<b>Bust:</b>" not in html  # the bug: fragments ran together with no separator
     assert "VOR. <b>Bust:</b>" in html
+
+
+CONFIG_PATH = Path(__file__).resolve().parents[2] / "data" / "config.toml"
+
+
+def test_internal_links_resolve(built):
+    out, site, _ = built
+    for name, html in all_html(out).items():
+        for href in re.findall(r'href="([^"]+)"', html):
+            if not href.startswith(site.base_path):
+                continue
+            path = href[len(site.base_path):].split("#")[0]
+            target = (out / path / "index.html") if (path == "" or path.endswith("/")) else out / path
+            assert target.exists(), f"{name} links to {href}"
+
+
+def test_real_2020_fixture_builds_a_full_site(tmp_path, fixtures_dir):
+    from hof.snapshots import load_season
+
+    config = Config.load(CONFIG_PATH)
+    model = compute([load_season(fixtures_dir / "raw" / "2020")], config.hall)
+    out = tmp_path / "dist"
+    site = build_site(model, config, out)
+    assert site.base_path == "/bdfl-trade-notifier/"
+    pages = all_html(out)
+    assert sum(1 for name in pages if name.startswith("franchises/") and name != "franchises/index.html") == 12
+    assert sum(1 for name in pages if name.startswith("players/") and name != "players/index.html") > 100
+    assert len(re.findall(r'data-sort="\d+"', pages["drafts/2020/index.html"])) == 48
+    assert pages["trades/index.html"].count('class="trade"') == 20
+    home = pages["index.html"]
+    assert "Marcus Peters&#39; Peter Peckers" in home  # autoescaped apostrophe
+    assert "through 2020 Week 16" in home
+    leak = re.compile(r"(?<![\d-])00(0[1-9]|1[0-2])(?!\d)")
+    for name, html in pages.items():
+        assert not leak.search(html), f"franchise id in {name}"
+
+
+def test_cli_build_writes_the_site(tmp_path, fixtures_dir, capsys):
+    from hof import __main__ as cli
+
+    out = tmp_path / "dist"
+    code = cli.main(["--data", str(fixtures_dir), "--config", str(CONFIG_PATH), "build", "--out", str(out)])
+    assert code == 0
+    assert (out / "index.html").exists()
+    assert "built" in capsys.readouterr().out
