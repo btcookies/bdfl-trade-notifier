@@ -30,7 +30,7 @@ def test_team_single_game_records(book):
     assert book["team_game_low"].lowest_first is True
     assert book["team_game_low"].entries[0].value == 5.0
     assert book["blowout"].entries[0] == RecordEntry(20.0, "Alpha", "over Delta 25.0–5.0, 2020 Week 3 (Semifinal)", 2020, 3, True, "0001", None)
-    assert book["closest"].entries[0].holder == "Delta"
+    assert book["closest"].entries[0].value == 2.0 and book["closest"].entries[0].holder == "Delta"
     assert book["loss_high"].entries[0] == RecordEntry(20.0, "Gamma", "lost to Alpha 30.0–20.0, 2020 Week 4 (Final)", 2020, 4, True, "0003", None)
     assert book["win_low"].entries[0] == RecordEntry(10.0, "Alpha Prime", "beat Beta 10.0–5.0, 2021 Week 1", 2021, 1, False, "0001", None)
     assert book["bench_left_game"].entries[0] == RecordEntry(4.0, "Beta", "10.0 of 14.0 possible, 2020 Week 1", 2020, 1, False, "0002", None)
