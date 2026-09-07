@@ -9,7 +9,7 @@ site_base_url = "https://btcookies.github.io/bdfl-trade-notifier/"
 2016 = "79873"
 
 [hall_of_fame]
-player_min_vor = 400.0
+player_min_vor = 500.0
 player_min_starts = 30
 franchise_min_titles = 2
 watch_list_margin = 100.0

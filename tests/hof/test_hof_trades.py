@@ -81,6 +81,9 @@ def test_ledger_is_newest_first_with_effective_weeks():
 def test_player_for_dollars_is_credited_by_stint_from_the_effective_week():
     line = ledger()[3]
     assert line.comments == "cash grab"
+    # r1 joins the 2-RB pool with r2 for weeks 2-3 on Beta; a pool of two's two-thirds baseline
+    # (rank 2) is the worse score, and r2 is always worse (14 > 3, 7 > 2), so the baseline is
+    # r2's own score both times: r1's vor = 14 - 3 = 11.0, then 7 - 2 = 5.0, summing to 16.0.
     assert line.sides == (
         TradeSide("0001", "Alpha", (Asset("BB_5", "dollars", "$5 blind-bid dollars", None, 0, 0.0, 0.0),), 0.0),
         TradeSide("0002", "Beta", (Asset("r1", "player", "RB One (RB)", "r1", 2, 21.0, 16.0),), 16.0),
@@ -92,7 +95,11 @@ def test_picks_resolve_to_players_and_credit_the_drafting_franchise():
     line = ledger()[2]
     beta, alpha = line.sides  # franchise1 of this trade is Beta, so it is listed first
     assert (beta.franchise_id, alpha.franchise_id) == ("0002", "0001")
+    # rk2 is the only RB on the field in 2021 Week 1: a pool of one is its own baseline, vor 0.0.
     assert alpha.received == (Asset("FP_0002_2021_1", "future_pick", "Beta 2021 Round 1 pick → Rookie Two", "rk2", 1, 9.0, 0.0),)
+    # r2 is always the worse of the 2-RB pool with r1 (8<10, 3<14, 2<7), and a pool of two's
+    # two-thirds baseline (rank 2) is the worse score -- so the baseline is r2's own score every
+    # week: vor = 8-8, 3-3, 2-2 = 0.0 each week, summing to 0.0.
     assert beta.received == (Asset("DP_1_1", "pick", "2020 Round 2 Pick 2 → RB Two", "r2", 3, 13.0, 0.0),)
     assert line.verdict == "Even"
 
@@ -100,6 +107,9 @@ def test_picks_resolve_to_players_and_credit_the_drafting_franchise():
 def test_offseason_trade_lands_in_the_next_season():
     line = ledger()[1]
     alpha, beta = line.sides
+    # 2021 Week 1's 2-QB pool is q1 (20.0, now on Beta) and q2 (5.0, now on Alpha); a pool of
+    # two's two-thirds baseline (rank 2) is the worse score, q2's own 5.0, so q2 sits exactly at
+    # replacement (vor 0.0) and q1 is 15.0 above it (vor 15.0).
     assert beta.received[0] == Asset("q1", "player", "QB One (QB)", "q1", 1, 20.0, 15.0)
     assert alpha.received[0] == Asset("q2", "player", "QB Two (QB)", "q2", 1, 5.0, 0.0)
     assert line.verdict == "Ahead: Beta by 15.0"

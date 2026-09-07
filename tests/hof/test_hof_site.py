@@ -15,7 +15,9 @@ CONFIG = Config(
     league_id="1",
     site_base_url="https://example.test/hof/",
     league_overrides={},
-    hall=HallRules(player_min_vor=40, player_min_starts=3, franchise_min_titles=1, watch_list_margin=50),
+    # a1's 2020 (finished-season) vor is 36.0, the only one of the four to clear 30 (a3's is
+    # 22.0; see test_hof_franchises and test_hof_records for the arithmetic).
+    hall=HallRules(player_min_vor=30, player_min_starts=3, franchise_min_titles=1, watch_list_margin=50),
     managers=(),
 )
 
@@ -118,7 +120,7 @@ def test_player_page_tells_the_whole_story(built):
     assert ">Alpha<" in html and ">Alpha Prime<" in html  # season rows use the name at the time
     assert "Joined Alpha" in html
     assert "🏆" in html
-    assert "97.0" in html and "53.0" in html and "Career" in html
+    assert "97.0" in html and "41.0" in html and "Career" in html
     assert 'class="tenure"' in html and "width:100.00%" in html
     assert "Active" in html
     inactive = read(out, "players/qb-a3-a3")
@@ -195,8 +197,9 @@ def test_hall_of_fame_page(built):
     html = read(out, "hall-of-fame")
     assert "Class of 2020" in html
     assert 'href="/hof/players/qb-a1-a1/"' in html and "Alpha Prime" in html
-    assert "Watch list" in html and "QB A2" in html and "30.0" in html
-    assert "40.0 value over replacement" in html and "3 starts" in html and "1 title" in html
+    # a2's full career vor is -2.0 (2020's -2.0 plus 2021 Week 1's 0.0); needed = 30 - (-2) = 32.0.
+    assert "Watch list" in html and "QB A2" in html and "32.0" in html
+    assert "30.0 value over replacement" in html and "3 starts" in html and "1 title" in html
 
 
 def test_drafts_and_trades_pages_exist_with_empty_states(built):

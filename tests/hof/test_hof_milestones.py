@@ -22,6 +22,8 @@ def test_high_score_and_top_starter(league, tables):
     facts = milestones.recap_facts(league, tables, (2020, 4))
     assert (facts.year, facts.week, facts.playoff) == (2020, 4, True)
     assert facts.high_score == ("Alpha", 30.0)
+    # Week 4's QB pool is just a1 (30.0) and a3 (20.0); the two-thirds baseline for a pool of two
+    # is the worse score, a3's own 20.0, so a1's vor that week is 30.0 - 20.0 = 10.0.
     assert facts.top_starter == ("QB A1", "Alpha", 30.0, 10.0)
 
 
@@ -82,7 +84,8 @@ def test_bracket_summary_in_playoff_weeks(league, tables):
 def test_season_awards(league, tables):
     awards = milestones.season_awards(league, tables, 2020)
     assert awards.top_scorer == ("QB A1", "Alpha", 87.0)
-    assert awards.best_vor == ("QB A1", "Alpha", 48.0)
+    # 2020 vor totals: a1 36.0, a3 22.0, a2 -2.0, a4 -10.0 (see test_hof_franchises); a1 is best.
+    assert awards.best_vor == ("QB A1", "Alpha", 36.0)
     assert awards.best_manager == ("Alpha", 1.0)
     assert awards.most_bench_left == ("Beta", 4.0)
     assert awards.champion == ("Alpha", "1-1-0", 32.0, 2)
