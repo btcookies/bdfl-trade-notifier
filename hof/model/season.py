@@ -250,7 +250,15 @@ class Season:
                 else:
                     home_id, away_id = matchup
                 game = self._game(week, home_id, away_id, playoff=True, round_name=self.round_name(bracket_game.round_index))
-                if game is not None:
+                if game is None:
+                    # Unlike a regular-season bye (normal, stays quiet), a playoff game with no
+                    # playable lineup on one side means data is missing -- e.g. this could
+                    # silently blank out champion_id, which Plan 2's Hall of Fame keys off.
+                    log.warning(
+                        "%s week %s: bracket game %s (%s vs %s) has no playable lineup, dropped",
+                        self.year, number, bracket_game.game_id, home_id, away_id,
+                    )
+                else:
                     games.append(game)
         return games
 

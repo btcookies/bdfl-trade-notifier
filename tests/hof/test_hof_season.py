@@ -245,6 +245,35 @@ def test_games_uses_bracket_home_away_when_weeklyresults_has_no_matching_matchup
     assert season.champion_id == "0003"
 
 
+def test_a_dropped_playoff_game_is_logged(caplog):
+    """Unlike a regular-season bye (normal, stays quiet), a playoff game with a missing or
+    unplayed lineup silently blanking out champion_id would be a real problem with nothing to
+    diagnose it -- this must at least warn."""
+    week2 = Week(number=2, lineups={"0003": lineup("0003", {"q3": 12.5}, "W")}, matchups=())
+    season = Season(
+        year=2030,
+        league_id="1",
+        name="Test",
+        complete=False,
+        franchises={f: Franchise(f, f"Team {f}") for f in ("0001", "0003")},
+        starter_minimums={"QB": 1},
+        start_week=1,
+        end_week=2,
+        last_regular_season_week=1,
+        weeks={2: week2},
+        bracket=(BracketGame(2, "1", 0, "0003", "0001", 1, 2),),
+        standings=(),
+        draft=(),
+        round1_order=(),
+        transactions=TransactionLog((), (), (), (), ()),
+        players={p: PlayerInfo(p, p.upper(), "QB", "") for p in ("q3",)},
+    )
+    with caplog.at_level("WARNING"):
+        games = season.games()
+    assert games == []
+    assert "has no playable lineup, dropped" in caplog.text
+
+
 def test_ties_have_no_winner():
     game = Game(2030, 1, lineup("0001", {"a": 1.0}), lineup("0002", {"b": 1.0}), playoff=False)
     assert game.winner is None and game.loser is None and game.tie

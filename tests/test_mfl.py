@@ -230,6 +230,18 @@ def test_connection_errors_give_up_after_exhausting_retries():
 
 
 @responses.activate
+def test_a_timeout_is_not_retried():
+    """This client is shared with the notifier Lambda's tight processing budget (see
+    poller.py's RUN_TIME_BUDGET_SECONDS); blindly retrying a slow request that times out,
+    rather than just a fast connection reset, could blow it. Only ConnectionError is retried."""
+    responses.get(f"{BASE_URL}/2026/export", body=requests.exceptions.Timeout("slow"))
+    client = make_client(sleep=lambda s: None)
+    with pytest.raises(MflError, match="slow"):
+        client.transactions(2026)
+    assert len(responses.calls) == 1
+
+
+@responses.activate
 def test_two_clients_sharing_a_pacer_are_paced_against_each_other():
     """Two MflClient instances for different league ids (e.g. one season under a different MFL
     league id than the current one) sharing one requests.Session must also share pacing, or the

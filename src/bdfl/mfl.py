@@ -161,12 +161,13 @@ class MflClient:
         return data
 
     def _request(self, year: int, query: dict[str, str]) -> requests.Response:
-        """GET, retrying a transient connection error a couple of times.
+        """GET, retrying a transient connection reset a couple of times.
 
         MFL's server occasionally resets a pooled keep-alive connection right around our
-        one-per-second pacing gap, which surfaces as a connection error rather than a real HTTP
-        response -- it isn't a rate-limit signal (that's a 429, handled by the caller), just
-        server-side flakiness worth one or two retries before giving up.
+        one-per-second pacing gap -- not a rate-limit signal (that's a 429, handled by the
+        caller), just server-side flakiness worth one or two retries before giving up. Only a
+        ConnectionError is retried: this client is shared with the notifier Lambda's tight
+        processing budget, and blindly retrying a slow request that times out could blow it.
         """
         last_exc: requests.RequestException | None = None
         for attempt in range(CONNECTION_RETRIES + 1):
@@ -178,13 +179,16 @@ class MflClient:
                     headers={"User-Agent": self.user_agent},
                     timeout=self.timeout,
                 )
-            except requests.RequestException as exc:
+            except requests.ConnectionError as exc:
                 last_exc = exc
                 if attempt < CONNECTION_RETRIES:
                     log.warning(
                         "MFL connection error for %s (attempt %d/%d), retrying: %s",
                         query.get("TYPE"), attempt + 1, CONNECTION_RETRIES + 1, exc,
                     )
+            except requests.RequestException as exc:
+                last_exc = exc
+                break
             finally:
                 # In a finally so a failed request still counts against MFL's one-per-second rule.
                 self.pacer.last_request_at = self.clock()
