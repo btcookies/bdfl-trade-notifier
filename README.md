@@ -127,6 +127,18 @@ then open http://localhost:8000/bdfl-trade-notifier/.
 
 Hall of Fame thresholds live in `data/config.toml`. Run `python -m hof stats` to see how many players each threshold would induct before changing them.
 
+### Discord posts
+
+The same workflow posts to the league channel through the notifier's webhook: a recap every Tuesday of a completed week (high score, top starter, new records and milestones, series firsts, the playoff picture or the bracket) and a season wrap after the final (champion, season awards, the new Hall of Fame class). A week counts as complete forty hours after MFL's Sunday lineup lock, once every matchup is scored. `data/notify-state.json` records the last post so a re-run never posts a week twice.
+
+One-time setup: add the repository secret `DISCORD_WEBHOOK_URL` (the same URL as the SSM parameter), then set the repository variable `HOF_NOTIFY` to `true`. Set it to anything else to pause posting without touching the workflow.
+
+Preview a post without sending it:
+
+```bash
+python -m hof notify --dry-run --year 2025 --week 9
+```
+
 ## Operations
 
 - **Schedule:** the `PollSchedule` parameter, default `rate(1 minute)`.

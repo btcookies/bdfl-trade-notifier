@@ -32,7 +32,12 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # Always start from the tip of main, not the triggering commit: a re-run of a failed job
+      # would otherwise check out a base that predates this workflow's own snapshot commit and
+      # its push would be rejected as non-fast-forward.
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          ref: main
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: '3.13'
@@ -56,6 +61,8 @@ jobs:
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
             git commit -m "data: MFL snapshots $(date -u +%F)"
+            # Someone may have merged to main while MFL was being fetched; replay on top of it.
+            git pull --rebase origin main
             git push
           fi
 
@@ -68,3 +75,25 @@ jobs:
           path: dist
       - id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+
+      # Off until the owner sets the repository variable HOF_NOTIFY to "true" (Settings, Secrets
+      # and variables, Actions, Variables) and adds the DISCORD_WEBHOOK_URL secret.
+      - name: Post the weekly recap or season wrap to Discord
+        if: vars.HOF_NOTIFY == 'true'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python -m hof notify
+
+      - name: Commit the notify state
+        if: vars.HOF_NOTIFY == 'true'
+        run: |
+          git add data/notify-state.json
+          if git diff --cached --quiet; then
+            echo "no state change"
+          else
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m "data: notify state $(date -u +%F)"
+            git pull --rebase origin main
+            git push
+          fi

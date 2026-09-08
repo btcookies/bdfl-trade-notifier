@@ -1,9 +1,10 @@
-"""Command line: python -m hof [--data DIR] [--config FILE] {fetch,stats,build}."""
+"""Command line: python -m hof [--data DIR] [--config FILE] {fetch,stats,build,notify}."""
 
 from __future__ import annotations
 
 import argparse
 import logging
+import os
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
@@ -14,9 +15,11 @@ import requests
 # running `python -m hof` directly needs the same path scripts/dry_run.py adds by hand.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
+from bdfl.discord import DiscordWebhook  # noqa: E402
 from bdfl.mfl import MflClient, RequestPacer  # noqa: E402
 from hof import fetch
 from hof.config import Config
+from hof.discord import notify
 from hof.site.build import build_site
 from hof.snapshots import load_all
 from hof.stats.model import compute
@@ -73,6 +76,20 @@ def main(argv: list[str] | None = None) -> int:
     commands.add_parser("stats", help="compute everything and print a calibration report")
     build_parser = commands.add_parser("build", help="render the site into a directory")
     build_parser.add_argument("--out", type=Path, default=Path("dist"), help="output directory (default: dist)")
+    notify_parser = commands.add_parser("notify", help="post the newest complete week's recap or the season wrap to Discord")
+    notify_parser.add_argument("--dry-run", action="store_true", help="print the embed instead of posting; touches nothing")
+    notify_parser.add_argument(
+        "--year",
+        type=int,
+        help="with --week: build this week regardless of completion or state; "
+        "without --dry-run this really posts to Discord and does not update the dedupe state",
+    )
+    notify_parser.add_argument(
+        "--week",
+        type=int,
+        help="with --year: build this week regardless of completion or state; "
+        "without --dry-run this really posts to Discord and does not update the dedupe state",
+    )
     args = parser.parse_args(argv)
 
     logging.basicConfig(level=args.log_level.upper(), format="%(levelname)s %(name)s: %(message)s")
@@ -93,6 +110,24 @@ def main(argv: list[str] | None = None) -> int:
         build_site(model, config, args.out)
         pages = sum(1 for _ in args.out.rglob("index.html"))
         print(f"built {pages} pages into {args.out}")
+        return 0
+    if args.command == "notify":
+        if (args.year is None) != (args.week is None):
+            parser.error("--year and --week go together")
+        force = (args.year, args.week) if args.year is not None else None
+        model = compute(load_all(args.data), config.hall)
+        state_path = args.data / "notify-state.json"
+        if args.dry_run:
+            outcome = notify.run(model, config.site_base_url, state_path, notify.now_utc(), None, dry_run=True, force=force)
+        else:
+            try:
+                url = notify.webhook_url(os.environ)
+            except notify.NotifyError as exc:
+                print(f"error: {exc}", file=sys.stderr)
+                return 1
+            outcome = notify.run(model, config.site_base_url, state_path, notify.now_utc(), DiscordWebhook(url), force=force)
+        print(f"{'posted' if outcome.posted else 'nothing posted'}: {outcome.reason}"
+              + (f" ({outcome.decision.kind} {outcome.decision.year} week {outcome.decision.week})" if outcome.decision else ""))
         return 0
     return 2
 
