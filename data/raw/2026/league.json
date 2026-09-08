@@ -55,14 +55,14 @@
      "waiverSortOrder": "11"
     },
     {
-     "bbidAvailableBalance": "729.00",
+     "bbidAvailableBalance": "679.00",
      "division": "00",
      "id": "0003",
      "name": "Jeff Janis Fan Club",
      "waiverSortOrder": "10"
     },
     {
-     "bbidAvailableBalance": "334.00",
+     "bbidAvailableBalance": "384.00",
      "division": "01",
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2021/65522_franchise_icon0004.jpg",
      "id": "0004",
@@ -232,7 +232,7 @@
     }
    ]
   },
-  "rosterSize": "50",
+  "rosterSize": "30",
   "rostersPerPlayer": "1",
   "standingsSort": "PCT,PTS,H2H,DIVPCT,",
   "startWeek": "1",
