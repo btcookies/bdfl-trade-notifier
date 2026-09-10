@@ -6,18 +6,22 @@ from dataclasses import dataclass
 
 from hof.config import HallRules
 from hof.model.season import Season
+from hof.stats import analytics as analytics_mod
 from hof.stats import careers as careers_mod
 from hof.stats import drafts as drafts_mod
 from hof.stats import franchises as franchises_mod
 from hof.stats import hall as hall_mod
 from hof.stats import records as records_mod
+from hof.stats import rivalries as rivalries_mod
 from hof.stats import trades as trades_mod
+from hof.stats.analytics import SeasonAnalytics
 from hof.stats.careers import Career, WeekKey
 from hof.stats.drafts import DraftRanking, DraftSummary
 from hof.stats.franchises import FranchiseHistory
 from hof.stats.hall import Hall
 from hof.stats.league import League
 from hof.stats.records import RecordTable
+from hof.stats.rivalries import RivalryGrid
 from hof.stats.trades import TradeLine
 
 
@@ -33,6 +37,8 @@ class Model:
     trades: list[TradeLine]
     through: WeekKey | None  # newest (year, week) with a counted game
     champions: list[tuple[int, str, str]]  # (year, champion id, runner-up id), oldest first
+    analytics: dict[int, SeasonAnalytics]  # by year
+    rivalries: RivalryGrid
 
 
 def latest_played_week(league: League) -> WeekKey | None:
@@ -52,7 +58,7 @@ def champions(league: League) -> list[tuple[int, str, str]]:
     return out
 
 
-def compute(seasons: list[Season], rules: HallRules) -> Model:
+def compute(seasons: list[Season], rules: HallRules, award_labels: dict[str, str] | None = None) -> Model:
     league = League.build(seasons)
     all_stints = careers_mod.roster_stints(league)
     careers = careers_mod.careers(league, all_stints)
@@ -70,4 +76,6 @@ def compute(seasons: list[Season], rules: HallRules) -> Model:
         trades=trades_mod.trade_ledger(league, all_stints),
         through=latest_played_week(league),
         champions=champions(league),
+        analytics=analytics_mod.compute(league, award_labels),
+        rivalries=rivalries_mod.rivalry_grid(histories),
     )

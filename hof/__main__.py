@@ -59,6 +59,11 @@ def print_report(model, rules) -> None:
         if table.entries:
             top = table.entries[0]
             print(f"  {table.title:<45} {top.holder:<28} {top.value:>8} {top.detail}")
+    latest = model.analytics.get(league.latest.year)
+    if latest is not None and latest.final_power:
+        top = latest.final_power[0]
+        print(f"\n{latest.year} power #1 through week {latest.power_week}: {top.name} ({top.score:.3f}); "
+              f"awards leader: {', '.join(league.current_name(f) for f in latest.awards_leaders)} ({latest.awards_leader_count})")
     print(f"\ntrades: {len(model.trades)} ({sum(1 for t in model.trades if t.pending)} pending)")
     print("drafts:", ", ".join(f"{d.year} ({d.rounds} rounds{', startup' if d.startup else ''})" for d in model.drafts))
 
@@ -102,11 +107,11 @@ def main(argv: list[str] | None = None) -> int:
         print(f"fetched {len(fetched)} season(s): {fetched}")
         return 0
     if args.command == "stats":
-        model = compute(load_all(args.data), config.hall)
+        model = compute(load_all(args.data), config.hall, config.award_labels)
         print_report(model, config.hall)
         return 0
     if args.command == "build":
-        model = compute(load_all(args.data), config.hall)
+        model = compute(load_all(args.data), config.hall, config.award_labels)
         build_site(model, config, args.out)
         pages = sum(1 for _ in args.out.rglob("index.html"))
         print(f"built {pages} pages into {args.out}")
@@ -115,7 +120,7 @@ def main(argv: list[str] | None = None) -> int:
         if (args.year is None) != (args.week is None):
             parser.error("--year and --week go together")
         force = (args.year, args.week) if args.year is not None else None
-        model = compute(load_all(args.data), config.hall)
+        model = compute(load_all(args.data), config.hall, config.award_labels)
         state_path = args.data / "notify-state.json"
         if args.dry_run:
             outcome = notify.run(model, config.site_base_url, state_path, notify.now_utc(), None, dry_run=True, force=force)
