@@ -130,3 +130,29 @@ def test_zero_optimal_lineup_is_skipped_without_dropping_the_awards():
     assert got["best_lineup"] == Award("best_lineup", "Best lineup", "0002", "Team 0002", "0002", 0.455, "pct", "10.0 of 22.0 possible")
     assert got["worst_lineup"] == Award("worst_lineup", "Most points left on the bench", "0002", "Team 0002", "0002", 12.0, "pts", "10.0 of 22.0 possible")
     assert got["low_score"].holder_name == "Team 0001"
+
+
+def test_optimal_below_the_actual_score_is_not_rated():
+    players = {**PLAYERS, "b2": ("RB B2", "RB")}
+    season = build_season(
+        2020, players,
+        {1: [(lineup("0001", {"a1": 30.0}, opt_pts=25.0), lineup("0002", {"a2": 10.0}, bench={"b2": 12.0}, opt_pts=22.0))]},
+        last_regular_season_week=1, franchises=("0001", "0002"),
+    )
+    got = by_key(awards.week_awards(League.build([season]), season, 1))
+    # MFL sometimes reports an optimal below the actual score; such a lineup is skipped, not rated at 120%
+    assert (got["best_lineup"].holder_name, got["worst_lineup"].holder_name) == ("Team 0002", "Team 0002")
+    assert got["best_lineup"].value == 0.455
+
+
+def test_ties_break_on_the_holders_score_then_name():
+    weeks = {1: [(lineup("0001", {"a1": 20.0}), lineup("0002", {"a2": 10.0})), (lineup("0003", {"a3": 25.0}), lineup("0004", {"a4": 15.0}))]}
+    season = build_season(2020, PLAYERS, weeks, last_regular_season_week=1)
+    got = by_key(awards.week_awards(League.build([season]), season, 1))
+    # equal 10.0 margins: the higher-scoring winner takes both, ahead of the alphabetically earlier name
+    assert (got["blowout"].holder_name, got["closest"].holder_name) == ("Team 0003", "Team 0003")
+    weeks = {1: [(lineup("0001", {"a1": 20.0}), lineup("0002", {"a2": 10.0})), (lineup("0003", {"a3": 20.0}), lineup("0004", {"a4": 10.0}))]}
+    season = build_season(2020, PLAYERS, weeks, last_regular_season_week=1)
+    got = by_key(awards.week_awards(League.build([season]), season, 1))
+    # identical scores and margins: the name decides
+    assert (got["high_score"].holder_name, got["blowout"].holder_name) == ("Team 0001", "Team 0001")

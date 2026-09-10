@@ -5,7 +5,7 @@
           + 0.2 * form, the all-play % over the last three regular-season weeks pooled
 
 Computed after each regular-season week with a counted game. The last regular-season ranking
-stands through the playoffs. Ties break on points for, then name.
+stands through the playoffs. Ties break on points for, then the franchise's current name.
 """
 
 from __future__ import annotations
@@ -72,7 +72,7 @@ def _table(league: League, season: Season, through_week: int) -> list[tuple[str,
         form = _pct(*recent_allplay.get(line.franchise_id, [0, 0, 0]))
         win_pct = _pct(line.wins, line.losses, line.ties)
         score = round(WEIGHT_ALLPLAY * line.allplay_pct + WEIGHT_RECORD * win_pct + WEIGHT_FORM * form, 3)
-        rows.append((line.franchise_id, score, line.allplay_pct, win_pct, form, line.points_for, line.name))
+        rows.append((line.franchise_id, score, line.allplay_pct, win_pct, form, line.points_for, league.current_name(line.franchise_id)))
     rows.sort(key=lambda r: (-r[1], -r[5], r[6]))
     return [(fid, score, ap, wp, form) for fid, score, ap, wp, form, _, _ in rows]
 

@@ -45,7 +45,7 @@ class Award:
     holder_name: str
     franchise_id: str  # the franchise credited in the tally
     value: float
-    unit: str  # pts or pct
+    unit: str  # pts, pct, or wins
     detail: str  # one line; empty when there is nothing to add
 
 
@@ -126,9 +126,10 @@ def week_awards(league: League, season: Season, week: int, labels: dict[str, str
     if (pick := best(margins, lowest=True)) is not None:
         found.append(franchise("closest", pick[1], pick[0], "pts", pick[2]))
 
-    # A lineup whose optimal is None (not computed) or 0.0 (nothing could have scored) cannot be
-    # rated, and 0.0 would divide by zero below; the truthy check drops both on purpose.
-    lineups = [(own, own.opt_pts) for _, own, _ in entries if own.opt_pts]
+    # A lineup cannot be rated when its optimal is None (not computed), 0.0 (nothing could have
+    # scored; it would also divide by zero below), or below the actual score (an MFL data glitch
+    # that would read as more than 100% efficiency).
+    lineups = [(own, own.opt_pts) for _, own, _ in entries if own.opt_pts and own.opt_pts >= (own.score or 0.0)]
     efficiency = [((own.score or 0.0) / opt, own, f"{_score(own.score)} of {_score(opt)} possible") for own, opt in lineups]
     if (pick := best(efficiency)) is not None:
         found.append(franchise("best_lineup", pick[1], round(pick[0], 3), "pct", pick[2]))
