@@ -117,3 +117,16 @@ def test_tally_and_leaders_for_the_season():
     assert awards.leaders({"0001": dict.fromkeys(AWARD_KEYS, 0)}) == ((), 0)
     tied = {"0001": {**dict.fromkeys(AWARD_KEYS, 0), "high_score": 2}, "0002": {**dict.fromkeys(AWARD_KEYS, 0), "low_score": 2}}
     assert awards.leaders(tied) == (("0001", "0002"), 2)
+
+
+def test_zero_optimal_lineup_is_skipped_without_dropping_the_awards():
+    players = {**PLAYERS, "b2": ("RB B2", "RB")}
+    season = build_season(
+        2020, players,
+        {1: [(lineup("0001", {"a1": 0.0}, opt_pts=0.0), lineup("0002", {"a2": 10.0}, bench={"b2": 12.0}, opt_pts=22.0))]},
+        last_regular_season_week=1, franchises=("0001", "0002"),
+    )
+    got = by_key(awards.week_awards(League.build([season]), season, 1))
+    assert got["best_lineup"] == Award("best_lineup", "Best lineup", "0002", "Team 0002", "0002", 0.455, "pct", "10.0 of 22.0 possible")
+    assert got["worst_lineup"] == Award("worst_lineup", "Most points left on the bench", "0002", "Team 0002", "0002", 12.0, "pts", "10.0 of 22.0 possible")
+    assert got["low_score"].holder_name == "Team 0001"

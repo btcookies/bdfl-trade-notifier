@@ -88,24 +88,24 @@ def week_awards(league: League, season: Season, week: int, labels: dict[str, str
     if not entries:
         return []
     year = season.year
-    name = {lineup.franchise_id: league.name_in(lineup.franchise_id, year) for _, lineup, _ in entries}
+    franchise_name = {lineup.franchise_id: league.name_in(lineup.franchise_id, year) for _, lineup, _ in entries}
     playoff = week > season.last_regular_season_week
     allplay_record = {row.franchise_id: row.record for row in ([] if playoff else allplay.all_play_week(season, week))}
 
     def franchise(key: str, own: Lineup, value: float, unit: str, detail: str) -> Award:
         fid = own.franchise_id
-        return Award(key, names[key], fid, name[fid], fid, value, unit, detail)
+        return Award(key, names[key], fid, franchise_name[fid], fid, value, unit, detail)
 
     def best(candidates: list[tuple[float, Lineup, str]], lowest: bool = False) -> tuple[float, Lineup, str] | None:
         """(value, lineup, detail) with the extreme value; ties go to the higher score, then name."""
         if not candidates:
             return None
         sign = 1 if lowest else -1
-        return min(candidates, key=lambda c: (sign * c[0], -(c[1].score or 0.0), name[c[1].franchise_id]))
+        return min(candidates, key=lambda c: (sign * c[0], -(c[1].score or 0.0), franchise_name[c[1].franchise_id]))
 
     found: list[Award] = []
 
-    scores = [(own.score or 0.0, own, _versus(own, other, name[other.franchise_id])) for _, own, other in entries]
+    scores = [(own.score or 0.0, own, _versus(own, other, franchise_name[other.franchise_id])) for _, own, other in entries]
     if (pick := best(scores)) is not None:
         found.append(franchise("high_score", pick[1], round(pick[0], 1), "pts", pick[2]))
     if (pick := best(scores, lowest=True)) is not None:
@@ -117,15 +117,17 @@ def week_awards(league: League, season: Season, week: int, labels: dict[str, str
             winner = game.winner or game.home
             loser = game.loser or game.away
             if game.tie:
-                detail = f"tied with {name[loser.franchise_id]}, {_score(winner.score)}–{_score(loser.score)}"
+                detail = f"tied with {franchise_name[loser.franchise_id]}, {_score(winner.score)}–{_score(loser.score)}"
             else:
-                detail = f"over {name[loser.franchise_id]}, {_score(winner.score)}–{_score(loser.score)}"
+                detail = f"over {franchise_name[loser.franchise_id]}, {_score(winner.score)}–{_score(loser.score)}"
             margins.append((game.margin, winner, detail))
     if (pick := best(margins)) is not None:
         found.append(franchise("blowout", pick[1], pick[0], "pts", pick[2]))
     if (pick := best(margins, lowest=True)) is not None:
         found.append(franchise("closest", pick[1], pick[0], "pts", pick[2]))
 
+    # A lineup whose optimal is None (not computed) or 0.0 (nothing could have scored) cannot be
+    # rated, and 0.0 would divide by zero below; the truthy check drops both on purpose.
     lineups = [(own, own.opt_pts) for _, own, _ in entries if own.opt_pts]
     efficiency = [((own.score or 0.0) / opt, own, f"{_score(own.score)} of {_score(opt)} possible") for own, opt in lineups]
     if (pick := best(efficiency)) is not None:
@@ -152,7 +154,7 @@ def week_awards(league: League, season: Season, week: int, labels: dict[str, str
         points, pid, own = min(benched, key=lambda b: (-b[0], season.player(b[1]).name, b[1]))
         fid = own.franchise_id
         found.append(
-            Award("best_benched", names["best_benched"], pid, season.player(pid).name, fid, round(points, 1), "pts", f"on {name[fid]}'s bench")
+            Award("best_benched", names["best_benched"], pid, season.player(pid).name, fid, round(points, 1), "pts", f"on {franchise_name[fid]}'s bench")
         )
 
     order = {key: i for i, key in enumerate(AWARD_KEYS)}
