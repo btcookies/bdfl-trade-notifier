@@ -54,6 +54,8 @@ def ordinal(n: int) -> str:
 def _format(value: float, unit: str) -> str:
     if unit in ("starts", "games", "titles"):
         return f"{int(value)} {unit}"
+    if unit == "wins":
+        return f"{value:+.1f} wins"
     if unit == "pct":
         return f"{value:.3f}"
     return f"{value:.1f} {unit}"

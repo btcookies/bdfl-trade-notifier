@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from hof.model.season import Game, Season
-from hof.stats import franchises
+from hof.stats import allplay, franchises
 from hof.stats.careers import Career
 from hof.stats.league import League
 
@@ -51,6 +51,9 @@ TABLES: tuple[tuple[str, str, str, bool, str], ...] = (
     ("streak_loss", "Longest loss streak, season", "Team, season", False, "games"),
     ("bench_left_season", "Most points left on the bench, season", "Team, season", False, "pts"),
     ("efficiency_season", "Best lineup efficiency, season", "Team, season", False, "pct"),
+    ("luck_high", "Luckiest season", "Team, season", False, "wins"),
+    ("luck_low", "Unluckiest season", "Team, season", True, "wins"),
+    ("allplay_best", "Best all-play record, season", "Team, season", False, "pct"),
     ("player_game_high", "Most points as a starter, game", "Player, single game", False, "pts"),
     ("player_game_vor", "Highest value over replacement, game", "Player, single game", False, "vor"),
     ("player_season_high", "Most points as a starter, season", "Player, season", False, "pts"),
@@ -124,6 +127,7 @@ def team_season_entries(league: League) -> dict[str, list[RecordEntry]]:
     for season in league.seasons:
         if not finished(season):
             continue
+        lines = {line.franchise_id: line for line in allplay.standings(league, season)}
         for fid in season.franchises:
             row = franchises.season_row(league, season, fid)
             if row is None or not (row.wins + row.losses + row.ties):
@@ -148,6 +152,12 @@ def team_season_entries(league: League) -> dict[str, list[RecordEntry]]:
             if opt:
                 out["bench_left_season"].append(_season_entry(round(opt - score, 1), row.name, f"{year}", year, fid))
                 out["efficiency_season"].append(_season_entry(round(score / opt, 3), row.name, f"{year}", year, fid))
+            line = lines.get(fid)
+            if line is not None and line.games:
+                luck_detail = f"{year}, {record}, {line.expected_wins:.2f} expected wins"
+                out["luck_high"].append(_season_entry(line.luck, row.name, luck_detail, year, fid))
+                out["luck_low"].append(_season_entry(line.luck, row.name, luck_detail, year, fid))
+                out["allplay_best"].append(_season_entry(round(line.allplay_pct, 3), row.name, f"{line.allplay_record}, {year}", year, fid))
     return out
 
 
