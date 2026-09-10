@@ -1,5 +1,8 @@
+from dataclasses import replace
+
 from synthetic import build_season, four_team_league, lineup
 
+from hof.model.season import Standing
 from hof.stats import allplay
 from hof.stats.league import League
 
@@ -85,3 +88,14 @@ def test_fallback_order_uses_win_percentage_not_raw_wins():
     lines = allplay.standings(League.build([season]), season, through_week=4)
     # 0001 is now 3-1-0 (.750) and 0003 is still 1-0-0 (1.000): percentage puts 0003 first
     assert [s.franchise_id for s in lines][:2] == ["0003", "0001"]
+
+
+def test_mfl_standings_order_when_present_and_current():
+    base = four_team_league().season(2020)
+    # Gamma is deliberately left out of the export, so it sorts last.
+    export = tuple(Standing(fid, 0, 0, 0, 0.0, 0.0, "", "") for fid in ("0002", "0004", "0001"))
+    season = replace(base, standings=export)
+    league = League.build([season])
+    assert [s.name for s in allplay.standings(league, season)] == ["Beta", "Delta", "Alpha", "Gamma"]
+    assert [s.name for s in allplay.standings(league, season, through_week=2)] == ["Beta", "Delta", "Alpha", "Gamma"]  # week 2 is the newest, so still current
+    assert [s.name for s in allplay.standings(league, season, through_week=1)] == ["Alpha", "Gamma", "Beta", "Delta"]  # not current: computed order

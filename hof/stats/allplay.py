@@ -8,10 +8,11 @@ not every franchise plays a counted game.
 
 from __future__ import annotations
 
+from collections import defaultdict
 from collections.abc import Callable
 from dataclasses import dataclass
 
-from hof.model.season import Season
+from hof.model.season import Game, Season
 from hof.stats.league import League
 
 
@@ -69,24 +70,31 @@ class StandingLine:
         return (wins + 0.5 * ties) / total if total else 0.0
 
 
-def scores_by_week(season: Season) -> dict[int, dict[str, float]]:
-    """week -> franchise id -> counted regular-season score, from one pass over the games."""
+def _regular_games(season: Season) -> list[Game]:
+    return [game for game in season.games() if not game.playoff]
+
+
+def _scores_by_week(games: list[Game]) -> dict[int, dict[str, float]]:
     out: dict[int, dict[str, float]] = {}
-    for game in season.games():
-        if game.playoff:
-            continue
+    for game in games:
         week = out.setdefault(game.week, {})
         for lineup in (game.home, game.away):
             week[lineup.franchise_id] = lineup.score or 0.0
     return out
 
 
+def scores_by_week(season: Season) -> dict[int, dict[str, float]]:
+    """week -> franchise id -> counted regular-season score, from one pass over the games."""
+    return _scores_by_week(_regular_games(season))
+
+
 def regular_weeks(season: Season, through_week: int | None = None) -> list[int]:
     """Regular-season weeks with at least one counted game, ascending, up to through_week."""
-    weeks = sorted(scores_by_week(season))
-    if through_week is not None:
-        weeks = [w for w in weeks if w <= through_week]
-    return weeks
+    return _weeks_through(scores_by_week(season), through_week)
+
+
+def _weeks_through(by_week: dict[int, dict[str, float]], through_week: int | None) -> list[int]:
+    return [week for week in sorted(by_week) if through_week is None or week <= through_week]
 
 
 def _rows(week: int, scores: dict[str, float]) -> list[AllPlayWeek]:
@@ -114,74 +122,72 @@ def all_play_week(season: Season, week: int) -> list[AllPlayWeek]:
 
 def all_play_weeks(season: Season, through_week: int | None = None) -> list[AllPlayWeek]:
     by_week = scores_by_week(season)
-    return [
-        row
-        for week in sorted(by_week)
-        if through_week is None or week <= through_week
-        for row in _rows(week, by_week[week])
-    ]
+    return [row for week in _weeks_through(by_week, through_week) for row in _rows(week, by_week[week])]
 
 
-def _order(season: Season, through_week: int | None) -> Callable[[StandingLine], tuple]:
+def _order(season: Season, through_week: int | None, newest_week: int | None) -> Callable[[StandingLine], tuple]:
     """MFL's standings order when the export is present and the lines are current; else by
     win percentage, points for, and name."""
-    newest = regular_weeks(season)
-    current = through_week is None or (bool(newest) and through_week >= newest[-1])
+    current = through_week is None or (newest_week is not None and through_week >= newest_week)
     if season.standings and current:
         position = {s.franchise_id: i for i, s in enumerate(season.standings)}
         return lambda line: (position.get(line.franchise_id, len(position)), line.name)
+
     def pct(line: StandingLine) -> float:
         return (line.wins + 0.5 * line.ties) / line.games if line.games else 0.0
 
     return lambda line: (-pct(line), -line.points_for, line.name)
 
 
-def standings(
-    league: League, season: Season, through_week: int | None = None
-) -> list[StandingLine]:
+def standings(league: League, season: Season, through_week: int | None = None) -> list[StandingLine]:
     """Every franchise's regular-season line through the week (every week when None)."""
-    weeks = set(regular_weeks(season, through_week))
-    ids = list(season.franchises)
-    wins = dict.fromkeys(ids, 0)
-    losses = dict.fromkeys(ids, 0)
-    ties = dict.fromkeys(ids, 0)
-    points_for = dict.fromkeys(ids, 0.0)
-    points_against = dict.fromkeys(ids, 0.0)
-    for game in season.games():
-        if game.playoff or game.week not in weeks:
+    games = _regular_games(season)
+    by_week = _scores_by_week(games)
+    weeks = _weeks_through(by_week, through_week)
+    counted = set(weeks)
+    wins: dict[str, int] = defaultdict(int)
+    losses: dict[str, int] = defaultdict(int)
+    ties: dict[str, int] = defaultdict(int)
+    points_for: dict[str, float] = defaultdict(float)
+    points_against: dict[str, float] = defaultdict(float)
+    for game in games:
+        if game.week not in counted:
             continue
         for own, other in ((game.home, game.away), (game.away, game.home)):
             fid = own.franchise_id
             own_score, other_score = own.score or 0.0, other.score or 0.0
-            points_for[fid] = points_for.get(fid, 0.0) + own_score
-            points_against[fid] = points_against.get(fid, 0.0) + other_score
+            points_for[fid] += own_score
+            points_against[fid] += other_score
             if own_score > other_score:
-                wins[fid] = wins.get(fid, 0) + 1
+                wins[fid] += 1
             elif own_score < other_score:
-                losses[fid] = losses.get(fid, 0) + 1
+                losses[fid] += 1
             else:
-                ties[fid] = ties.get(fid, 0) + 1
-    allplay: dict[str, list[int]] = {fid: [0, 0, 0] for fid in ids}
-    expected = dict.fromkeys(ids, 0.0)
-    for row in all_play_weeks(season, through_week):
-        record = allplay.setdefault(row.franchise_id, [0, 0, 0])
-        record[0] += row.wins
-        record[1] += row.losses
-        record[2] += row.ties
-        expected[row.franchise_id] = expected.get(row.franchise_id, 0.0) + row.expected_wins
+                ties[fid] += 1
+    allplay_totals: dict[str, list[int]] = defaultdict(lambda: [0, 0, 0])
+    expected: dict[str, float] = defaultdict(float)
+    for week in weeks:
+        for row in _rows(week, by_week[week]):
+            totals = allplay_totals[row.franchise_id]
+            totals[0] += row.wins
+            totals[1] += row.losses
+            totals[2] += row.ties
+            expected[row.franchise_id] += row.expected_wins
+    ids = set(season.franchises) | set(points_for)
     lines = [
         StandingLine(
             franchise_id=fid,
             name=league.name_in(fid, season.year),
-            wins=wins.get(fid, 0),
-            losses=losses.get(fid, 0),
-            ties=ties.get(fid, 0),
-            points_for=round(points_for.get(fid, 0.0), 1),
-            points_against=round(points_against.get(fid, 0.0), 1),
-            allplay=(allplay[fid][0], allplay[fid][1], allplay[fid][2]),
-            expected_wins=round(expected.get(fid, 0.0), 2),
-            luck=round(wins.get(fid, 0) + 0.5 * ties.get(fid, 0) - expected.get(fid, 0.0), 1),
+            wins=wins[fid],
+            losses=losses[fid],
+            ties=ties[fid],
+            points_for=round(points_for[fid], 1),
+            points_against=round(points_against[fid], 1),
+            allplay=tuple(allplay_totals.get(fid, [0, 0, 0])),
+            expected_wins=round(expected[fid], 2),
+            luck=round(wins[fid] + 0.5 * ties[fid] - expected[fid], 1),
         )
-        for fid in set(ids) | set(allplay)
+        for fid in ids
     ]
-    return sorted(lines, key=_order(season, through_week))
+    newest = max(by_week) if by_week else None
+    return sorted(lines, key=_order(season, through_week, newest))
