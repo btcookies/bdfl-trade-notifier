@@ -152,8 +152,8 @@ def team_season_entries(league: League) -> dict[str, list[RecordEntry]]:
             if opt:
                 out["bench_left_season"].append(_season_entry(round(opt - score, 1), row.name, f"{year}", year, fid))
                 out["efficiency_season"].append(_season_entry(round(score / opt, 3), row.name, f"{year}", year, fid))
-            line = lines.get(fid)
-            if line is not None and line.games:
+            line = lines[fid]  # standings() lists every franchise in the season
+            if line.games:
                 luck_detail = f"{year}, {record}, {line.expected_wins:.2f} expected wins"
                 out["luck_high"].append(_season_entry(line.luck, row.name, luck_detail, year, fid))
                 out["luck_low"].append(_season_entry(line.luck, row.name, luck_detail, year, fid))

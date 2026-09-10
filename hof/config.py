@@ -101,6 +101,8 @@ class Config:
         for key, label in (raw.get("awards") or {}).items():
             if key not in AWARD_KEYS:
                 raise ConfigError(f"awards: unknown award {key!r}; known keys: {', '.join(AWARD_KEYS)}")
+            if not isinstance(label, str):
+                raise ConfigError(f"awards: label for {key!r} must be a string")
             text = str(label).strip()
             if not text:
                 raise ConfigError(f"awards: empty label for {key!r}")

@@ -1,4 +1,4 @@
-from synthetic import build_season, four_team_league
+from synthetic import build_season, four_team_league, lineup
 
 from hof.stats import analytics
 from hof.stats.league import League
@@ -48,3 +48,15 @@ def test_compute_covers_every_season():
     everything = analytics.compute(league)
     assert sorted(everything) == [2020, 2021]
     assert everything[2021].awards_leaders == ("0001",)
+
+
+def test_luck_leaders_ignore_franchises_without_a_game():
+    season = build_season(
+        2020, PLAYERS,
+        {1: [(lineup("0001", {"a1": 10.0}), lineup("0002", {"a2": 5.0}))]},
+        last_regular_season_week=1,
+        names={"0001": "Team 0001", "0002": "Team 0002", "0003": "AAA Idle", "0004": "AAB Idle"},
+    )
+    stats = analytics.season_analytics(League.build([season]), season)
+    # both played teams have luck 0.0 and tie on the name; the idle teams would win alphabetically if counted
+    assert (stats.luckiest.name, stats.unluckiest.name) == ("Team 0001", "Team 0001")

@@ -81,6 +81,7 @@ def test_award_labels_default_to_empty_and_read_overrides():
     [
         ({"golden_goose": "x"}, "unknown award 'golden_goose'"),
         ({"low_score": "  "}, "empty label"),
+        ({"low_score": 500}, "must be a string"),
     ],
 )
 def test_bad_award_labels_raise(awards, message):

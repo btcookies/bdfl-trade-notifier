@@ -27,7 +27,10 @@ def test_pair_lists_respect_the_minimum_meetings():
     ]
     assert everything.most_lopsided == () and everything.most_even == ()  # nobody has met five times
     loose = grid(min_meetings=1)
-    assert [(p.a_name, p.b_name) for p in loose.most_lopsided][:2] == [("Alpha Prime", "Beta"), ("Alpha Prime", "Delta")]
+    # every pair but Alpha Prime–Gamma is one-sided (gap .5): the two-meeting pair first, then by name
+    assert [(p.a_name, p.b_name) for p in loose.most_lopsided] == [
+        ("Alpha Prime", "Beta"), ("Alpha Prime", "Delta"), ("Beta", "Delta"), ("Beta", "Gamma"), ("Gamma", "Delta"),
+    ]
     assert (loose.most_even[0].a_name, loose.most_even[0].b_name, loose.most_even[0].gap) == ("Alpha Prime", "Gamma", 0.0)
 
 

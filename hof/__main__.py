@@ -59,11 +59,13 @@ def print_report(model, rules) -> None:
         if table.entries:
             top = table.entries[0]
             print(f"  {table.title:<45} {top.holder:<28} {top.value:>8} {top.detail}")
-    latest = model.analytics.get(league.latest.year)
-    if latest is not None and latest.final_power:
-        top = latest.final_power[0]
-        print(f"\n{latest.year} power #1 through week {latest.power_week}: {top.name} ({top.score:.3f}); "
-              f"awards leader: {', '.join(league.current_name(f) for f in latest.awards_leaders)} ({latest.awards_leader_count})")
+    # The newest season with a ranking: the current one in season, the last completed one otherwise.
+    ranked = next((s for s in sorted(model.analytics.values(), key=lambda s: -s.year) if s.final_power), None)
+    if ranked is not None:
+        top = ranked.final_power[0]
+        leaders = ", ".join(league.current_name(f) for f in ranked.awards_leaders)
+        print(f"\n{ranked.year} power #1 through week {ranked.power_week}: {top.name} ({top.score:.3f}); "
+              f"awards leader: {leaders} ({ranked.awards_leader_count})")
     print(f"\ntrades: {len(model.trades)} ({sum(1 for t in model.trades if t.pending)} pending)")
     print("drafts:", ", ".join(f"{d.year} ({d.rounds} rounds{', startup' if d.startup else ''})" for d in model.drafts))
 

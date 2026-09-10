@@ -216,7 +216,8 @@ def season_row(league: League, season: Season, franchise_id: str) -> SeasonRow |
     seed = _seed(season, franchise_id)
     finish, in_progress = _finish(season, franchise_id, playoff, seed)
     standing = next((s for s in season.standings if s.franchise_id == franchise_id), None)
-    line = next((s for s in allplay.standings(league, season, None) if s.franchise_id == franchise_id), None)
+    # standings() lists every franchise in the season, so this lookup always succeeds.
+    line = next(s for s in allplay.standings(league, season, None) if s.franchise_id == franchise_id)
     return SeasonRow(
         year=season.year,
         name=league.name_in(franchise_id, season.year),
@@ -233,9 +234,9 @@ def season_row(league: League, season: Season, franchise_id: str) -> SeasonRow |
         title=season.champion_id == franchise_id,
         in_progress=in_progress,
         top_starter=_top_starter(league, season, franchise_id),
-        allplay=line.allplay if line else (0, 0, 0),
-        expected_wins=line.expected_wins if line else 0.0,
-        luck=line.luck if line else 0.0,
+        allplay=line.allplay,
+        expected_wins=line.expected_wins,
+        luck=line.luck,
     )
 
 

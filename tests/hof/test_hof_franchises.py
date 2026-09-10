@@ -146,3 +146,5 @@ def test_season_rows_and_totals_carry_all_play_and_luck():
     assert history.eras[1].totals.luck == -0.7 and history.eras[0].totals.luck == 0.0
     delta = franchises.franchise_history(league(), "0004").totals
     assert (delta.allplay_record, delta.luck) == ("1-5-0", 0.7)
+    delta_rows = {row.year: row for row in franchises.season_rows(league(), "0004")}
+    assert (delta_rows[2021].allplay, delta_rows[2021].expected_wins, delta_rows[2021].luck) == ((0, 0, 0), 0.0, 0.0)

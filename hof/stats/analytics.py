@@ -40,20 +40,19 @@ class SeasonAnalytics:
     def standings(self) -> tuple[StandingLine, ...]:
         return self.latest.standings if self.latest else ()
 
+    def _newest_ranked(self) -> WeekAnalytics | None:
+        return next((week for week in reversed(self.weeks) if week.power), None)
+
     @property
     def final_power(self) -> tuple[PowerLine, ...]:
         """The newest ranking: the last regular-season week's during and after the playoffs."""
-        for week in reversed(self.weeks):
-            if week.power:
-                return week.power
-        return ()
+        week = self._newest_ranked()
+        return week.power if week else ()
 
     @property
     def power_week(self) -> int | None:
-        for week in reversed(self.weeks):
-            if week.power:
-                return week.week
-        return None
+        week = self._newest_ranked()
+        return week.week if week else None
 
 
 def season_analytics(league: League, season: Season, labels: dict[str, str] | None = None) -> SeasonAnalytics:
