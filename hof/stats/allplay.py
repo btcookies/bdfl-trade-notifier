@@ -130,7 +130,10 @@ def _order(season: Season, through_week: int | None) -> Callable[[StandingLine],
     if season.standings and current:
         position = {s.franchise_id: i for i, s in enumerate(season.standings)}
         return lambda line: (position.get(line.franchise_id, len(position)), line.name)
-    return lambda line: (-(line.wins + 0.5 * line.ties), -line.points_for, line.name)
+    def pct(line: StandingLine) -> float:
+        return (line.wins + 0.5 * line.ties) / line.games if line.games else 0.0
+
+    return lambda line: (-pct(line), -line.points_for, line.name)
 
 
 def standings(

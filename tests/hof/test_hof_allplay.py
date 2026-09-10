@@ -68,3 +68,20 @@ def test_franchises_without_a_game_still_get_a_line():
     gamma = lines[3]
     assert (gamma.games, gamma.allplay, gamma.expected_wins, gamma.luck) == (0, (0, 0, 0), 0.0, 0.0)
     assert (lines[0].allplay, lines[0].expected_wins, lines[0].luck) == ((1, 0, 0), 1.0, 0.0)
+
+
+def test_fallback_order_uses_win_percentage_not_raw_wins():
+    weeks = {
+        1: [(lineup("0001", {"a1": 20.0}), lineup("0002", {"a2": 10.0})), (lineup("0003", {"a3": 20.0}), lineup("0004", {"a4": 10.0}))],
+        2: [(lineup("0001", {"a1": 20.0}), lineup("0002", {"a2": 10.0}))],  # 0003 and 0004 idle
+        3: [(lineup("0001", {"a1": 20.0}), lineup("0002", {"a2": 10.0}))],
+        4: [(lineup("0001", {"a1": 10.0}), lineup("0002", {"a2": 20.0}))],
+    }
+    season = build_season(2020, PLAYERS, weeks, last_regular_season_week=4)
+    lines = allplay.standings(League.build([season]), season, through_week=3)
+    # 0001 is 3-0-0 (1.000) and 0003 is 1-0-0 (1.000, fewer points); 0002 (0-3-0) and 0004 (0-1-0)
+    # are both .000, so points for (30.0 vs 10.0) puts 0002 ahead
+    assert [(s.franchise_id, s.record) for s in lines] == [("0001", "3-0-0"), ("0003", "1-0-0"), ("0002", "0-3-0"), ("0004", "0-1-0")]
+    lines = allplay.standings(League.build([season]), season, through_week=4)
+    # 0001 is now 3-1-0 (.750) and 0003 is still 1-0-0 (1.000): percentage puts 0003 first
+    assert [s.franchise_id for s in lines][:2] == ["0003", "0001"]
