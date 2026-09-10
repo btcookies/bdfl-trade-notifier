@@ -130,3 +130,19 @@ def test_top_starters_for_a_franchise():
 
 def test_all_franchises_covers_every_id():
     assert sorted(franchises.all_franchises(league())) == ["0001", "0002", "0003", "0004"]
+
+
+def test_season_rows_and_totals_carry_all_play_and_luck():
+    rows = {row.year: row for row in franchises.season_rows(league(), "0001")}
+    assert (rows[2020].allplay, rows[2020].expected_wins, rows[2020].luck) == ((5, 1, 0), 1.67, -0.7)
+    assert (rows[2021].allplay, rows[2021].expected_wins, rows[2021].luck) == ((1, 0, 0), 1.0, 0.0)
+    history = franchises.franchise_history(league(), "0001")
+    totals = history.totals
+    assert (totals.allplay_wins, totals.allplay_losses, totals.allplay_ties) == (6, 1, 0)
+    assert totals.allplay_record == "6-1-0"
+    assert round(totals.allplay_pct, 3) == 0.857
+    assert totals.expected_wins == 2.67
+    assert totals.luck == -0.7  # 2 actual wins minus 2.67 expected
+    assert history.eras[1].totals.luck == -0.7 and history.eras[0].totals.luck == 0.0
+    delta = franchises.franchise_history(league(), "0004").totals
+    assert (delta.allplay_record, delta.luck) == ("1-5-0", 0.7)
