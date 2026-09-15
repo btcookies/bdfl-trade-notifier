@@ -160,8 +160,8 @@ def test_tenure_segments_renders_gaps_and_multiple_franchises(built):
 def test_franchises_index_ranks_by_win_percentage(built):
     out, _, _ = built
     html = read(out, "franchises")
-    names = re.findall(r'href="/hof/franchises/[^"]+/">([^<]+)</a>', html)
-    assert names[:4] == ["Gamma", "Alpha Prime", "Delta", "Beta"]
+    names = re.findall(r'<td class="l[^"]*"><a href="/hof/franchises/[^"]+/">([^<]+)</a>', html)  # table cells only, not the grid link
+    assert names == ["Gamma", "Alpha Prime", "Delta", "Beta"]
     assert "1.000" in html and ".667" in html
 
 
