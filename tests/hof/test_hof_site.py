@@ -1,12 +1,13 @@
 import filecmp
 import re
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
 from synthetic import four_team_league
 
 from hof.config import Config, HallRules
-from hof.site.build import build_site, tenure_segments, tint
+from hof.site.build import build_site, current_season, tenure_segments, tint
 from hof.site.slugs import slugify, unique_slugs
 from hof.stats.careers import Career, Stint
 from hof.stats.model import compute
@@ -365,3 +366,10 @@ def test_home_links_seasons_and_shows_the_season_in_progress(built):
     assert 'href="/hof/seasons/2020/">2020</a>' in html
     assert "<b>2021</b> · through Week 1 ·" in html and 'href="/hof/seasons/2021/"' in html
     assert '<td class="l key"><a href="/hof/franchises/alpha-prime/">Alpha</a></td>' in html
+
+
+def test_current_season_ends_when_the_final_is_decided():
+    league = four_team_league()
+    assert current_season(compute(league.seasons, CONFIG.hall)).year == 2021  # one game played, no final
+    decided = replace(league.season(2020), complete=False)  # final played, February not yet reached
+    assert current_season(compute([decided], CONFIG.hall)) is None

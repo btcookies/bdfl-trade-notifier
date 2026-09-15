@@ -172,9 +172,10 @@ def franchise_awards(model: Model, franchise_id: str, labels: dict[str, str]) ->
 
 
 def current_season(model: Model) -> SeasonSummary | None:
-    """The newest season while it is in progress and has a counted game; else None."""
+    """The newest season while it is in progress: not complete, no final decided, and at least
+    one counted game; else None."""
     newest = model.league.latest
-    if newest.complete or model.analytics[newest.year].latest is None:
+    if newest.complete or newest.final is not None or model.analytics[newest.year].latest is None:
         return None
     return season_summary(model, newest.year)
 
