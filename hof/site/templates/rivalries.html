@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Rivalries{% endblock %}
 {% block content %}
-{% macro pair(p) %}<a href="{{ site.url('franchise', p.a_id) }}">{{ p.a_name }}</a> {{ p.record }} <a href="{{ site.url('franchise', p.b_id) }}">{{ p.b_name }}</a> <span class="muted">· {{ p.meetings }} meeting{{ 's' if p.meetings != 1 }}</span>{% endmacro %}
+{% macro team(fid, name) %}<a href="{{ site.url('franchise', fid) }}">{{ name }}</a>{% endmacro %}
+{% macro pair(p) %}{% if p.a_wins > p.b_wins %}{{ team(p.a_id, p.a_name) }} leads {{ team(p.b_id, p.b_name) }} {{ p.record }}{% elif p.b_wins > p.a_wins %}{{ team(p.b_id, p.b_name) }} leads {{ team(p.a_id, p.a_name) }} {{ p.b_wins }}-{{ p.a_wins }}{% if p.ties %}-{{ p.ties }}{% endif %}{% else %}{{ team(p.a_id, p.a_name) }} and {{ team(p.b_id, p.b_name) }} are even at {{ p.record }}{% endif %} <span class="muted">· {{ p.meetings }} meeting{{ 's' if p.meetings != 1 }}</span>{% endmacro %}
 <h1>Rivalries</h1>
 <p class="lede">Every franchise against every other, all-time, by current name. Read a row left to right: that franchise's wins and losses against each numbered column.</p>
 <div class="table-wrap">

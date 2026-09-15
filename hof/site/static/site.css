@@ -65,7 +65,7 @@ table.grid td.self { background: var(--line); }
 
 /* A key column sticks while the rest of a wide table scrolls beneath it. A rank/year column
    before it has a fixed width and sticks too, so the two sit side by side. */
-:root { --rank-w: 3.6em; }
+:root { --rank-w: 47px; }  /* px, not em: th and td have different font sizes and must agree */
 th.rank, td.rank { width: var(--rank-w); min-width: var(--rank-w); }
 .table-wrap th.key, .table-wrap td.key, .table-wrap th.rank, .table-wrap td.rank { position: sticky; left: 0; z-index: 1; background: var(--bg); }
 .table-wrap th.key, .table-wrap th.rank { background: #f0f0f0; }

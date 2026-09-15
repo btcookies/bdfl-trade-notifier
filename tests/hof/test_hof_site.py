@@ -4,7 +4,7 @@ from dataclasses import replace
 from pathlib import Path
 
 import pytest
-from synthetic import four_team_league
+from synthetic import build_season, four_team_league
 
 from hof.config import Config, HallRules
 from hof.site.build import build_site, current_season, tenure_segments, tint
@@ -338,7 +338,8 @@ def test_rivalries_page(built):
     assert 'href="/hof/franchises/beta/#h2h">0-2</a>' in html
     assert 'class="self"' in html and "#a3d9b0" in html and "#e8a8a8" in html
     assert "Most played" in html and "Most lopsided" in html and "Most even" in html
-    assert "Alpha Prime</a> 2-0 <a" in html and "2 meetings" in html
+    assert 'Alpha Prime</a> leads <a href="/hof/franchises/beta/">Beta</a> 2-0' in html and "2 meetings" in html
+    assert "are even at 1-1" in html  # Alpha Prime and Gamma
     assert "Nobody has met 5 times yet." in html
     assert 'href="/hof/franchises/rivalries/"' in read(out, "franchises")
 
@@ -387,3 +388,14 @@ def test_priority_and_key_classes_are_on_every_wide_table(built):
     assert "@media (max-width: 480px) { .p2 { display: none; } }" in css
     assert "position: sticky" in css and "background-attachment: local" in css
     assert 'span[data-label]::before { content: attr(data-label) " "; }' in css
+
+
+def test_season_without_games_renders_empty_states(tmp_path):
+    players = {f"a{i}": (f"QB A{i}", "QB") for i in range(1, 5)}
+    empty = build_season(2022, players, {}, last_regular_season_week=2, complete=False)
+    model = compute([*four_team_league().seasons, empty], CONFIG.hall)
+    build_site(model, CONFIG, tmp_path)
+    page = (tmp_path / "seasons" / "2022" / "index.html").read_text()
+    assert "No games yet" in page and "Power rankings" not in page and "Awards tally" not in page
+    assert "No games yet" in (tmp_path / "seasons" / "index.html").read_text()
+    assert "Standings, power rankings, and awards" not in (tmp_path / "index.html").read_text()  # no in-progress line
