@@ -16,6 +16,7 @@ from hof.site.slugs import slugify, unique_slugs
 from hof.stats import awards as awards_mod
 from hof.stats import careers as careers_mod
 from hof.stats import power
+from hof.stats.allplay import StandingLine
 from hof.stats.awards import AWARD_KEYS
 from hof.stats.careers import Career
 from hof.stats.model import Model
@@ -99,6 +100,86 @@ def tint(cell: tuple[int, int, int]) -> str:
     target = (163, 217, 176) if pct >= 0.5 else (232, 168, 168)
     r, g, b = (int(base[i] + (target[i] - base[i]) * strength + 0.5) for i in range(3))
     return f"#{r:02x}{g:02x}{b:02x}"
+
+
+@dataclass(frozen=True)
+class SeasonSummary:
+    """One row of the seasons index and the header of a season page."""
+
+    year: int
+    state: str  # "Final", "through Week n", or "No games yet"
+    champion_id: str | None
+    runner_up_id: str | None
+    best: StandingLine | None  # best regular-season record, ties by points for
+    most_points: StandingLine | None
+    luckiest: StandingLine | None
+    leaders: tuple[str, ...]  # franchise ids sharing the most awards
+    leader_count: int
+
+
+def season_summary(model: Model, year: int) -> SeasonSummary:
+    season = model.league.season(year)
+    stats = model.analytics[year]
+    champion, runner_up = next(((c, r) for y, c, r in model.champions if y == year), (None, None))
+    played = [line for line in stats.standings if line.games]
+    if season.final is not None:
+        state = "Final"
+    elif stats.latest is not None:
+        state = f"through Week {stats.latest.week}"
+    else:
+        state = "No games yet"
+    return SeasonSummary(
+        year=year,
+        state=state,
+        champion_id=champion,
+        runner_up_id=runner_up,
+        best=min(played, key=lambda s: (-(s.wins + 0.5 * s.ties) / s.games, -s.points_for, s.name), default=None),
+        most_points=min(played, key=lambda s: (-s.points_for, s.name), default=None),
+        luckiest=stats.luckiest,
+        leaders=stats.awards_leaders,
+        leader_count=stats.awards_leader_count,
+    )
+
+
+def champion_line(model: Model, year: int) -> str | None:
+    final = model.league.season(year).final
+    if final is None or final.winner is None or final.loser is None:
+        return None
+    winner = model.league.name_in(final.winner.franchise_id, year)
+    loser = model.league.name_in(final.loser.franchise_id, year)
+    return f"{winner} won the title, {final.winner.score or 0.0:.1f}–{final.loser.score or 0.0:.1f} over {loser}."
+
+
+def tally_rows(model: Model, year: int) -> list[dict]:
+    rows = [
+        {"franchise_id": fid, "name": model.league.name_in(fid, year), "total": sum(counts.values()), "counts": counts}
+        for fid, counts in model.analytics[year].tally.items()
+    ]
+    return sorted(rows, key=lambda r: (-r["total"], r["name"]))
+
+
+def render_seasons(env: Environment, model: Model, site: Site) -> list[Page]:
+    summaries = [season_summary(model, season.year) for season in reversed(model.league.seasons)]
+    pages = [("seasons", env.get_template("seasons.html").render(seasons=summaries))]
+    template = env.get_template("season.html")
+    for summary in summaries:
+        stats = model.analytics[summary.year]
+        pages.append(
+            (
+                f"seasons/{summary.year}",
+                template.render(
+                    year=summary.year,
+                    summary=summary,
+                    champion_line=champion_line(model, summary.year),
+                    standings=stats.standings,
+                    power=stats.final_power,
+                    power_week=stats.power_week,
+                    weeks=list(reversed(stats.weeks)),
+                    tally=tally_rows(model, summary.year) if stats.weeks else [],
+                ),
+            )
+        )
+    return pages
 
 
 def environment(model: Model, config: Config, site: Site) -> Environment:
@@ -268,7 +349,7 @@ def render_trades(env: Environment, model: Model, site: Site) -> list[Page]:
     return [("trades", env.get_template("trades.html").render(by_year=by_year))]
 
 
-RENDERERS: list[Renderer] = [render_home, render_players, render_franchises, render_records, render_hall, render_drafts, render_trades]
+RENDERERS: list[Renderer] = [render_home, render_players, render_franchises, render_seasons, render_records, render_hall, render_drafts, render_trades]
 
 
 def write_page(out: Path, relative: str, html: str) -> None:

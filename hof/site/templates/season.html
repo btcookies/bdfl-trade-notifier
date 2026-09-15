@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}{{ year }} season{% endblock %}
+{% block content %}
+<h1>{{ year }} season <small class="muted">{{ summary.state }}</small></h1>
+{% if champion_line %}<p class="lede">{{ champion_line }}</p>{% endif %}
+
+<h2>Standings</h2>
+<p class="callout">All-play is each week's record against every other team's score. xW is the wins that all-play record would earn; luck is actual wins minus xW.</p>
+{% if standings %}
+<div class="table-wrap">
+<table class="sortable">
+  <thead><tr><th class="l key">Franchise</th><th>W-L-T</th><th>PF</th><th class="p2">PA</th><th class="p2">All-play</th><th class="p3">AP%</th><th class="p3">xW</th><th>Luck</th></tr></thead>
+  <tbody>
+  {% for s in standings %}
+  <tr>
+    <td class="l key"><a href="{{ site.url('franchise', s.franchise_id) }}">{{ s.name }}</a></td>
+    <td>{{ s.record }}</td>
+    <td>{{ s.points_for|pts }}</td>
+    <td class="p2">{{ s.points_against|pts }}</td>
+    <td class="p2">{{ s.allplay_record }}</td>
+    <td class="p3">{{ s.allplay_pct|pct }}</td>
+    <td class="p3">{{ s.expected_wins|xw }}</td>
+    <td>{{ s.luck|signed }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<p class="muted">No games yet.</p>
+{% endif %}
+
+{% if power %}
+<h2>Power rankings <small class="muted">through Week {{ power_week }}</small></h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th class="rank">#</th><th class="l key">Franchise</th><th>Move</th><th>Score</th><th class="p3">AP%</th><th class="p3">Win%</th><th class="p3">Form</th></tr></thead>
+  <tbody>
+  {% for p in power %}
+  <tr>
+    <td class="rank">{{ p.rank }}</td>
+    <td class="l key"><a href="{{ site.url('franchise', p.franchise_id) }}">{{ p.name }}</a></td>
+    <td>{{ p|move }}</td>
+    <td>{{ p.score|score }}</td>
+    <td class="p3">{{ p.allplay_pct|pct }}</td>
+    <td class="p3">{{ p.win_pct|pct }}</td>
+    <td class="p3">{{ p.form|pct }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+<p class="muted">{{ formula }}</p>
+{% endif %}
+
+<h2>Weekly awards</h2>
+{% for w in weeks %}
+<h3>Week {{ w.week }}{% if w.playoff %} <small>playoffs</small>{% endif %}</h3>
+<ul class="awards">
+  {% for a in w.awards %}
+  <li><b>{{ a.label }}:</b>
+    {% if a.key == "best_benched" %}{% if a.holder_id in site.player_slugs %}<a href="{{ site.url('player', a.holder_id) }}">{{ a.holder_name }}</a>{% else %}{{ a.holder_name }}{% endif %}{% else %}<a href="{{ site.url('franchise', a.franchise_id) }}">{{ a.holder_name }}</a>{% endif %},
+    {{ a.value|award(a.unit) }}{% if a.detail %} <span class="muted">({{ a.detail }})</span>{% endif %}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="muted">No games yet.</p>
+{% endfor %}
+
+{% if tally %}
+<h2>Awards tally</h2>
+<div class="table-wrap">
+<table class="sortable">
+  <thead><tr><th class="l key">Franchise</th><th>Total</th>{% for key in award_keys %}<th class="p3">{{ award_labels[key] }}</th>{% endfor %}</tr></thead>
+  <tbody>
+  {% for row in tally %}
+  <tr><td class="l key"><a href="{{ site.url('franchise', row.franchise_id) }}">{{ row.name }}</a></td><td>{{ row.total }}</td>{% for key in award_keys %}<td class="p3">{{ row.counts[key] or "" }}</td>{% endfor %}</tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endif %}
+{% endblock %}

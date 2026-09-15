@@ -289,3 +289,38 @@ def test_tint_runs_from_red_through_grey_to_green():
     assert tint((0, 0, 0)) == "#f4f4f4" and tint((1, 1, 0)) == "#f4f4f4" and tint((0, 0, 2)) == "#f4f4f4"
     assert tint((2, 0, 0)) == "#a3d9b0" and tint((0, 2, 0)) == "#e8a8a8"
     assert tint((3, 1, 0)) == "#cce7d2"  # halfway to green
+
+
+def test_seasons_index_lists_newest_first(built):
+    out, _, _ = built
+    html = read(out, "seasons")
+    assert 'href="/hof/seasons/2021/">2021</a>' in html and 'href="/hof/seasons/2020/">2020</a>' in html
+    assert html.index('href="/hof/seasons/2021/"') < html.index('href="/hof/seasons/2020/"')
+    assert ">Alpha<" in html and ">Gamma<" in html  # 2020 champion and runner-up by their 2020 names
+    assert "2-0-0" in html and "33.0" in html  # best record and most points (Gamma)
+    assert ">Delta</a> +0.7" in html  # luckiest
+    assert ">Alpha</a> (15)" in html  # awards leader
+    assert "through Week 1" in html  # 2021 has no champion yet
+
+
+def test_season_page_for_a_finished_season(built):
+    out, _, _ = built
+    html = read(out, "seasons/2020")
+    assert "<h1>2020 season" in html and "Final" in html
+    assert "Alpha won the title, 30.0–20.0 over Gamma." in html
+    names = re.findall(r'<td class="l key"><a href="/hof/franchises/[^"]+/">([^<]+)</a></td>', html)
+    assert names[:4] == ["Gamma", "Alpha", "Delta", "Beta"]  # standings come first, in standings order
+    assert "5-1-0" in html and "1.67" in html and "-0.7" in html and "+0.7" in html
+    assert "Power rankings" in html and "through Week 2" in html
+    assert "▲1" in html and "▼1" in html and "0.883" in html and "Score = 0.5 × all-play %" in html
+    assert "<h3>Week 4" in html and "<h3>Week 1" in html and html.index("<h3>Week 4") < html.index("<h3>Week 1")
+    assert "Highest score" in html and "would have gone 2-1-0 against the field" in html
+    assert "Awards tally" in html and "<td>15</td>" in html
+
+
+def test_season_page_for_the_season_in_progress(built):
+    out, _, _ = built
+    html = read(out, "seasons/2021")
+    assert "through Week 1" in html and "won the title" not in html
+    assert ">new<" in html  # first ranked week
+    assert ">Alpha Prime</a>" in html
