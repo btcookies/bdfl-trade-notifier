@@ -86,6 +86,18 @@
     "team": "FA"
    },
    {
+    "id": "12263",
+    "name": "Waller, Darren",
+    "position": "TE",
+    "team": "CAR"
+   },
+   {
+    "id": "12447",
+    "name": "Mostert, Raheem",
+    "position": "RB",
+    "team": "FA"
+   },
+   {
     "id": "12611",
     "name": "Goff, Jared",
     "position": "QB",
@@ -98,10 +110,22 @@
     "team": "ARI"
    },
    {
+    "id": "12620",
+    "name": "Prescott, Dak",
+    "position": "QB",
+    "team": "DAL"
+   },
+   {
     "id": "12626",
     "name": "Henry, Derrick",
     "position": "RB",
     "team": "BAL"
+   },
+   {
+    "id": "12676",
+    "name": "Henry, Hunter",
+    "position": "TE",
+    "team": "NEP"
    },
    {
     "id": "12677",
@@ -156,6 +180,12 @@
     "name": "Perine, Samaje",
     "position": "RB",
     "team": "CIN"
+   },
+   {
+    "id": "13138",
+    "name": "Hunt, Kareem",
+    "position": "RB",
+    "team": "FA"
    },
    {
     "id": "13146",
@@ -386,6 +416,12 @@
     "team": "BAL"
    },
    {
+    "id": "14095",
+    "name": "Johnson, Ty",
+    "position": "RB",
+    "team": "BUF"
+   },
+   {
     "id": "14102",
     "name": "Metcalf, DK",
     "position": "WR",
@@ -470,10 +506,22 @@
     "team": "CIN"
    },
    {
+    "id": "14778",
+    "name": "Tagovailoa, Tua",
+    "position": "QB",
+    "team": "ATL"
+   },
+   {
     "id": "14779",
     "name": "Herbert, Justin",
     "position": "QB",
     "team": "LAC"
+   },
+   {
+    "id": "14782",
+    "name": "Love, Jordan",
+    "position": "QB",
+    "team": "GBP"
    },
    {
     "id": "14783",
@@ -498,6 +546,12 @@
     "name": "Taylor, Jonathan",
     "position": "RB",
     "team": "IND"
+   },
+   {
+    "id": "14805",
+    "name": "Dillon, AJ",
+    "position": "RB",
+    "team": "CAR"
    },
    {
     "id": "14823",
@@ -668,10 +722,34 @@
     "team": "DET"
    },
    {
+    "id": "15288",
+    "name": "Moore, Elijah",
+    "position": "WR",
+    "team": "PHI"
+   },
+   {
     "id": "15290",
     "name": "Collins, Nico",
     "position": "WR",
     "team": "HOU"
+   },
+   {
+    "id": "15292",
+    "name": "Brown, Dyami",
+    "position": "WR",
+    "team": "WAS"
+   },
+   {
+    "id": "15293",
+    "name": "Bateman, Rashod",
+    "position": "WR",
+    "team": "BAL"
+   },
+   {
+    "id": "15301",
+    "name": "Atwell, Tutu",
+    "position": "WR",
+    "team": "LAR"
    },
    {
     "id": "15319",
@@ -782,6 +860,12 @@
     "team": "ARI"
    },
    {
+    "id": "15730",
+    "name": "Goodson, Tyler",
+    "position": "RB",
+    "team": "ATL"
+   },
+   {
     "id": "15733",
     "name": "Strong Jr., Pierre",
     "position": "RB",
@@ -842,6 +926,18 @@
     "team": "NOS"
    },
    {
+    "id": "15755",
+    "name": "Dotson, Jahan",
+    "position": "WR",
+    "team": "ATL"
+   },
+   {
+    "id": "15756",
+    "name": "Williams, Jameson",
+    "position": "WR",
+    "team": "DET"
+   },
+   {
     "id": "15757",
     "name": "Robinson, Wan'Dale",
     "position": "WR",
@@ -884,10 +980,28 @@
     "team": "NYG"
    },
    {
+    "id": "15779",
+    "name": "Doubs, Romeo",
+    "position": "WR",
+    "team": "NEP"
+   },
+   {
     "id": "15786",
     "name": "Nailor, Jalen",
     "position": "WR",
     "team": "LVR"
+   },
+   {
+    "id": "15787",
+    "name": "Thornton, Tyquan",
+    "position": "WR",
+    "team": "KCC"
+   },
+   {
+    "id": "15788",
+    "name": "Tolbert, Jalen",
+    "position": "WR",
+    "team": "MIA"
    },
    {
     "id": "15789",
@@ -930,6 +1044,18 @@
     "name": "Otton, Cade",
     "position": "TE",
     "team": "TBB"
+   },
+   {
+    "id": "15804",
+    "name": "Calcaterra, Grant",
+    "position": "TE",
+    "team": "PHI"
+   },
+   {
+    "id": "15873",
+    "name": "Bellinger, Daniel",
+    "position": "TE",
+    "team": "TEN"
    },
    {
     "id": "15889",
@@ -1004,6 +1130,12 @@
     "team": "DET"
    },
    {
+    "id": "16164",
+    "name": "Bigsby, Tank",
+    "position": "RB",
+    "team": "PHI"
+   },
+   {
     "id": "16165",
     "name": "Spears, Tyjae",
     "position": "RB",
@@ -1020,6 +1152,12 @@
     "name": "Achane, De'Von",
     "position": "RB",
     "team": "MIA"
+   },
+   {
+    "id": "16168",
+    "name": "Abanikanda, Israel",
+    "position": "RB",
+    "team": "DAL"
    },
    {
     "id": "16169",
@@ -1046,6 +1184,12 @@
     "team": "JAC"
    },
    {
+    "id": "16175",
+    "name": "Johnson, Roschon",
+    "position": "RB",
+    "team": "CHI"
+   },
+   {
     "id": "16178",
     "name": "Mitchell, Keaton",
     "position": "RB",
@@ -1070,6 +1214,12 @@
     "team": "SEA"
    },
    {
+    "id": "16186",
+    "name": "Addison, Jordan",
+    "position": "WR",
+    "team": "MIN"
+   },
+   {
     "id": "16187",
     "name": "Downs, Josh",
     "position": "WR",
@@ -1082,16 +1232,34 @@
     "team": "LAC"
    },
    {
+    "id": "16189",
+    "name": "Mims, Marvin",
+    "position": "WR",
+    "team": "DEN"
+   },
+   {
     "id": "16190",
     "name": "Flowers, Zay",
     "position": "WR",
     "team": "BAL"
    },
    {
+    "id": "16191",
+    "name": "Tillman, Cedric",
+    "position": "WR",
+    "team": "NOS"
+   },
+   {
     "id": "16192",
     "name": "Washington, Parker",
     "position": "WR",
     "team": "JAC"
+   },
+   {
+    "id": "16193",
+    "name": "Boutte, Kayshon",
+    "position": "WR",
+    "team": "HOU"
    },
    {
     "id": "16194",
@@ -1116,6 +1284,18 @@
     "name": "Hutchinson, Xavier",
     "position": "WR",
     "team": "HOU"
+   },
+   {
+    "id": "16204",
+    "name": "Dell, Tank",
+    "position": "WR",
+    "team": "HOU"
+   },
+   {
+    "id": "16206",
+    "name": "Wilson, Michael",
+    "position": "WR",
+    "team": "ARI"
    },
    {
     "id": "16207",
@@ -1196,6 +1376,18 @@
     "team": "ARI"
    },
    {
+    "id": "16342",
+    "name": "Douglas, Demario",
+    "position": "WR",
+    "team": "NEP"
+   },
+   {
+    "id": "16385",
+    "name": "Demercado, Emari",
+    "position": "RB",
+    "team": "DAL"
+   },
+   {
     "id": "16387",
     "name": "Brooks, Chris",
     "position": "RB",
@@ -1211,7 +1403,7 @@
     "id": "16416",
     "name": "Gipson, Xavier",
     "position": "WR",
-    "team": "FA"
+    "team": "PHI"
    },
    {
     "id": "16432",
@@ -1256,6 +1448,12 @@
     "team": "ATL"
    },
    {
+    "id": "16584",
+    "name": "McCarthy, J.J.",
+    "position": "QB",
+    "team": "MIN"
+   },
+   {
     "id": "16586",
     "name": "Rattler, Spencer",
     "position": "QB",
@@ -1298,6 +1496,12 @@
     "team": "BUF"
    },
    {
+    "id": "16600",
+    "name": "Schrader, Cody",
+    "position": "RB",
+    "team": "DEN"
+   },
+   {
     "id": "16601",
     "name": "Shipley, Will",
     "position": "RB",
@@ -1322,6 +1526,12 @@
     "team": "SEA"
    },
    {
+    "id": "16610",
+    "name": "Wright, Jaylen",
+    "position": "RB",
+    "team": "MIA"
+   },
+   {
     "id": "16613",
     "name": "Laube, Dylan",
     "position": "RB",
@@ -1332,6 +1542,12 @@
     "name": "Harrison Jr., Marvin",
     "position": "WR",
     "team": "ARI"
+   },
+   {
+    "id": "16615",
+    "name": "Nabers, Malik",
+    "position": "WR",
+    "team": "NYG"
    },
    {
     "id": "16616",
@@ -1379,7 +1595,13 @@
     "id": "16624",
     "name": "Thrash, Jamari",
     "position": "WR",
-    "team": "CLE"
+    "team": "FA"
+   },
+   {
+    "id": "16625",
+    "name": "Wilson, Johnny",
+    "position": "WR",
+    "team": "PHI"
    },
    {
     "id": "16626",
@@ -1448,6 +1670,12 @@
     "team": "CLE"
    },
    {
+    "id": "16639",
+    "name": "Legette, Xavier",
+    "position": "WR",
+    "team": "CAR"
+   },
+   {
     "id": "16640",
     "name": "Cowing, Jacob",
     "position": "WR",
@@ -1458,6 +1686,18 @@
     "name": "Bowers, Brock",
     "position": "TE",
     "team": "LVR"
+   },
+   {
+    "id": "16642",
+    "name": "Stover, Cade",
+    "position": "TE",
+    "team": "HOU"
+   },
+   {
+    "id": "16643",
+    "name": "Sanders, Ja'Tavion",
+    "position": "TE",
+    "team": "CAR"
    },
    {
     "id": "16644",
@@ -1488,6 +1728,12 @@
     "name": "Vaki, Sione",
     "position": "RB",
     "team": "DET"
+   },
+   {
+    "id": "16684",
+    "name": "Washington, Malik",
+    "position": "WR",
+    "team": "MIA"
    },
    {
     "id": "16686",
@@ -1556,6 +1802,12 @@
     "team": "FA"
    },
    {
+    "id": "16809",
+    "name": "Coker, Jalen",
+    "position": "WR",
+    "team": "CAR"
+   },
+   {
     "id": "16850",
     "name": "Saylors, Jacob",
     "position": "RB",
@@ -1580,6 +1832,12 @@
     "team": "CLE"
    },
    {
+    "id": "17030",
+    "name": "Ward, Cam",
+    "position": "QB",
+    "team": "TEN"
+   },
+   {
     "id": "17031",
     "name": "Sanders, Shedeur",
     "position": "QB",
@@ -1598,6 +1856,18 @@
     "team": "SEA"
    },
    {
+    "id": "17034",
+    "name": "Ewers, Quinn",
+    "position": "QB",
+    "team": "JAC"
+   },
+   {
+    "id": "17036",
+    "name": "Howard, Will",
+    "position": "QB",
+    "team": "PIT"
+   },
+   {
     "id": "17037",
     "name": "Gabriel, Dillon",
     "position": "QB",
@@ -1608,6 +1878,12 @@
     "name": "Shough, Tyler",
     "position": "QB",
     "team": "NOS"
+   },
+   {
+    "id": "17042",
+    "name": "Jeanty, Ashton",
+    "position": "RB",
+    "team": "LVR"
    },
    {
     "id": "17043",
@@ -1680,6 +1956,12 @@
     "name": "Martinez, Damien",
     "position": "RB",
     "team": "FA"
+   },
+   {
+    "id": "17055",
+    "name": "James, Jordan",
+    "position": "RB",
+    "team": "SFO"
    },
    {
     "id": "17056",
@@ -1760,6 +2042,12 @@
     "team": "CHI"
    },
    {
+    "id": "17071",
+    "name": "McMillan, Tetairoa",
+    "position": "WR",
+    "team": "CAR"
+   },
+   {
     "id": "17072",
     "name": "Harris, Tre",
     "position": "WR",
@@ -1778,6 +2066,12 @@
     "team": "JAC"
    },
    {
+    "id": "17075",
+    "name": "Golden, Matthew",
+    "position": "WR",
+    "team": "GBP"
+   },
+   {
     "id": "17076",
     "name": "Bond, Isaiah",
     "position": "WR",
@@ -1790,6 +2084,24 @@
     "team": "LVR"
    },
    {
+    "id": "17079",
+    "name": "Johnson, Tez",
+    "position": "WR",
+    "team": "TBB"
+   },
+   {
+    "id": "17080",
+    "name": "Noel, Jaylin",
+    "position": "WR",
+    "team": "HOU"
+   },
+   {
+    "id": "17081",
+    "name": "Egbuka, Emeka",
+    "position": "WR",
+    "team": "TBB"
+   },
+   {
     "id": "17082",
     "name": "Bryant, Pat",
     "position": "WR",
@@ -1800,6 +2112,12 @@
     "name": "Higgins, Jayden",
     "position": "WR",
     "team": "HOU"
+   },
+   {
+    "id": "17086",
+    "name": "Royals, Jalen",
+    "position": "WR",
+    "team": "KCC"
    },
    {
     "id": "17087",
@@ -1856,10 +2174,22 @@
     "team": "TEN"
    },
    {
+    "id": "17106",
+    "name": "Taylor, Mason",
+    "position": "TE",
+    "team": "NYJ"
+   },
+   {
     "id": "17107",
     "name": "Ferguson, Terrance",
     "position": "TE",
     "team": "LAR"
+   },
+   {
+    "id": "17108",
+    "name": "Arroyo, Elijah",
+    "position": "TE",
+    "team": "SEA"
    },
    {
     "id": "17109",
@@ -1890,6 +2220,12 @@
     "name": "Smith, Arian",
     "position": "WR",
     "team": "NYJ"
+   },
+   {
+    "id": "17184",
+    "name": "Lane, Jaylin",
+    "position": "WR",
+    "team": "WAS"
    },
    {
     "id": "17192",
@@ -2080,6 +2416,24 @@
     "position": "RB",
     "status": "R",
     "team": "MIA"
+   },
+   {
+    "id": "7836",
+    "name": "Rodgers, Aaron",
+    "position": "QB",
+    "team": "PIT"
+   },
+   {
+    "id": "9064",
+    "name": "Flacco, Joe",
+    "position": "QB",
+    "team": "CIN"
+   },
+   {
+    "id": "9431",
+    "name": "Stafford, Matthew",
+    "position": "QB",
+    "team": "LAR"
    },
    {
     "id": "17481",
@@ -2472,24 +2826,6 @@
     "position": "RB",
     "status": "R",
     "team": "PIT"
-   },
-   {
-    "id": "7836",
-    "name": "Rodgers, Aaron",
-    "position": "QB",
-    "team": "PIT"
-   },
-   {
-    "id": "9064",
-    "name": "Flacco, Joe",
-    "position": "QB",
-    "team": "CIN"
-   },
-   {
-    "id": "9431",
-    "name": "Stafford, Matthew",
-    "position": "QB",
-    "team": "LAR"
    },
    {
     "id": "17706",

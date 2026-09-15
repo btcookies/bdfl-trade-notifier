@@ -43,7 +43,7 @@
      "id": "0001",
      "logo": "http://www.cafcc.org/LOGO[1].jpg",
      "name": "The Youth Academy",
-     "waiverSortOrder": "12"
+     "waiverSortOrder": "11"
     },
     {
      "bbidAvailableBalance": "1381.00",
@@ -52,14 +52,14 @@
      "id": "0002",
      "logo": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_logo0002.jpg",
      "name": "A.J. Mudbone",
-     "waiverSortOrder": "11"
+     "waiverSortOrder": "4"
     },
     {
-     "bbidAvailableBalance": "679.00",
+     "bbidAvailableBalance": "672.00",
      "division": "00",
      "id": "0003",
      "name": "Jeff Janis Fan Club",
-     "waiverSortOrder": "10"
+     "waiverSortOrder": "3"
     },
     {
      "bbidAvailableBalance": "384.00",
@@ -67,7 +67,7 @@
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2021/65522_franchise_icon0004.jpg",
      "id": "0004",
      "name": "WhatDaTruck",
-     "waiverSortOrder": "9"
+     "waiverSortOrder": "8"
     },
     {
      "abbrev": "FH",
@@ -77,7 +77,7 @@
      "id": "0005",
      "logo": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_logo0005.jpg",
      "name": "Free Hernandez Bad Boyz ",
-     "waiverSortOrder": "8"
+     "waiverSortOrder": "9"
     },
     {
      "abbrev": "DYJ",
@@ -89,12 +89,12 @@
      "waiverSortOrder": "7"
     },
     {
-     "bbidAvailableBalance": "364.00",
+     "bbidAvailableBalance": "299.00",
      "division": "02",
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2026/65522_franchise_icon0007.jpg",
      "id": "0007",
      "name": "you know why i'm here",
-     "waiverSortOrder": "6"
+     "waiverSortOrder": "10"
     },
     {
      "abbrev": "FTK",
@@ -109,11 +109,11 @@
      "waiverSortOrder": "5"
     },
     {
-     "bbidAvailableBalance": "734.00",
+     "bbidAvailableBalance": "728.00",
      "division": "02",
      "id": "0009",
      "name": "Suck My Ditka",
-     "waiverSortOrder": "4"
+     "waiverSortOrder": "2"
     },
     {
      "bbidAvailableBalance": "853.00",
@@ -123,7 +123,7 @@
      "name": "Marcus Peters' Peter Peckers",
      "sound": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_sound0010.mp3",
      "stadium": "The Bone Dome",
-     "waiverSortOrder": "3"
+     "waiverSortOrder": "12"
     },
     {
      "abbrev": "SSA",
@@ -134,7 +134,7 @@
      "logo": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_icon0011.png",
      "name": "Second Stringers Anonymous",
      "stadium": "Ligma Capital LLC Headquarters",
-     "waiverSortOrder": "2"
+     "waiverSortOrder": "1"
     },
     {
      "bbidAvailableBalance": "680.00",
@@ -143,7 +143,7 @@
      "id": "0012",
      "name": "Rodger Goodella",
      "sound": "https://youtu.be/R2zC3dKQ42Y",
-     "waiverSortOrder": "1"
+     "waiverSortOrder": "6"
     }
    ]
   },
