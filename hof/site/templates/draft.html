@@ -10,20 +10,20 @@
 {% endif %}
 <div class="table-wrap">
 <table class="sortable">
-  <thead><tr><th>Pick</th><th class="l">Team</th><th class="l">Via</th><th class="l">Player</th><th>Pos</th><th>GS</th><th>Pts</th><th>VOR</th><th>Career pts</th><th>Career VOR</th></tr></thead>
+  <thead><tr><th class="rank">Pick</th><th class="l key">Team</th><th class="l p3">Via</th><th class="l">Player</th><th>Pos</th><th class="p3">GS</th><th>Pts</th><th>VOR</th><th class="p2">Career pts</th><th class="p2">Career VOR</th></tr></thead>
   <tbody>
   {% for p in d.picks %}
   <tr>
-    <td data-sort="{{ p.round * 100 + p.pick }}">{{ p.round }}.{{ "%02d"|format(p.pick) }}</td>
-    <td class="l"><a href="{{ site.url('franchise', p.franchise_id) }}">{{ p.franchise_name }}</a></td>
-    <td class="l">{% if p.original_owner_id and p.original_owner_id != p.franchise_id %}{{ name_in(p.original_owner_id, p.year) }}{% endif %}</td>
+    <td class="rank" data-sort="{{ p.round * 100 + p.pick }}">{{ p.round }}.{{ "%02d"|format(p.pick) }}</td>
+    <td class="l key"><a href="{{ site.url('franchise', p.franchise_id) }}">{{ p.franchise_name }}</a></td>
+    <td class="l p3">{% if p.original_owner_id and p.original_owner_id != p.franchise_id %}{{ name_in(p.original_owner_id, p.year) }}{% endif %}</td>
     <td class="l">{% if p.player_id in site.player_slugs %}<a href="{{ site.url('player', p.player_id) }}">{{ p.player_name }}</a>{% else %}{{ p.player_name }}{% endif %}</td>
     <td>{{ p.position }}</td>
-    <td>{{ p.starts_for }}</td>
+    <td class="p3">{{ p.starts_for }}</td>
     <td>{{ p.points_for|pts }}</td>
     <td>{{ p.vor_for|pts }}</td>
-    <td>{{ p.career_points|pts }}</td>
-    <td>{{ p.career_vor|pts }}</td>
+    <td class="p2">{{ p.career_points|pts }}</td>
+    <td class="p2">{{ p.career_vor|pts }}</td>
   </tr>
   {% endfor %}
   </tbody>

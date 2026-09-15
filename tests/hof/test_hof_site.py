@@ -373,3 +373,17 @@ def test_current_season_ends_when_the_final_is_decided():
     assert current_season(compute(league.seasons, CONFIG.hall)).year == 2021  # one game played, no final
     decided = replace(league.season(2020), complete=False)  # final played, February not yet reached
     assert current_season(compute([decided], CONFIG.hall)) is None
+
+
+def test_priority_and_key_classes_are_on_every_wide_table(built):
+    out, _, _ = built
+    assert '<th class="l key">Player</th><th>Pos</th><th class="p3">Years</th>' in read(out, "players")
+    assert '<th class="rank">#</th><th class="l key">Holder</th><th>Mark</th><th class="l p2">Detail</th>' in read(out, "records")
+    assert '<th class="key">Year</th><th class="l">Franchise</th><th>GS</th><th>Pts</th><th>VOR</th><th class="p2">Bench</th>' in read(out, "players/qb-a1-a1")
+    assert '<th class="l key">Franchise</th><th>Record</th><th class="p2">Pct</th>' in read(out, "franchises")
+    assert '<th class="l key">Player</th><th>Pos</th><th class="p3">GS</th>' in read(out, "hall-of-fame")
+    css = (out / "static" / "site.css").read_text()
+    assert "@media (max-width: 720px) { .p3 { display: none; } }" in css
+    assert "@media (max-width: 480px) { .p2 { display: none; } }" in css
+    assert "position: sticky" in css and "background-attachment: local" in css
+    assert 'span[data-label]::before { content: attr(data-label) " "; }' in css

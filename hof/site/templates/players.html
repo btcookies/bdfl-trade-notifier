@@ -6,19 +6,19 @@
 <input id="player-search" class="search" type="search" placeholder="Search players" aria-label="Search players">
 <div class="table-wrap">
 <table id="players" class="sortable">
-  <thead><tr><th class="l">Player</th><th>Pos</th><th>Years</th><th class="l">Franchises</th><th>GS</th><th>Pts</th><th>VOR</th><th>Titles</th><th>Active</th></tr></thead>
+  <thead><tr><th class="l key">Player</th><th>Pos</th><th class="p3">Years</th><th class="l p3">Franchises</th><th>GS</th><th>Pts</th><th>VOR</th><th class="p2">Titles</th><th class="p3">Active</th></tr></thead>
   <tbody>
   {% for c in careers %}
   <tr data-name="{{ c.name|lower }}">
-    <td class="l"><a href="{{ site.url('player', c.player_id) }}">{{ c.name }}</a></td>
+    <td class="l key"><a href="{{ site.url('player', c.player_id) }}">{{ c.name }}</a></td>
     <td>{{ c.position }}</td>
-    <td>{% if c.first_year == c.last_year %}{{ c.first_year }}{% else %}{{ c.first_year }}–{{ c.last_year }}{% endif %}</td>
-    <td class="l">{% for fid in c.franchise_ids %}<a href="{{ site.url('franchise', fid) }}">{{ current_name(fid) }}</a>{{ ", " if not loop.last }}{% endfor %}</td>
+    <td class="p3">{% if c.first_year == c.last_year %}{{ c.first_year }}{% else %}{{ c.first_year }}–{{ c.last_year }}{% endif %}</td>
+    <td class="l p3">{% for fid in c.franchise_ids %}<a href="{{ site.url('franchise', fid) }}">{{ current_name(fid) }}</a>{{ ", " if not loop.last }}{% endfor %}</td>
     <td>{{ c.starts }}</td>
     <td>{{ c.points|pts }}</td>
     <td>{{ c.vor|pts }}</td>
-    <td>{{ c.titles }}</td>
-    <td>{{ "Yes" if c.active else "" }}</td>
+    <td class="p2">{{ c.titles }}</td>
+    <td class="p3">{{ "Yes" if c.active else "" }}</td>
   </tr>
   {% endfor %}
   </tbody>

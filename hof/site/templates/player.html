@@ -19,25 +19,25 @@
 <h2>Season by season</h2>
 <div class="table-wrap">
 <table>
-  <thead><tr><th>Year</th><th class="l">Franchise</th><th>GS</th><th>Pts</th><th>VOR</th><th>Bench</th><th>PO GS</th><th>PO Pts</th><th>Title</th></tr></thead>
+  <thead><tr><th class="key">Year</th><th class="l">Franchise</th><th>GS</th><th>Pts</th><th>VOR</th><th class="p2">Bench</th><th class="p3">PO GS</th><th class="p3">PO Pts</th><th class="p2">Title</th></tr></thead>
   <tbody>
   {% for line in career.seasons %}
   <tr>
-    <td>{{ line.year }}</td>
+    <td class="key">{{ line.year }}</td>
     <td class="l">{% for fid in line.franchise_ids %}<a href="{{ site.url('franchise', fid) }}">{{ name_in(fid, line.year) }}</a>{{ ", " if not loop.last }}{% endfor %}</td>
     <td>{{ line.starts }}</td>
     <td>{{ line.points|pts }}</td>
     <td>{{ line.vor|pts }}</td>
-    <td>{{ line.bench_points|pts }}</td>
-    <td>{{ line.playoff_starts }}</td>
-    <td>{{ line.playoff_points|pts }}</td>
-    <td>{{ "🏆" if line.title }}</td>
+    <td class="p2">{{ line.bench_points|pts }}</td>
+    <td class="p3">{{ line.playoff_starts }}</td>
+    <td class="p3">{{ line.playoff_points|pts }}</td>
+    <td class="p2">{{ "🏆" if line.title }}</td>
   </tr>
   {% endfor %}
   <tr class="sub">
-    <td>Career</td><td class="l"></td>
-    <td>{{ career.starts }}</td><td>{{ career.points|pts }}</td><td>{{ career.vor|pts }}</td><td>{{ career.bench_points|pts }}</td>
-    <td>{{ career.playoff_starts }}</td><td>{{ career.playoff_points|pts }}</td><td>{{ career.titles or "" }}</td>
+    <td class="key">Career</td><td class="l"></td>
+    <td>{{ career.starts }}</td><td>{{ career.points|pts }}</td><td>{{ career.vor|pts }}</td><td class="p2">{{ career.bench_points|pts }}</td>
+    <td class="p3">{{ career.playoff_starts }}</td><td class="p3">{{ career.playoff_points|pts }}</td><td class="p2">{{ career.titles or "" }}</td>
   </tr>
   </tbody>
 </table>

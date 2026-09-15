@@ -11,14 +11,14 @@
     <h3>{{ table.title }}</h3>
     <div class="table-wrap">
     <table>
-      <thead><tr><th>#</th><th class="l">Holder</th><th>Mark</th><th class="l">Detail</th></tr></thead>
+      <thead><tr><th class="rank">#</th><th class="l key">Holder</th><th>Mark</th><th class="l p2">Detail</th></tr></thead>
       <tbody>
       {% for e in table.entries %}
       <tr>
-        <td>{{ loop.index }}</td>
-        <td class="l">{% if e.player_id and e.player_id in site.player_slugs %}<a href="{{ site.url('player', e.player_id) }}">{{ e.holder }}</a>{% elif e.franchise_id %}<a href="{{ site.url('franchise', e.franchise_id) }}">{{ e.holder }}</a>{% else %}{{ e.holder }}{% endif %}</td>
+        <td class="rank">{{ loop.index }}</td>
+        <td class="l key">{% if e.player_id and e.player_id in site.player_slugs %}<a href="{{ site.url('player', e.player_id) }}">{{ e.holder }}</a>{% elif e.franchise_id %}<a href="{{ site.url('franchise', e.franchise_id) }}">{{ e.holder }}</a>{% else %}{{ e.holder }}{% endif %}</td>
         <td>{{ e.value|mark(table.unit) }}</td>
-        <td class="l">{{ e.detail }}{% if e.playoff and table.group.endswith("single game") %} <span class="pos">PO</span>{% endif %}</td>
+        <td class="l p2">{{ e.detail }}{% if e.playoff and table.group.endswith("single game") %} <span class="pos">PO</span>{% endif %}</td>
       </tr>
       {% endfor %}
       </tbody>
