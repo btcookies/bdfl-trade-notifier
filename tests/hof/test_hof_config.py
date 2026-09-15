@@ -66,3 +66,24 @@ def test_invalid_config_raises(raw, message):
 def test_missing_file_raises(tmp_path):
     with pytest.raises(ConfigError, match="missing"):
         Config.load(tmp_path / "config.toml")
+
+
+def test_award_labels_default_to_empty_and_read_overrides():
+    base = {"league": {"id": "1", "site_base_url": "https://x.test/"}}
+    assert Config.from_dict(base).award_labels == {}
+    config = Config.from_dict({**base, "awards": {"low_score": " Golden Goose Egg ", "worst_lineup": "Armchair QB"}})
+    assert config.award_labels == {"low_score": "Golden Goose Egg", "worst_lineup": "Armchair QB"}
+    assert Config.load(REPO_CONFIG).award_labels == {}
+
+
+@pytest.mark.parametrize(
+    "awards, message",
+    [
+        ({"golden_goose": "x"}, "unknown award 'golden_goose'"),
+        ({"low_score": "  "}, "empty label"),
+        ({"low_score": 500}, "must be a string"),
+    ],
+)
+def test_bad_award_labels_raise(awards, message):
+    with pytest.raises(ConfigError, match=message):
+        Config.from_dict({"league": {"id": "1", "site_base_url": "https://x.test/"}, "awards": awards})

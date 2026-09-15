@@ -18,6 +18,7 @@ def test_every_spec_table_is_present_in_order():
     assert keys == [
         "team_game_high", "team_game_low", "blowout", "closest", "loss_high", "win_low", "bench_left_game", "final_high",
         "team_season_high", "team_season_low", "record_best", "streak_win", "streak_loss", "bench_left_season", "efficiency_season",
+        "luck_high", "luck_low", "allplay_best",
         "player_game_high", "player_game_vor",
         "player_season_high", "player_season_vor", "player_season_starts",
         "career_points", "career_vor", "career_starts", "career_titles",
@@ -74,3 +75,14 @@ def test_new_entries_for_a_week(book):
     assert {(table.key, entry.holder) for table, entry in new} >= {("win_low", "Alpha Prime"), ("team_game_low", "Beta")}
     assert all(entry.year == 2021 and entry.week == 1 for _, entry in new)
     assert all(table.group in ("Team, single game", "Player, single game") for table, _ in new)
+
+
+def test_luck_and_all_play_season_records(book):
+    assert book["luck_high"].entries[0] == RecordEntry(0.7, "Delta", "2020, 1-1-0, 0.33 expected wins", 2020, None, False, "0004", None)
+    assert [e.holder for e in book["luck_high"].entries] == ["Delta", "Gamma", "Beta", "Alpha"]
+    assert book["luck_low"].lowest_first is True
+    assert book["luck_low"].entries[0] == RecordEntry(-0.7, "Alpha", "2020, 1-1-0, 1.67 expected wins", 2020, None, False, "0001", None)
+    assert book["allplay_best"].entries[0] == RecordEntry(0.833, "Alpha", "5-1-0, 2020", 2020, None, False, "0001", None)
+    assert book["allplay_best"].entries[1].holder == "Gamma"  # same .833, ordered by name
+    assert all(entry.year == 2020 for key in ("luck_high", "luck_low", "allplay_best") for entry in book[key].entries)
+    assert (book["luck_high"].unit, book["allplay_best"].unit) == ("wins", "pct")

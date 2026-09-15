@@ -6,6 +6,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 
 from hof.model.season import Lineup, Season
+from hof.stats import allplay
 from hof.stats.league import Era, League
 
 
@@ -21,6 +22,10 @@ class Totals:
     playoff_wins: int
     playoff_losses: int
     titles: int
+    allplay_wins: int = 0
+    allplay_losses: int = 0
+    allplay_ties: int = 0
+    expected_wins: float = 0.0  # two decimals
 
     @property
     def win_pct(self) -> float:
@@ -29,6 +34,19 @@ class Totals:
     @property
     def record(self) -> str:
         return f"{self.wins}-{self.losses}-{self.ties}"
+
+    @property
+    def allplay_record(self) -> str:
+        return f"{self.allplay_wins}-{self.allplay_losses}-{self.allplay_ties}"
+
+    @property
+    def allplay_pct(self) -> float:
+        total = self.allplay_wins + self.allplay_losses + self.allplay_ties
+        return (self.allplay_wins + 0.5 * self.allplay_ties) / total if total else 0.0
+
+    @property
+    def luck(self) -> float:
+        return round(self.wins + 0.5 * self.ties - self.expected_wins, 1)
 
 
 @dataclass(frozen=True)
@@ -48,6 +66,9 @@ class SeasonRow:
     title: bool
     in_progress: bool
     top_starter: tuple[str, str, float, float] | None  # (player id, name, points, vor)
+    allplay: tuple[int, int, int] = (0, 0, 0)
+    expected_wins: float = 0.0
+    luck: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -195,6 +216,8 @@ def season_row(league: League, season: Season, franchise_id: str) -> SeasonRow |
     seed = _seed(season, franchise_id)
     finish, in_progress = _finish(season, franchise_id, playoff, seed)
     standing = next((s for s in season.standings if s.franchise_id == franchise_id), None)
+    # standings() lists every franchise in the season, so this lookup always succeeds.
+    line = next(s for s in allplay.standings(league, season, None) if s.franchise_id == franchise_id)
     return SeasonRow(
         year=season.year,
         name=league.name_in(franchise_id, season.year),
@@ -211,6 +234,9 @@ def season_row(league: League, season: Season, franchise_id: str) -> SeasonRow |
         title=season.champion_id == franchise_id,
         in_progress=in_progress,
         top_starter=_top_starter(league, season, franchise_id),
+        allplay=line.allplay,
+        expected_wins=line.expected_wins,
+        luck=line.luck,
     )
 
 
@@ -233,6 +259,10 @@ def totals(rows: list[SeasonRow] | tuple[SeasonRow, ...]) -> Totals:
         playoff_wins=sum(r.playoff_wins for r in rows),
         playoff_losses=sum(r.playoff_losses for r in rows),
         titles=sum(1 for r in rows if r.title),
+        allplay_wins=sum(r.allplay[0] for r in rows),
+        allplay_losses=sum(r.allplay[1] for r in rows),
+        allplay_ties=sum(r.allplay[2] for r in rows),
+        expected_wins=round(sum(r.expected_wins for r in rows), 2),
     )
 
 

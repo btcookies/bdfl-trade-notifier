@@ -37,6 +37,7 @@ def test_stats_command_prints_a_report(tmp_path, fixtures_dir, capsys):
     assert "champions: 2020 Marcus Peters' Peter Peckers" in out
     assert "Hall of Fame at vor>=500" in out
     assert "records book, top entry per table:" in out
+    assert "2020 power #1 through week 13:" in out and "awards leader:" in out
 
 
 def test_notify_dry_run_prints_an_embed(tmp_path, fixtures_dir, capsys):

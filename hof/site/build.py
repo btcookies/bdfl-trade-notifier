@@ -96,6 +96,8 @@ def environment(model: Model, config: Config, site: Site) -> Environment:
     def mark(value: float, unit: str) -> str:
         if unit in ("starts", "games", "titles"):
             return str(int(value))
+        if unit == "wins":
+            return f"{value:+.1f}"
         if unit == "pct":
             return "1.000" if value >= 1 else f"{value:.3f}"[1:]
         return f"{value:.1f}"

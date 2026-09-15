@@ -190,6 +190,7 @@ def test_records_page_has_every_table(built):
     assert 'href="/hof/franchises/alpha-prime/">Alpha</a>' in html  # the name at the time links to the current page
     assert "vs Gamma, 2020 Week 4 (Final)" in html
     assert "1.000" in html  # best record, formatted as a percentage
+    assert "Luckiest season" in html and "+0.7" in html  # the wins unit renders signed
 
 
 def test_hall_of_fame_page(built):

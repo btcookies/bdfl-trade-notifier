@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import tomllib
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
+
+from hof.stats.awards import AWARD_KEYS
 
 
 class ConfigError(ValueError):
@@ -34,6 +36,7 @@ class Config:
     league_overrides: dict[int, str]
     hall: HallRules
     managers: tuple[Manager, ...]
+    award_labels: dict[str, str] = field(default_factory=dict)  # award key -> display label
 
     def league_id_for(self, year: int) -> str:
         return self.league_overrides.get(year, self.league_id)
@@ -94,4 +97,15 @@ class Config:
             except (KeyError, TypeError, ValueError, AttributeError) as exc:
                 raise ConfigError(f"managers: bad entry {entry!r}") from exc
 
-        return cls(league_id, base_url, overrides, hall, tuple(managers))
+        labels: dict[str, str] = {}
+        for key, label in (raw.get("awards") or {}).items():
+            if key not in AWARD_KEYS:
+                raise ConfigError(f"awards: unknown award {key!r}; known keys: {', '.join(AWARD_KEYS)}")
+            if not isinstance(label, str):
+                raise ConfigError(f"awards: label for {key!r} must be a string")
+            text = str(label).strip()
+            if not text:
+                raise ConfigError(f"awards: empty label for {key!r}")
+            labels[str(key)] = text
+
+        return cls(league_id, base_url, overrides, hall, tuple(managers), labels)

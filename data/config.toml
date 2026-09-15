@@ -19,3 +19,8 @@ watch_list_margin = 100.0
 # franchise = "0001"
 # name = "Example Name"
 # from = 2016
+
+# Optional display names for the weekly awards; keys are the award keys in hof/stats/awards.py.
+# [awards]
+# low_score = "Golden Goose Egg"
+# worst_lineup = "Armchair Quarterback"
