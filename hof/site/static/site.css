@@ -30,6 +30,7 @@ table.sortable th.desc::after { content: " \25BE"; }
 .era { border-left: 4px solid #5b8def; padding-left: 12px; margin: 10px 0 18px; }
 .era.old { border-left-color: #c9c9c9; }
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.two > div { min-width: 0; }  /* let a scrolling table inside a column shrink with the column */
 @media (max-width: 720px) { .two { grid-template-columns: 1fr; } }
 .plaques { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
 .plaque { display: block; border: 2px solid var(--gold); background: #fff8e1; border-radius: 6px; padding: 8px 10px; color: var(--ink); }
