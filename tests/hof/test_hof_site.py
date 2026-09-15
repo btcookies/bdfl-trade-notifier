@@ -340,3 +340,28 @@ def test_rivalries_page(built):
     assert "Alpha Prime</a> 2-0 <a" in html and "2 meetings" in html
     assert "Nobody has met 5 times yet." in html
     assert 'href="/hof/franchises/rivalries/"' in read(out, "franchises")
+
+
+def test_franchise_page_has_all_play_luck_awards_and_rivalry_link(built):
+    out, _, _ = built
+    html = read(out, "franchises/alpha-prime")
+    assert "<b>.857</b><span>All-play</span>" in html
+    assert "<b>-0.7</b><span>Luck</span>" in html
+    assert "Weekly awards: 21" in html and "Highest score 4" in html and 'href="/hof/seasons/"' in html
+    assert '<h2 id="h2h">' in html and 'href="/hof/franchises/rivalries/"' in html
+    assert "<th>Luck</th>" in html and '<th class="p2">All-play</th>' in html
+    assert 'href="/hof/seasons/2020/">2020</a>' in html
+    assert "<td class=\"p2\">5-1-0</td>" in html and "<td>-0.7</td>" in html
+    assert 'data-label="Reg">' in html
+    for details in re.findall(r"<details>.*?</details>", html, re.S):
+        assert '<div class="table-wrap">' in details
+    beta = read(out, "franchises/beta")
+    assert "Weekly awards: 6" in beta  # 4 in 2020, 2 in 2021
+
+
+def test_home_links_seasons_and_shows_the_season_in_progress(built):
+    out, _, _ = built
+    html = read(out, "")
+    assert 'href="/hof/seasons/2020/">2020</a>' in html
+    assert "<b>2021</b> · through Week 1 ·" in html and 'href="/hof/seasons/2021/"' in html
+    assert '<td class="l key"><a href="/hof/franchises/alpha-prime/">Alpha</a></td>' in html

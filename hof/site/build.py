@@ -159,6 +159,26 @@ def tally_rows(model: Model, year: int) -> list[dict]:
     return sorted(rows, key=lambda r: (-r["total"], r["name"]))
 
 
+def franchise_awards(model: Model, franchise_id: str, labels: dict[str, str]) -> dict | None:
+    """Career award counts for the franchise page line, or None when it has none."""
+    counts = dict.fromkeys(AWARD_KEYS, 0)
+    for stats in model.analytics.values():
+        for key, n in stats.tally.get(franchise_id, {}).items():
+            counts[key] += n
+    total = sum(counts.values())
+    if not total:
+        return None
+    return {"total": total, "counts": [(labels[key], counts[key]) for key in AWARD_KEYS if counts[key]]}
+
+
+def current_season(model: Model) -> SeasonSummary | None:
+    """The newest season while it is in progress and has a counted game; else None."""
+    newest = model.league.latest
+    if newest.complete or model.analytics[newest.year].latest is None:
+        return None
+    return season_summary(model, newest.year)
+
+
 def render_seasons(env: Environment, model: Model, site: Site) -> list[Page]:
     summaries = [season_summary(model, season.year) for season in reversed(model.league.seasons)]
     pages = [("seasons", env.get_template("seasons.html").render(seasons=summaries))]
@@ -238,6 +258,7 @@ def render_home(env: Environment, model: Model, site: Site) -> list[Page]:
         "champions": list(reversed(model.champions)),
         "leaders": sorted(model.careers.values(), key=lambda c: (-c.vor, c.name))[:5],
         "first_year": model.league.seasons[0].year,
+        "current": current_season(model),
     }
     return [("", env.get_template("home.html").render(**context))]
 
@@ -310,6 +331,7 @@ def render_franchises(env: Environment, model: Model, site: Site) -> list[Page]:
                     picks=[line for summary in reversed(model.drafts) for line in summary.picks if line.franchise_id == history.id],
                     trades=[t for t in model.trades if any(side.franchise_id == history.id for side in t.sides)],
                     top=history.top_starters[:25],
+                    awards_line=franchise_awards(model, history.id, env.globals["award_labels"]),
                 ),
             )
         )

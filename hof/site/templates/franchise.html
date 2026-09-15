@@ -15,8 +15,13 @@
   <div><b>{{ h.totals.playoff_wins }}-{{ h.totals.playoff_losses }}</b><span>Playoff rec</span></div>
   <div><b>{{ h.totals.points_for|pts }}</b><span>Points for</span></div>
   <div><b>{{ h.totals.points_against|pts }}</b><span>Points against</span></div>
+  <div><b>{{ h.totals.allplay_pct|pct }}</b><span>All-play</span></div>
+  <div><b>{{ h.totals.luck|signed }}</b><span>Luck</span></div>
   <div><b>{{ h.streak or "—" }}</b><span>Streak</span></div>
 </div>
+{% if awards_line %}
+<p class="muted">Weekly awards: {{ awards_line.total }} · {% for label, n in awards_line.counts %}{{ label }} {{ n }}{{ ", " if not loop.last }}{% endfor %} · <a href="{{ site.url('seasons') }}">by season</a></p>
+{% endif %}
 
 <h2>Season by season</h2>
 {% for summary in h.eras %}
@@ -24,24 +29,27 @@
   <h3>As {{ summary.era.name }} <small>{{ years(summary.era.first_year, summary.era.last_year) }} · {{ summary.totals.record }} · {{ summary.totals.titles }} title{{ 's' if summary.totals.titles != 1 }}</small></h3>
   <div class="table-wrap">
   <table>
-    <thead><tr><th>Year</th><th>W-L-T</th><th>Div</th><th>PF</th><th>PA</th><th>Seed</th><th class="l">Finish</th><th class="l">Top starter</th></tr></thead>
+    <thead><tr><th class="key">Year</th><th>W-L-T</th><th class="p3">Div</th><th>PF</th><th class="p2">PA</th><th class="p2">All-play</th><th>Luck</th><th class="p3">Seed</th><th class="l">Finish</th><th class="l p3">Top starter</th></tr></thead>
     <tbody>
     {% for row in summary.rows %}
     <tr>
-      <td>{{ row.year }}</td>
+      <td class="key"><a href="{{ site.url('season', row.year) }}">{{ row.year }}</a></td>
       <td>{{ row.wins }}-{{ row.losses }}-{{ row.ties }}</td>
-      <td>{{ row.division_record }}</td>
+      <td class="p3">{{ row.division_record }}</td>
       <td>{{ row.points_for|pts }}</td>
-      <td>{{ row.points_against|pts }}</td>
-      <td>{{ row.seed or "–" }}</td>
+      <td class="p2">{{ row.points_against|pts }}</td>
+      <td class="p2">{{ row.allplay[0] }}-{{ row.allplay[1] }}-{{ row.allplay[2] }}</td>
+      <td>{{ row.luck|signed }}</td>
+      <td class="p3">{{ row.seed or "–" }}</td>
       <td class="l">{% if row.title %}🏆 {% endif %}{{ row.finish }}</td>
-      <td class="l">{% if row.top_starter %}<a href="{{ site.url('player', row.top_starter[0]) }}">{{ row.top_starter[1] }}</a> {{ row.top_starter[2]|pts }}{% endif %}</td>
+      <td class="l p3">{% if row.top_starter %}<a href="{{ site.url('player', row.top_starter[0]) }}">{{ row.top_starter[1] }}</a> {{ row.top_starter[2]|pts }}{% endif %}</td>
     </tr>
     {% endfor %}
     <tr class="sub">
-      <td>Era</td><td>{{ summary.totals.record }}</td><td></td>
-      <td>{{ summary.totals.points_for|pts }}</td><td>{{ summary.totals.points_against|pts }}</td><td></td>
-      <td class="l">{{ summary.totals.titles }} title{{ 's' if summary.totals.titles != 1 }} · {{ summary.totals.playoff_apps }} playoff app{{ 's' if summary.totals.playoff_apps != 1 }}</td><td></td>
+      <td class="key">Era</td><td>{{ summary.totals.record }}</td><td class="p3"></td>
+      <td>{{ summary.totals.points_for|pts }}</td><td class="p2">{{ summary.totals.points_against|pts }}</td>
+      <td class="p2">{{ summary.totals.allplay_record }}</td><td>{{ summary.totals.luck|signed }}</td><td class="p3"></td>
+      <td class="l">{{ summary.totals.titles }} title{{ 's' if summary.totals.titles != 1 }} · {{ summary.totals.playoff_apps }} playoff app{{ 's' if summary.totals.playoff_apps != 1 }}</td><td class="l p3"></td>
     </tr>
     </tbody>
   </table>
@@ -54,10 +62,10 @@
     <h2>All-time top starters</h2>
     <div class="table-wrap">
     <table class="sortable">
-      <thead><tr><th>#</th><th class="l">Player</th><th>Pos</th><th>Yrs</th><th>GS</th><th>Pts</th><th>VOR</th></tr></thead>
+      <thead><tr><th class="rank">#</th><th class="l key">Player</th><th>Pos</th><th class="p3">Yrs</th><th class="p2">GS</th><th>Pts</th><th>VOR</th></tr></thead>
       <tbody>
       {% for t in top %}
-      <tr><td>{{ loop.index }}</td><td class="l"><a href="{{ site.url('player', t.player_id) }}">{{ t.name }}</a></td><td>{{ t.position }}</td><td>{{ years(t.first_year, t.last_year) }}</td><td>{{ t.starts }}</td><td>{{ t.points|pts }}</td><td>{{ t.vor|pts }}</td></tr>
+      <tr><td class="rank">{{ loop.index }}</td><td class="l key"><a href="{{ site.url('player', t.player_id) }}">{{ t.name }}</a></td><td>{{ t.position }}</td><td class="p3">{{ years(t.first_year, t.last_year) }}</td><td class="p2">{{ t.starts }}</td><td>{{ t.points|pts }}</td><td>{{ t.vor|pts }}</td></tr>
       {% endfor %}
       </tbody>
     </table>
@@ -68,10 +76,10 @@
     {% if h.playoff_games %}
     <div class="table-wrap">
     <table>
-      <thead><tr><th>Year</th><th class="l">Round</th><th class="l">Opponent</th><th>Score</th><th>Res</th></tr></thead>
+      <thead><tr><th>Year</th><th class="l p3">Round</th><th class="l">Opponent</th><th>Score</th><th>Res</th></tr></thead>
       <tbody>
       {% for m in h.playoff_games %}
-      <tr><td>{{ m.year }}</td><td class="l">{{ m.round_name }}</td><td class="l"><a href="{{ site.url('franchise', m.opponent_id) }}">{{ m.opponent_name }}</a></td><td>{{ m.own_score|pts }}–{{ m.opponent_score|pts }}</td><td>{{ m.result }}{% if m.result == "W" and m.round_name == "Final" %} 🏆{% endif %}</td></tr>
+      <tr><td>{{ m.year }}</td><td class="l p3">{{ m.round_name }}</td><td class="l"><a href="{{ site.url('franchise', m.opponent_id) }}">{{ m.opponent_name }}</a></td><td>{{ m.own_score|pts }}–{{ m.opponent_score|pts }}</td><td>{{ m.result }}{% if m.result == "W" and m.round_name == "Final" %} 🏆{% endif %}</td></tr>
       {% endfor %}
       </tbody>
     </table>
@@ -80,7 +88,7 @@
   </div>
 </div>
 
-<h2>Head-to-head</h2>
+<h2 id="h2h">Head-to-head <small><a href="{{ site.url('rivalries') }}">Rivalry grid</a></small></h2>
 <p class="callout">All-time series against every other franchise, by their current name. Open a row for every meeting, with the names both teams used at the time.</p>
 <div class="h2h">
   <div class="head"><span>Opponent</span><span>All-time</span><span>Reg</span><span>Playoffs</span><span>PF</span><span>PA</span><span>Margin</span><span>Streak</span><span>Last meeting</span></div>
@@ -89,22 +97,24 @@
     <summary>
       <span><a href="{{ site.url('franchise', s.opponent_id) }}">{{ s.opponent_name }}</a></span>
       <span>{{ s.wins }}-{{ s.losses }}-{{ s.ties }}</span>
-      <span>{{ s.regular[0] }}-{{ s.regular[1] }}-{{ s.regular[2] }}</span>
-      <span>{% if s.playoff[0] + s.playoff[1] + s.playoff[2] %}{{ s.playoff[0] }}-{{ s.playoff[1] }}{% else %}–{% endif %}</span>
-      <span>{{ s.points_for|pts }}</span>
-      <span>{{ s.points_against|pts }}</span>
-      <span>{{ s.avg_margin|signed }}</span>
-      <span>{{ s.streak }}</span>
-      <span>{% if s.last %}{{ s.last.year }} {{ s.last.round_name or ("Wk " ~ s.last.week) }}, {{ s.last.result }} {{ s.last.own_score|pts }}–{{ s.last.opponent_score|pts }}{% endif %}</span>
+      <span data-label="Reg">{{ s.regular[0] }}-{{ s.regular[1] }}-{{ s.regular[2] }}</span>
+      <span data-label="Playoffs">{% if s.playoff[0] + s.playoff[1] + s.playoff[2] %}{{ s.playoff[0] }}-{{ s.playoff[1] }}{% else %}–{% endif %}</span>
+      <span data-label="PF">{{ s.points_for|pts }}</span>
+      <span data-label="PA">{{ s.points_against|pts }}</span>
+      <span data-label="Margin">{{ s.avg_margin|signed }}</span>
+      <span data-label="Streak">{{ s.streak }}</span>
+      <span data-label="Last">{% if s.last %}{{ s.last.year }} {{ s.last.round_name or ("Wk " ~ s.last.week) }}, {{ s.last.result }} {{ s.last.own_score|pts }}–{{ s.last.opponent_score|pts }}{% endif %}</span>
     </summary>
+    <div class="table-wrap">
     <table>
-      <thead><tr><th>Year</th><th>Wk</th><th class="l">Round</th><th class="l">As</th><th class="l">Opponent</th><th>Score</th><th>Res</th></tr></thead>
+      <thead><tr><th>Year</th><th>Wk</th><th class="l p3">Round</th><th class="l p3">As</th><th class="l">Opponent</th><th>Score</th><th>Res</th></tr></thead>
       <tbody>
       {% for m in s.meetings|reverse %}
-      <tr><td>{{ m.year }}</td><td>{{ m.week }}</td><td class="l">{{ m.round_name or "" }}</td><td class="l">{{ m.own_name }}</td><td class="l">{{ m.opponent_name }}</td><td>{{ m.own_score|pts }}–{{ m.opponent_score|pts }}</td><td>{{ m.result }}</td></tr>
+      <tr><td>{{ m.year }}</td><td>{{ m.week }}</td><td class="l p3">{{ m.round_name or "" }}</td><td class="l p3">{{ m.own_name }}</td><td class="l">{{ m.opponent_name }}</td><td>{{ m.own_score|pts }}–{{ m.opponent_score|pts }}</td><td>{{ m.result }}</td></tr>
       {% endfor %}
       </tbody>
     </table>
+    </div>
   </details>
   {% endfor %}
 </div>
@@ -130,17 +140,17 @@
     {% if trades %}
     <div class="table-wrap">
     <table>
-      <thead><tr><th>Date</th><th class="l">With</th><th class="l">Got</th><th class="l">Gave</th><th class="l">Verdict</th></tr></thead>
+      <thead><tr><th class="p3">Date</th><th class="l key">With</th><th class="l">Got</th><th class="l">Gave</th><th class="l p2">Verdict</th></tr></thead>
       <tbody>
       {% for t in trades %}
       {% set own = t.sides[0] if t.sides[0].franchise_id == h.id else t.sides[1] %}
       {% set other = t.sides[1] if t.sides[0].franchise_id == h.id else t.sides[0] %}
       <tr>
-        <td><a href="{{ site.url('trades') }}#t{{ t.year }}-{{ t.timestamp }}">{{ t.timestamp|date }}</a></td>
-        <td class="l"><a href="{{ site.url('franchise', other.franchise_id) }}">{{ other.name }}</a></td>
+        <td class="p3"><a href="{{ site.url('trades') }}#t{{ t.year }}-{{ t.timestamp }}">{{ t.timestamp|date }}</a></td>
+        <td class="l key"><a href="{{ site.url('franchise', other.franchise_id) }}">{{ other.name }}</a></td>
         <td class="l">{% for a in own.received %}{{ a.label }}{{ "; " if not loop.last }}{% endfor %}</td>
         <td class="l">{% for a in other.received %}{{ a.label }}{{ "; " if not loop.last }}{% endfor %}</td>
-        <td class="l">{{ t.verdict }}</td>
+        <td class="l p2">{{ t.verdict }}</td>
       </tr>
       {% endfor %}
       </tbody>

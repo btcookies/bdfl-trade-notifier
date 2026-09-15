@@ -3,6 +3,7 @@
 {% block content %}
 <h1>Franchises</h1>
 <p class="lede">All-time standings, regular season only. Click a column to sort.</p>
+<p><a href="{{ site.url('rivalries') }}">Rivalry grid: every franchise against every other</a></p>
 <div class="table-wrap">
 <table class="sortable">
   <thead><tr><th class="l">Franchise</th><th>Record</th><th>Pct</th><th>PF</th><th>PA</th><th>Playoffs</th><th>PO record</th><th>Titles</th><th>Streak</th></tr></thead>
@@ -23,5 +24,4 @@
   </tbody>
 </table>
 </div>
-<p><a href="{{ site.url('rivalries') }}">Rivalry grid: every franchise against every other</a></p>
 {% endblock %}
