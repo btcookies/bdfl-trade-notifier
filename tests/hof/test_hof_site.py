@@ -6,7 +6,7 @@ import pytest
 from synthetic import four_team_league
 
 from hof.config import Config, HallRules
-from hof.site.build import build_site, tenure_segments
+from hof.site.build import build_site, tenure_segments, tint
 from hof.site.slugs import slugify, unique_slugs
 from hof.stats.careers import Career, Stint
 from hof.stats.model import compute
@@ -275,3 +275,17 @@ def test_cli_build_writes_the_site(tmp_path, fixtures_dir, capsys):
     assert code == 0
     assert (out / "index.html").exists()
     assert "built" in capsys.readouterr().out
+
+
+def test_new_site_urls_and_nav(built):
+    out, site, _ = built
+    assert site.url("seasons") == "/hof/seasons/"
+    assert site.url("season", 2020) == "/hof/seasons/2020/"
+    assert site.url("rivalries") == "/hof/franchises/rivalries/"
+    assert 'href="/hof/seasons/">Seasons</a>' in read(out, "")
+
+
+def test_tint_runs_from_red_through_grey_to_green():
+    assert tint((0, 0, 0)) == "#f4f4f4" and tint((1, 1, 0)) == "#f4f4f4" and tint((0, 0, 2)) == "#f4f4f4"
+    assert tint((2, 0, 0)) == "#a3d9b0" and tint((0, 2, 0)) == "#e8a8a8"
+    assert tint((3, 1, 0)) == "#cce7d2"  # halfway to green

@@ -13,9 +13,13 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from hof.config import Config
 from hof.site.slugs import slugify, unique_slugs
+from hof.stats import awards as awards_mod
 from hof.stats import careers as careers_mod
+from hof.stats import power
+from hof.stats.awards import AWARD_KEYS
 from hof.stats.careers import Career
 from hof.stats.model import Model
+from hof.stats.power import movement_label
 
 PACKAGE_DIR = Path(__file__).parent
 TEMPLATES = PACKAGE_DIR / "templates"
@@ -28,6 +32,8 @@ SECTIONS = {
     "home": "",
     "players": "players/",
     "franchises": "franchises/",
+    "rivalries": "franchises/rivalries/",
+    "seasons": "seasons/",
     "records": "records/",
     "hall": "hall-of-fame/",
     "drafts": "drafts/",
@@ -54,6 +60,8 @@ class Site:
             return f"{self.base_path}franchises/{self.franchise_slugs[str(key)]}/"
         if kind == "draft":
             return f"{self.base_path}drafts/{key}/"
+        if kind == "season":
+            return f"{self.base_path}seasons/{key}/"
         if kind == "static":
             return f"{self.base_path}static/{key}"
         return f"{self.base_path}{SECTIONS[kind]}"
@@ -81,6 +89,18 @@ def through_label(model: Model) -> str:
     return f"through {year} Week {week}"
 
 
+def tint(cell: tuple[int, int, int]) -> str:
+    """A hex color from neutral grey at .500 toward green (winning) or red (losing)."""
+    wins, losses, ties = cell
+    total = wins + losses + ties
+    pct = (wins + 0.5 * ties) / total if total else 0.5
+    strength = abs(pct - 0.5) * 2
+    base = (244, 244, 244)
+    target = (163, 217, 176) if pct >= 0.5 else (232, 168, 168)
+    r, g, b = (int(base[i] + (target[i] - base[i]) * strength + 0.5) for i in range(3))
+    return f"#{r:02x}{g:02x}{b:02x}"
+
+
 def environment(model: Model, config: Config, site: Site) -> Environment:
     env = Environment(
         loader=FileSystemLoader(TEMPLATES),
@@ -103,6 +123,11 @@ def environment(model: Model, config: Config, site: Site) -> Environment:
         return f"{value:.1f}"
 
     env.filters["mark"] = mark
+    env.filters["award"] = awards_mod.format_value
+    env.filters["move"] = lambda line: movement_label(line.movement)
+    env.filters["tint"] = tint
+    env.filters["xw"] = lambda value: f"{value:.2f}"
+    env.filters["score"] = lambda value: f"{value:.3f}"
     env.globals.update(
         site=site,
         model=model,
@@ -111,6 +136,9 @@ def environment(model: Model, config: Config, site: Site) -> Environment:
         league_name=model.league.latest.name or "BDFL",
         name_in=model.league.name_in,
         current_name=model.league.current_name,
+        award_keys=AWARD_KEYS,
+        award_labels=awards_mod.labels_with(config.award_labels),
+        formula=power.FORMULA,
     )
     return env
 

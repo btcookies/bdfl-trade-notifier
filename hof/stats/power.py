@@ -99,3 +99,12 @@ def rankings(league: League, season: Season, through_week: int | None = None) ->
         )
         for i, (fid, score, ap, wp, form) in enumerate(current)
     ]
+
+
+def movement_label(movement: int | None) -> str:
+    """▲n places gained, ▼n lost, – for no change, or "new" in the first ranked week."""
+    if movement is None:
+        return "new"
+    if movement == 0:
+        return "–"
+    return f"▲{movement}" if movement > 0 else f"▼{-movement}"
