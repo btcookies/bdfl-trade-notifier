@@ -21,6 +21,7 @@ from hof.stats.awards import AWARD_KEYS
 from hof.stats.careers import Career
 from hof.stats.model import Model
 from hof.stats.power import movement_label
+from hof.stats.rivalries import MIN_MEETINGS, ranked
 
 PACKAGE_DIR = Path(__file__).parent
 TEMPLATES = PACKAGE_DIR / "templates"
@@ -182,6 +183,11 @@ def render_seasons(env: Environment, model: Model, site: Site) -> list[Page]:
     return pages
 
 
+def render_rivalries(env: Environment, model: Model, site: Site) -> list[Page]:
+    html = env.get_template("rivalries.html").render(grid=model.rivalries, min_meetings=MIN_MEETINGS)
+    return [("franchises/rivalries", html)]
+
+
 def environment(model: Model, config: Config, site: Site) -> Environment:
     env = Environment(
         loader=FileSystemLoader(TEMPLATES),
@@ -288,7 +294,7 @@ def render_players(env: Environment, model: Model, site: Site) -> list[Page]:
 
 
 def render_franchises(env: Environment, model: Model, site: Site) -> list[Page]:
-    histories = sorted(model.histories.values(), key=lambda h: (-h.totals.win_pct, -h.totals.points_for, h.name))
+    histories = ranked(model.histories)
     pages = [("franchises", env.get_template("franchises.html").render(histories=histories))]
     template = env.get_template("franchise.html")
     managers = env.globals["config"].managers
@@ -349,7 +355,7 @@ def render_trades(env: Environment, model: Model, site: Site) -> list[Page]:
     return [("trades", env.get_template("trades.html").render(by_year=by_year))]
 
 
-RENDERERS: list[Renderer] = [render_home, render_players, render_franchises, render_seasons, render_records, render_hall, render_drafts, render_trades]
+RENDERERS: list[Renderer] = [render_home, render_players, render_franchises, render_rivalries, render_seasons, render_records, render_hall, render_drafts, render_trades]
 
 
 def write_page(out: Path, relative: str, html: str) -> None:

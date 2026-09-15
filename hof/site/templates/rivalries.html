@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Rivalries{% endblock %}
+{% block content %}
+{% macro pair(p) %}<a href="{{ site.url('franchise', p.a_id) }}">{{ p.a_name }}</a> {{ p.record }} <a href="{{ site.url('franchise', p.b_id) }}">{{ p.b_name }}</a> <span class="muted">· {{ p.meetings }} meeting{{ 's' if p.meetings != 1 }}</span>{% endmacro %}
+<h1>Rivalries</h1>
+<p class="lede">Every franchise against every other, all-time, by current name. Read a row left to right: that franchise's wins and losses against each numbered column.</p>
+<div class="table-wrap">
+<table class="grid">
+  <thead><tr><th class="rank">#</th><th class="l key">Franchise</th>{% for fid in grid.order %}<th>{{ loop.index }}</th>{% endfor %}</tr></thead>
+  <tbody>
+  {% for row_id in grid.order %}
+  <tr>
+    <td class="rank">{{ loop.index }}</td>
+    <td class="l key"><a href="{{ site.url('franchise', row_id) }}">{{ current_name(row_id) }}</a></td>
+    {% for col_id in grid.order %}
+    {% set cell = grid.cells.get((row_id, col_id)) %}
+    {% if row_id == col_id %}<td class="self"></td>
+    {% elif cell %}<td class="cell" style="background:{{ cell|tint }}"><a href="{{ site.url('franchise', row_id) }}#h2h">{{ cell[0] }}-{{ cell[1] }}{% if cell[2] %}-{{ cell[2] }}{% endif %}</a></td>
+    {% else %}<td class="cell"></td>{% endif %}
+    {% endfor %}
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<div class="two">
+  <div>
+    <h2>Most played</h2>
+    <ol class="leaders">{% for p in grid.most_played %}<li>{{ pair(p) }}</li>{% endfor %}</ol>
+  </div>
+  <div>
+    <h2>Most lopsided</h2>
+    {% if grid.most_lopsided %}<ol class="leaders">{% for p in grid.most_lopsided %}<li>{{ pair(p) }}</li>{% endfor %}</ol>{% else %}<p class="muted">Nobody has met {{ min_meetings }} times yet.</p>{% endif %}
+    <h2>Most even</h2>
+    {% if grid.most_even %}<ol class="leaders">{% for p in grid.most_even %}<li>{{ pair(p) }}</li>{% endfor %}</ol>{% else %}<p class="muted">Nobody has met {{ min_meetings }} times yet.</p>{% endif %}
+  </div>
+</div>
+{% endblock %}

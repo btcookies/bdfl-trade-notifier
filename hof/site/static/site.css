@@ -54,3 +54,6 @@ table.sortable th.desc::after { content: " \25BE"; }
 .search { width: 100%; max-width: 360px; padding: 6px 8px; font-size: 14px; margin: 6px 0 10px; }
 .timeline li { margin: 3px 0; }
 .badge { display: inline-block; background: #1f7a3e; color: #fff; font-size: 11px; padding: 1px 6px; border-radius: 3px; vertical-align: middle; }
+table.grid td.cell { text-align: center; min-width: 3.2em; }
+table.grid td.cell a { color: var(--ink); }
+table.grid td.self { background: var(--line); }

@@ -161,7 +161,7 @@ def test_franchises_index_ranks_by_win_percentage(built):
     out, _, _ = built
     html = read(out, "franchises")
     names = re.findall(r'href="/hof/franchises/[^"]+/">([^<]+)</a>', html)
-    assert names == ["Gamma", "Alpha Prime", "Delta", "Beta"]
+    assert names[:4] == ["Gamma", "Alpha Prime", "Delta", "Beta"]
     assert "1.000" in html and ".667" in html
 
 
@@ -255,7 +255,8 @@ def test_real_2020_fixture_builds_a_full_site(tmp_path, fixtures_dir):
     site = build_site(model, config, out)
     assert site.base_path == "/bdfl-trade-notifier/"
     pages = all_html(out)
-    assert sum(1 for name in pages if name.startswith("franchises/") and name != "franchises/index.html") == 12
+    assert sum(1 for name in pages if name.startswith("franchises/") and name not in ("franchises/index.html", "franchises/rivalries/index.html")) == 12
+    assert "franchises/rivalries/index.html" in pages and "seasons/2020/index.html" in pages
     assert sum(1 for name in pages if name.startswith("players/") and name != "players/index.html") > 100
     assert len(re.findall(r'data-sort="\d+"', pages["drafts/2020/index.html"])) == 48
     assert pages["trades/index.html"].count('class="trade"') == 20
@@ -324,3 +325,18 @@ def test_season_page_for_the_season_in_progress(built):
     assert "through Week 1" in html and "won the title" not in html
     assert ">new<" in html  # first ranked week
     assert ">Alpha Prime</a>" in html
+
+
+def test_rivalries_page(built):
+    out, _, _ = built
+    html = read(out, "franchises/rivalries")
+    rows = re.findall(r'<td class="l key"><a href="/hof/franchises/([^"]+)/">', html)
+    assert rows == ["gamma", "alpha-prime", "delta", "beta"]
+    assert "<th>1</th><th>2</th><th>3</th><th>4</th>" in html
+    assert 'href="/hof/franchises/alpha-prime/#h2h">2-0</a>' in html
+    assert 'href="/hof/franchises/beta/#h2h">0-2</a>' in html
+    assert 'class="self"' in html and "#a3d9b0" in html and "#e8a8a8" in html
+    assert "Most played" in html and "Most lopsided" in html and "Most even" in html
+    assert "Alpha Prime</a> 2-0 <a" in html and "2 meetings" in html
+    assert "Nobody has met 5 times yet." in html
+    assert 'href="/hof/franchises/rivalries/"' in read(out, "franchises")
