@@ -3,21 +3,22 @@
 {% block content %}
 <h1>Franchises</h1>
 <p class="lede">All-time standings, regular season only. Click a column to sort.</p>
+<p><a href="{{ site.url('rivalries') }}">Rivalry grid: every franchise against every other</a></p>
 <div class="table-wrap">
 <table class="sortable">
-  <thead><tr><th class="l">Franchise</th><th>Record</th><th>Pct</th><th>PF</th><th>PA</th><th>Playoffs</th><th>PO record</th><th>Titles</th><th>Streak</th></tr></thead>
+  <thead><tr><th class="l key">Franchise</th><th>Record</th><th class="p2">Pct</th><th class="p3">PF</th><th class="p3">PA</th><th class="p3">Playoffs</th><th class="p2">PO record</th><th>Titles</th><th class="p3">Streak</th></tr></thead>
   <tbody>
   {% for h in histories %}
   <tr>
-    <td class="l"><a href="{{ site.url('franchise', h.id) }}">{{ h.name }}</a></td>
+    <td class="l key"><a href="{{ site.url('franchise', h.id) }}">{{ h.name }}</a></td>
     <td>{{ h.totals.record }}</td>
-    <td>{{ h.totals.win_pct|pct }}</td>
-    <td>{{ h.totals.points_for|pts }}</td>
-    <td>{{ h.totals.points_against|pts }}</td>
-    <td>{{ h.totals.playoff_apps }}</td>
-    <td>{{ h.totals.playoff_wins }}-{{ h.totals.playoff_losses }}</td>
+    <td class="p2">{{ h.totals.win_pct|pct }}</td>
+    <td class="p3">{{ h.totals.points_for|pts }}</td>
+    <td class="p3">{{ h.totals.points_against|pts }}</td>
+    <td class="p3">{{ h.totals.playoff_apps }}</td>
+    <td class="p2">{{ h.totals.playoff_wins }}-{{ h.totals.playoff_losses }}</td>
     <td>{{ h.totals.titles }}</td>
-    <td>{{ h.streak }}</td>
+    <td class="p3">{{ h.streak }}</td>
   </tr>
   {% endfor %}
   </tbody>

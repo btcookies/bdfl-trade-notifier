@@ -30,6 +30,7 @@ table.sortable th.desc::after { content: " \25BE"; }
 .era { border-left: 4px solid #5b8def; padding-left: 12px; margin: 10px 0 18px; }
 .era.old { border-left-color: #c9c9c9; }
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.two > div { min-width: 0; }  /* let a scrolling table inside a column shrink with the column */
 @media (max-width: 720px) { .two { grid-template-columns: 1fr; } }
 .plaques { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
 .plaque { display: block; border: 2px solid var(--gold); background: #fff8e1; border-radius: 6px; padding: 8px 10px; color: var(--ink); }
@@ -46,7 +47,6 @@ table.sortable th.desc::after { content: " \25BE"; }
 .h2h .head { display: grid; grid-template-columns: 2fr repeat(7, 1fr) 2fr; gap: 6px; padding: 4px 7px; background: #f0f0f0; font-size: 12px; font-weight: 600; color: #444; }
 .h2h .head span { text-align: right; }
 .h2h .head span:first-child, .h2h .head span:last-child { text-align: left; }
-.h2h details table { margin: 4px 0 8px 12px; width: auto; }
 .trade { border: 1px solid var(--line); border-radius: 6px; padding: 8px 12px; margin: 10px 0; }
 .trade .verdict { color: var(--muted); font-size: 13px; }
 .trade ul { margin: 4px 0 6px 18px; padding: 0; }
@@ -54,3 +54,46 @@ table.sortable th.desc::after { content: " \25BE"; }
 .search { width: 100%; max-width: 360px; padding: 6px 8px; font-size: 14px; margin: 6px 0 10px; }
 .timeline li { margin: 3px 0; }
 .badge { display: inline-block; background: #1f7a3e; color: #fff; font-size: 11px; padding: 1px 6px; border-radius: 3px; vertical-align: middle; }
+table.grid td.cell { text-align: center; min-width: 3.2em; }
+table.grid td.cell a { color: var(--ink); }
+table.grid td.self { background: var(--line); }
+
+/* --- phones ------------------------------------------------------------- */
+/* Column priority: p3 columns hide first, p2 columns on the narrowest phones. */
+@media (max-width: 720px) { .p3 { display: none; } }
+@media (max-width: 480px) { .p2 { display: none; } }
+
+/* A key column sticks while the rest of a wide table scrolls beneath it. A rank/year column
+   before it has a fixed width and sticks too, so the two sit side by side. */
+:root { --rank-w: 47px; }  /* px, not em: th and td have different font sizes and must agree */
+th.rank, td.rank { width: var(--rank-w); min-width: var(--rank-w); }
+.table-wrap th.key, .table-wrap td.key, .table-wrap th.rank, .table-wrap td.rank { position: sticky; left: 0; z-index: 1; background: var(--bg); }
+.table-wrap th.key, .table-wrap th.rank { background: #f0f0f0; }
+.table-wrap tr.sub td.key, .table-wrap tr.sub td.rank { background: #fafafa; }
+.table-wrap th.rank + th.key, .table-wrap td.rank + td.key { left: var(--rank-w); }
+
+/* Scroll hint: an inner shadow on whichever edge has more table beyond it. */
+.table-wrap {
+  background:
+    linear-gradient(to right, var(--bg) 30%, rgba(255, 255, 255, 0)),
+    linear-gradient(to left, var(--bg) 30%, rgba(255, 255, 255, 0)) 100% 0,
+    radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, .18), rgba(0, 0, 0, 0)),
+    radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, .18), rgba(0, 0, 0, 0)) 100% 0;
+  background-repeat: no-repeat;
+  background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
+  background-attachment: local, local, scroll, scroll;
+}
+.h2h details .table-wrap { margin: 4px 0 8px 12px; }
+.h2h details table { width: auto; }
+.awards li { margin: 3px 0; }
+
+@media (max-width: 720px) {
+  th, td { padding: 8px 7px; }
+  .h2h .head { display: none; }
+  .h2h summary { display: flex; flex-wrap: wrap; gap: 2px 12px; padding: 9px 7px; }
+  .h2h summary span { text-align: left; font-size: 12px; color: var(--muted); }
+  .h2h summary span:first-child { flex: 1 1 calc(100% - 100px); font-size: 14px; color: inherit; }
+  .h2h summary span:nth-child(2) { flex: 0 0 80px; text-align: right; font-size: 14px; font-weight: 600; color: inherit; }
+  .h2h summary span[data-label]::before { content: attr(data-label) " "; }
+  .h2h details .table-wrap { margin-left: 0; }
+}

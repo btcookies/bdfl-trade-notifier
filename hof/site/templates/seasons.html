@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Seasons{% endblock %}
+{% block content %}
+<h1>Seasons</h1>
+<p class="lede">Standings with all-play and luck, power rankings, and the weekly awards, season by season.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th class="rank">Year</th><th class="l key">Champion</th><th class="l p2">Runner-up</th><th class="l p3">Best record</th><th class="l p3">Most points</th><th class="l p3">Luckiest</th><th class="l p3">Awards leader</th></tr></thead>
+  <tbody>
+  {% for s in seasons %}
+  <tr>
+    <td class="rank"><a href="{{ site.url('season', s.year) }}">{{ s.year }}</a></td>
+    <td class="l key">{% if s.champion_id %}<a href="{{ site.url('franchise', s.champion_id) }}">{{ name_in(s.champion_id, s.year) }}</a>{% else %}<span class="muted">{{ s.state }}</span>{% endif %}</td>
+    <td class="l p2">{% if s.runner_up_id %}<a href="{{ site.url('franchise', s.runner_up_id) }}">{{ name_in(s.runner_up_id, s.year) }}</a>{% endif %}</td>
+    <td class="l p3">{% if s.best %}<a href="{{ site.url('franchise', s.best.franchise_id) }}">{{ s.best.name }}</a> {{ s.best.record }}{% endif %}</td>
+    <td class="l p3">{% if s.most_points %}<a href="{{ site.url('franchise', s.most_points.franchise_id) }}">{{ s.most_points.name }}</a> {{ s.most_points.points_for|pts }}{% endif %}</td>
+    <td class="l p3">{% if s.luckiest %}<a href="{{ site.url('franchise', s.luckiest.franchise_id) }}">{{ s.luckiest.name }}</a> {{ s.luckiest.luck|signed }}{% endif %}</td>
+    <td class="l p3">{% for fid in s.leaders %}<a href="{{ site.url('franchise', fid) }}">{{ name_in(fid, s.year) }}</a>{{ ", " if not loop.last }}{% endfor %}{% if s.leaders %} ({{ s.leader_count }}){% endif %}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

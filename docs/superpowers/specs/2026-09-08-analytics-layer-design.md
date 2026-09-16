@@ -130,7 +130,7 @@ New section `/seasons/`, in the nav between Franchises and Records.
 ### Home page
 
 - The champions table's year links to that season's page, and the Champion column is left-aligned (it is a name).
-- Above it, one line when the newest season is not complete and has at least one counted game: "<year> · through Week n · standings, power rankings, and awards" linking to the season page.
+- Above it, one line when the newest season is in progress (not complete, no final decided, and at least one counted game): "<year> · through Week n · standings, power rankings, and awards" linking to the season page.
 
 ### Records book
 

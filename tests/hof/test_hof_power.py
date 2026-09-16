@@ -75,3 +75,7 @@ def test_franchises_without_a_game_are_not_ranked():
 def test_no_ranking_before_the_first_game():
     season = build_season(2020, PLAYERS, {}, last_regular_season_week=2)
     assert power.rankings(League.build([season]), season, through_week=None) == []
+
+
+def test_movement_labels():
+    assert [power.movement_label(m) for m in (None, 0, 2, -1)] == ["new", "–", "▲2", "▼1"]

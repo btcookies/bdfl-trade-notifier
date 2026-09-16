@@ -33,13 +33,13 @@
 <p class="muted">Active players within {{ hall.rules.watch_list_margin|pts }} of the line.</p>
 <div class="table-wrap">
 <table>
-  <thead><tr><th class="l">Player</th><th>Pos</th><th>GS</th><th>VOR</th><th>Needs</th></tr></thead>
+  <thead><tr><th class="l key">Player</th><th>Pos</th><th class="p3">GS</th><th>VOR</th><th>Needs</th></tr></thead>
   <tbody>
   {% for w in hall.watch_list %}
   <tr>
-    <td class="l"><a href="{{ site.url('player', w.player_id) }}">{{ w.name }}</a></td>
+    <td class="l key"><a href="{{ site.url('player', w.player_id) }}">{{ w.name }}</a></td>
     <td>{{ w.position }}</td>
-    <td>{{ w.starts }}</td>
+    <td class="p3">{{ w.starts }}</td>
     <td>{{ w.vor|pts }}</td>
     <td>{{ w.needed_vor|pts }}{% if w.needed_starts %} and {{ w.needed_starts }} start{{ 's' if w.needed_starts != 1 }}{% endif %}</td>
   </tr>

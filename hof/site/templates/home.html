@@ -22,16 +22,19 @@
 </section>
 
 <section>
+  {% if current %}
+  <p class="callout"><b>{{ current.year }}</b> · {{ current.state }} · <a href="{{ site.url('season', current.year) }}">Standings, power rankings, and awards</a></p>
+  {% endif %}
   <h2>Champions</h2>
   <div class="table-wrap">
   <table>
-    <thead><tr><th>Year</th><th>Champion</th><th>Runner-up</th></tr></thead>
+    <thead><tr><th class="rank">Year</th><th class="l key">Champion</th><th class="l">Runner-up</th></tr></thead>
     <tbody>
     {% for year, champion, runner_up in champions %}
     <tr>
-      <td>{{ year }}</td>
-      <td><a href="{{ site.url('franchise', champion) }}">{{ name_in(champion, year) }}</a></td>
-      <td><a href="{{ site.url('franchise', runner_up) }}">{{ name_in(runner_up, year) }}</a></td>
+      <td class="rank"><a href="{{ site.url('season', year) }}">{{ year }}</a></td>
+      <td class="l key"><a href="{{ site.url('franchise', champion) }}">{{ name_in(champion, year) }}</a></td>
+      <td class="l"><a href="{{ site.url('franchise', runner_up) }}">{{ name_in(runner_up, year) }}</a></td>
     </tr>
     {% endfor %}
     </tbody>

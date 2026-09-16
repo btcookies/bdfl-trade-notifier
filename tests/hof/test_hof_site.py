@@ -1,12 +1,13 @@
 import filecmp
 import re
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
-from synthetic import four_team_league
+from synthetic import build_season, four_team_league
 
 from hof.config import Config, HallRules
-from hof.site.build import build_site, tenure_segments
+from hof.site.build import build_site, current_season, tenure_segments, tint
 from hof.site.slugs import slugify, unique_slugs
 from hof.stats.careers import Career, Stint
 from hof.stats.model import compute
@@ -160,7 +161,7 @@ def test_tenure_segments_renders_gaps_and_multiple_franchises(built):
 def test_franchises_index_ranks_by_win_percentage(built):
     out, _, _ = built
     html = read(out, "franchises")
-    names = re.findall(r'href="/hof/franchises/[^"]+/">([^<]+)</a>', html)
+    names = re.findall(r'<td class="l[^"]*"><a href="/hof/franchises/[^"]+/">([^<]+)</a>', html)  # table cells only, not the grid link
     assert names == ["Gamma", "Alpha Prime", "Delta", "Beta"]
     assert "1.000" in html and ".667" in html
 
@@ -255,7 +256,8 @@ def test_real_2020_fixture_builds_a_full_site(tmp_path, fixtures_dir):
     site = build_site(model, config, out)
     assert site.base_path == "/bdfl-trade-notifier/"
     pages = all_html(out)
-    assert sum(1 for name in pages if name.startswith("franchises/") and name != "franchises/index.html") == 12
+    assert sum(1 for name in pages if name.startswith("franchises/") and name not in ("franchises/index.html", "franchises/rivalries/index.html")) == 12
+    assert "franchises/rivalries/index.html" in pages and "seasons/2020/index.html" in pages
     assert sum(1 for name in pages if name.startswith("players/") and name != "players/index.html") > 100
     assert len(re.findall(r'data-sort="\d+"', pages["drafts/2020/index.html"])) == 48
     assert pages["trades/index.html"].count('class="trade"') == 20
@@ -275,3 +277,125 @@ def test_cli_build_writes_the_site(tmp_path, fixtures_dir, capsys):
     assert code == 0
     assert (out / "index.html").exists()
     assert "built" in capsys.readouterr().out
+
+
+def test_new_site_urls_and_nav(built):
+    out, site, _ = built
+    assert site.url("seasons") == "/hof/seasons/"
+    assert site.url("season", 2020) == "/hof/seasons/2020/"
+    assert site.url("rivalries") == "/hof/franchises/rivalries/"
+    assert 'href="/hof/seasons/">Seasons</a>' in read(out, "")
+
+
+def test_tint_runs_from_red_through_grey_to_green():
+    assert tint((0, 0, 0)) == "#f4f4f4" and tint((1, 1, 0)) == "#f4f4f4" and tint((0, 0, 2)) == "#f4f4f4"
+    assert tint((2, 0, 0)) == "#a3d9b0" and tint((0, 2, 0)) == "#e8a8a8"
+    assert tint((3, 1, 0)) == "#cce7d2"  # halfway to green
+
+
+def test_seasons_index_lists_newest_first(built):
+    out, _, _ = built
+    html = read(out, "seasons")
+    assert 'href="/hof/seasons/2021/">2021</a>' in html and 'href="/hof/seasons/2020/">2020</a>' in html
+    assert html.index('href="/hof/seasons/2021/"') < html.index('href="/hof/seasons/2020/"')
+    assert ">Alpha<" in html and ">Gamma<" in html  # 2020 champion and runner-up by their 2020 names
+    assert "2-0-0" in html and "33.0" in html  # best record and most points (Gamma)
+    assert ">Delta</a> +0.7" in html  # luckiest
+    assert ">Alpha</a> (15)" in html  # awards leader
+    assert "through Week 1" in html  # 2021 has no champion yet
+
+
+def test_season_page_for_a_finished_season(built):
+    out, _, _ = built
+    html = read(out, "seasons/2020")
+    assert "<h1>2020 season" in html and "Final" in html
+    assert "Alpha won the title, 30.0–20.0 over Gamma." in html
+    names = re.findall(r'<td class="l key"><a href="/hof/franchises/[^"]+/">([^<]+)</a></td>', html)
+    assert names[:4] == ["Gamma", "Alpha", "Delta", "Beta"]  # standings come first, in standings order
+    assert "5-1-0" in html and "1.67" in html and "-0.7" in html and "+0.7" in html
+    assert "Power rankings" in html and "through Week 2" in html
+    assert "▲1" in html and "▼1" in html and "0.883" in html and "Score = 0.5 × all-play %" in html
+    assert "<h3>Week 4" in html and "<h3>Week 1" in html and html.index("<h3>Week 4") < html.index("<h3>Week 1")
+    assert "Highest score" in html and "would have gone 2-1-0 against the field" in html
+    assert "Awards tally" in html and "<td>15</td>" in html
+
+
+def test_season_page_for_the_season_in_progress(built):
+    out, _, _ = built
+    html = read(out, "seasons/2021")
+    assert "through Week 1" in html and "won the title" not in html
+    assert ">new<" in html  # first ranked week
+    assert ">Alpha Prime</a>" in html
+
+
+def test_rivalries_page(built):
+    out, _, _ = built
+    html = read(out, "franchises/rivalries")
+    rows = re.findall(r'<td class="l key"><a href="/hof/franchises/([^"]+)/">', html)
+    assert rows == ["gamma", "alpha-prime", "delta", "beta"]
+    assert "<th>1</th><th>2</th><th>3</th><th>4</th>" in html
+    assert 'href="/hof/franchises/alpha-prime/#h2h">2-0</a>' in html
+    assert 'href="/hof/franchises/beta/#h2h">0-2</a>' in html
+    assert 'class="self"' in html and "#a3d9b0" in html and "#e8a8a8" in html
+    assert "Most played" in html and "Most lopsided" in html and "Most even" in html
+    assert 'Alpha Prime</a> leads <a href="/hof/franchises/beta/">Beta</a> 2-0' in html and "2 meetings" in html
+    assert "are even at 1-1" in html  # Alpha Prime and Gamma
+    assert "Nobody has met 5 times yet." in html
+    assert 'href="/hof/franchises/rivalries/"' in read(out, "franchises")
+
+
+def test_franchise_page_has_all_play_luck_awards_and_rivalry_link(built):
+    out, _, _ = built
+    html = read(out, "franchises/alpha-prime")
+    assert "<b>.857</b><span>All-play</span>" in html
+    assert "<b>-0.7</b><span>Luck</span>" in html
+    assert "Weekly awards: 21" in html and "Highest score 4" in html and 'href="/hof/seasons/"' in html
+    assert '<h2 id="h2h">' in html and 'href="/hof/franchises/rivalries/"' in html
+    assert "<th>Luck</th>" in html and '<th class="p2">All-play</th>' in html
+    assert 'href="/hof/seasons/2020/">2020</a>' in html
+    assert "<td class=\"p2\">5-1-0</td>" in html and "<td>-0.7</td>" in html
+    assert 'data-label="Reg">' in html
+    for details in re.findall(r"<details>.*?</details>", html, re.S):
+        assert '<div class="table-wrap">' in details
+    beta = read(out, "franchises/beta")
+    assert "Weekly awards: 6" in beta  # 4 in 2020, 2 in 2021
+
+
+def test_home_links_seasons_and_shows_the_season_in_progress(built):
+    out, _, _ = built
+    html = read(out, "")
+    assert 'href="/hof/seasons/2020/">2020</a>' in html
+    assert "<b>2021</b> · through Week 1 ·" in html and 'href="/hof/seasons/2021/"' in html
+    assert '<td class="l key"><a href="/hof/franchises/alpha-prime/">Alpha</a></td>' in html
+
+
+def test_current_season_ends_when_the_final_is_decided():
+    league = four_team_league()
+    assert current_season(compute(league.seasons, CONFIG.hall)).year == 2021  # one game played, no final
+    decided = replace(league.season(2020), complete=False)  # final played, February not yet reached
+    assert current_season(compute([decided], CONFIG.hall)) is None
+
+
+def test_priority_and_key_classes_are_on_every_wide_table(built):
+    out, _, _ = built
+    assert '<th class="l key">Player</th><th>Pos</th><th class="p3">Years</th>' in read(out, "players")
+    assert '<th class="rank">#</th><th class="l key">Holder</th><th>Mark</th><th class="l p2">Detail</th>' in read(out, "records")
+    assert '<th class="key">Year</th><th class="l">Franchise</th><th>GS</th><th>Pts</th><th>VOR</th><th class="p2">Bench</th>' in read(out, "players/qb-a1-a1")
+    assert '<th class="l key">Franchise</th><th>Record</th><th class="p2">Pct</th>' in read(out, "franchises")
+    assert '<th class="l key">Player</th><th>Pos</th><th class="p3">GS</th>' in read(out, "hall-of-fame")
+    css = (out / "static" / "site.css").read_text()
+    assert "@media (max-width: 720px) { .p3 { display: none; } }" in css
+    assert "@media (max-width: 480px) { .p2 { display: none; } }" in css
+    assert "position: sticky" in css and "background-attachment: local" in css
+    assert 'span[data-label]::before { content: attr(data-label) " "; }' in css
+
+
+def test_season_without_games_renders_empty_states(tmp_path):
+    players = {f"a{i}": (f"QB A{i}", "QB") for i in range(1, 5)}
+    empty = build_season(2022, players, {}, last_regular_season_week=2, complete=False)
+    model = compute([*four_team_league().seasons, empty], CONFIG.hall)
+    build_site(model, CONFIG, tmp_path)
+    page = (tmp_path / "seasons" / "2022" / "index.html").read_text()
+    assert "No games yet" in page and "Power rankings" not in page and "Awards tally" not in page
+    assert "No games yet" in (tmp_path / "seasons" / "index.html").read_text()
+    assert "Standings, power rankings, and awards" not in (tmp_path / "index.html").read_text()  # no in-progress line
