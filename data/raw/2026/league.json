@@ -43,7 +43,7 @@
      "id": "0001",
      "logo": "http://www.cafcc.org/LOGO[1].jpg",
      "name": "The Youth Academy",
-     "waiverSortOrder": "11"
+     "waiverSortOrder": "10"
     },
     {
      "bbidAvailableBalance": "1381.00",
@@ -55,11 +55,11 @@
      "waiverSortOrder": "4"
     },
     {
-     "bbidAvailableBalance": "672.00",
+     "bbidAvailableBalance": "666.00",
      "division": "00",
      "id": "0003",
      "name": "Jeff Janis Fan Club",
-     "waiverSortOrder": "3"
+     "waiverSortOrder": "2"
     },
     {
      "bbidAvailableBalance": "384.00",
@@ -86,7 +86,7 @@
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2016/79873_franchise_icon0006.jpg",
      "id": "0006",
      "name": "Do Your Job",
-     "waiverSortOrder": "7"
+     "waiverSortOrder": "11"
     },
     {
      "bbidAvailableBalance": "299.00",
@@ -94,7 +94,7 @@
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2026/65522_franchise_icon0007.jpg",
      "id": "0007",
      "name": "you know why i'm here",
-     "waiverSortOrder": "10"
+     "waiverSortOrder": "7"
     },
     {
      "abbrev": "FTK",
@@ -106,14 +106,14 @@
      "name": "Fuck the King",
      "sound": "https://www45.myfantasyleague.com/fflnetdynamic2019/65522_franchise_sound0008.mp3",
      "stadium": "Root's third asshole",
-     "waiverSortOrder": "5"
+     "waiverSortOrder": "3"
     },
     {
      "bbidAvailableBalance": "728.00",
      "division": "02",
      "id": "0009",
      "name": "Suck My Ditka",
-     "waiverSortOrder": "2"
+     "waiverSortOrder": "6"
     },
     {
      "bbidAvailableBalance": "853.00",
@@ -127,7 +127,7 @@
     },
     {
      "abbrev": "SSA",
-     "bbidAvailableBalance": "489.00",
+     "bbidAvailableBalance": "488.00",
      "division": "02",
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_icon0011.png",
      "id": "0011",
@@ -143,7 +143,7 @@
      "id": "0012",
      "name": "Rodger Goodella",
      "sound": "https://youtu.be/R2zC3dKQ42Y",
-     "waiverSortOrder": "6"
+     "waiverSortOrder": "5"
     }
    ]
   },

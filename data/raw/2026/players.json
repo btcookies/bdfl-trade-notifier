@@ -827,7 +827,7 @@
     "id": "15713",
     "name": "Ford, Jerome",
     "position": "RB",
-    "team": "FA"
+    "team": "MIN"
    },
    {
     "id": "15715",
@@ -863,7 +863,7 @@
     "id": "15730",
     "name": "Goodson, Tyler",
     "position": "RB",
-    "team": "ATL"
+    "team": "DAL"
    },
    {
     "id": "15733",
@@ -1829,7 +1829,7 @@
     "id": "16975",
     "name": "Oliver, Bryce",
     "position": "WR",
-    "team": "CLE"
+    "team": "HOU"
    },
    {
     "id": "17030",
@@ -2009,7 +2009,7 @@
     "id": "17063",
     "name": "Mafah, Phil",
     "position": "RB",
-    "team": "FA"
+    "team": "NYG"
    },
    {
     "id": "17064",
@@ -2243,7 +2243,7 @@
     "id": "17234",
     "name": "Horn, Jimmy",
     "position": "WR",
-    "team": "CAR"
+    "team": "CLE"
    },
    {
     "id": "17254",
