@@ -9,13 +9,13 @@
       "id": "0004",
       "isHome": "0",
       "result": "T",
-      "spread": "-36.1"
+      "spread": "-56.9"
      },
      {
       "id": "0003",
       "isHome": "1",
       "result": "T",
-      "spread": "36.1"
+      "spread": "56.9"
      }
     ],
     "regularSeason": "1"
@@ -26,13 +26,13 @@
       "id": "0012",
       "isHome": "0",
       "result": "T",
-      "spread": "24"
+      "spread": "28.8"
      },
      {
       "id": "0001",
       "isHome": "1",
       "result": "T",
-      "spread": "-24"
+      "spread": "-28.8"
      }
     ],
     "regularSeason": "1"
@@ -43,13 +43,137 @@
       "id": "0010",
       "isHome": "0",
       "result": "T",
-      "spread": "-73.3"
+      "spread": "-63.5"
      },
      {
       "id": "0002",
       "isHome": "1",
+      "nonstarters": "14778,16610,16189,16584,16684,16809,15788,17075,17106,17080,17055,17079,16204,17462,17506,17520,17481,17508,17519,17529,17706,17627,",
+      "player": [
+       {
+        "id": "14782",
+        "status": "starter"
+       },
+       {
+        "id": "16164",
+        "status": "starter"
+       },
+       {
+        "id": "17042",
+        "status": "starter"
+       },
+       {
+        "id": "15293",
+        "status": "starter"
+       },
+       {
+        "id": "15779",
+        "status": "starter"
+       },
+       {
+        "id": "16342",
+        "status": "starter"
+       },
+       {
+        "id": "17081",
+        "status": "starter"
+       },
+       {
+        "id": "17108",
+        "status": "starter"
+       },
+       {
+        "id": "14778",
+        "status": "nonstarter"
+       },
+       {
+        "id": "16610",
+        "status": "nonstarter"
+       },
+       {
+        "id": "16189",
+        "status": "nonstarter"
+       },
+       {
+        "id": "16584",
+        "status": "nonstarter"
+       },
+       {
+        "id": "16684",
+        "status": "nonstarter"
+       },
+       {
+        "id": "16809",
+        "status": "nonstarter"
+       },
+       {
+        "id": "15788",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17075",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17106",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17080",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17055",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17079",
+        "status": "nonstarter"
+       },
+       {
+        "id": "16204",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17462",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17506",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17520",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17481",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17508",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17519",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17529",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17706",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17627",
+        "status": "nonstarter"
+       }
+      ],
       "result": "T",
-      "spread": "73.3"
+      "spread": "63.5",
+      "starters": "14782,16164,17042,15293,15779,16342,17081,17108,"
      }
     ],
     "regularSeason": "1"
@@ -60,13 +184,13 @@
       "id": "0011",
       "isHome": "0",
       "result": "T",
-      "spread": "73.9"
+      "spread": "61.3"
      },
      {
       "id": "0006",
       "isHome": "1",
       "result": "T",
-      "spread": "-73.9"
+      "spread": "-61.3"
      }
     ],
     "regularSeason": "1"
@@ -77,13 +201,13 @@
       "id": "0009",
       "isHome": "0",
       "result": "T",
-      "spread": "11"
+      "spread": "12"
      },
      {
       "id": "0008",
       "isHome": "1",
       "result": "T",
-      "spread": "-11"
+      "spread": "-12"
      }
     ],
     "regularSeason": "1"
@@ -94,13 +218,13 @@
       "id": "0005",
       "isHome": "0",
       "result": "T",
-      "spread": "12.8"
+      "spread": "2.1"
      },
      {
       "id": "0007",
       "isHome": "1",
       "result": "T",
-      "spread": "-12.8"
+      "spread": "-2.1"
      }
     ],
     "regularSeason": "1"

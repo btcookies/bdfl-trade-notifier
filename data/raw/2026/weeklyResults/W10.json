@@ -9,13 +9,13 @@
       "id": "0009",
       "isHome": "0",
       "result": "T",
-      "spread": "4.1"
+      "spread": "-10.9"
      },
      {
       "id": "0003",
       "isHome": "1",
       "result": "T",
-      "spread": "-4.1"
+      "spread": "10.9"
      }
     ],
     "regularSeason": "1"
@@ -26,13 +26,13 @@
       "id": "0006",
       "isHome": "0",
       "result": "T",
-      "spread": "-0.3"
+      "spread": "5.8"
      },
      {
       "id": "0001",
       "isHome": "1",
       "result": "T",
-      "spread": "0.3"
+      "spread": "-5.8"
      }
     ],
     "regularSeason": "1"
@@ -43,13 +43,13 @@
       "id": "0007",
       "isHome": "0",
       "result": "T",
-      "spread": "-53.5"
+      "spread": "-41.4"
      },
      {
       "id": "0008",
       "isHome": "1",
       "result": "T",
-      "spread": "53.5"
+      "spread": "41.4"
      }
     ],
     "regularSeason": "1"
@@ -60,13 +60,13 @@
       "id": "0002",
       "isHome": "0",
       "result": "T",
-      "spread": "30.9"
+      "spread": "32.5"
      },
      {
       "id": "0012",
       "isHome": "1",
       "result": "T",
-      "spread": "-30.9"
+      "spread": "-32.5"
      }
     ],
     "regularSeason": "1"
@@ -77,13 +77,13 @@
       "id": "0010",
       "isHome": "0",
       "result": "T",
-      "spread": "-44.4"
+      "spread": "-25.2"
      },
      {
       "id": "0004",
       "isHome": "1",
       "result": "T",
-      "spread": "44.4"
+      "spread": "25.2"
      }
     ],
     "regularSeason": "1"
@@ -94,13 +94,13 @@
       "id": "0005",
       "isHome": "0",
       "result": "T",
-      "spread": "-59.1"
+      "spread": "-63.8"
      },
      {
       "id": "0011",
       "isHome": "1",
       "result": "T",
-      "spread": "59.1"
+      "spread": "63.8"
      }
     ],
     "regularSeason": "1"

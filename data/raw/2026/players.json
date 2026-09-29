@@ -41,7 +41,7 @@
     "id": "11247",
     "name": "Ertz, Zach",
     "position": "TE",
-    "team": "FA"
+    "team": "PHI"
    },
    {
     "id": "11671",
@@ -53,7 +53,7 @@
     "id": "11674",
     "name": "Cooks, Brandin",
     "position": "WR",
-    "team": "FA"
+    "team": "SFO"
    },
    {
     "id": "11675",
@@ -455,7 +455,7 @@
     "id": "14122",
     "name": "Slayton, Darius",
     "position": "WR",
-    "team": "FA"
+    "team": "IND"
    },
    {
     "id": "14127",
@@ -599,7 +599,7 @@
     "id": "14849",
     "name": "Hodgins, Isaiah",
     "position": "WR",
-    "team": "FA"
+    "team": "PIT"
    },
    {
     "id": "14860",
@@ -1097,7 +1097,7 @@
     "id": "16149",
     "name": "Levis, Will",
     "position": "QB",
-    "team": "FA"
+    "team": "NYJ"
    },
    {
     "id": "16150",
@@ -2646,6 +2646,13 @@
     "team": "ARI"
    },
    {
+    "id": "17527",
+    "name": "Cameron, Josh",
+    "position": "WR",
+    "status": "R",
+    "team": "JAC"
+   },
+   {
     "id": "17528",
     "name": "Coleman, Kevin",
     "position": "WR",
@@ -2658,6 +2665,13 @@
     "position": "WR",
     "status": "R",
     "team": "LAC"
+   },
+   {
+    "id": "17530",
+    "name": "Bond, Lewis",
+    "position": "WR",
+    "status": "R",
+    "team": "HOU"
    },
    {
     "id": "17541",
