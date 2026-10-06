@@ -65,7 +65,7 @@
     "id": "11679",
     "name": "Beckham, Odell",
     "position": "WR",
-    "team": "NYG"
+    "team": "FA"
    },
    {
     "id": "12141",
@@ -144,6 +144,12 @@
     "name": "Hill, Tyreek",
     "position": "WR",
     "team": "FA"
+   },
+   {
+    "id": "13066",
+    "name": "Raymond, Kalif",
+    "position": "WR",
+    "team": "CHI"
    },
    {
     "id": "13113",
@@ -257,7 +263,7 @@
     "id": "13404",
     "name": "Ekeler, Austin",
     "position": "RB",
-    "team": "FA"
+    "team": "WAS"
    },
    {
     "id": "13424",
@@ -359,7 +365,7 @@
     "id": "13963",
     "name": "Hodge, KhaDarel",
     "position": "WR",
-    "team": "SFO"
+    "team": "FA"
    },
    {
     "id": "14056",
@@ -1451,7 +1457,7 @@
     "id": "16584",
     "name": "McCarthy, J.J.",
     "position": "QB",
-    "team": "MIN"
+    "team": "NYG"
    },
    {
     "id": "16586",
@@ -1907,7 +1913,7 @@
     "id": "17046",
     "name": "Neal, Devin",
     "position": "RB",
-    "team": "FA"
+    "team": "MIN"
    },
    {
     "id": "17047",
@@ -1983,7 +1989,7 @@
    },
    {
     "id": "17059",
-    "name": "Gordon, Ollie",
+    "name": "Gordon II, Ollie",
     "position": "RB",
     "team": "MIA"
    },
@@ -2411,13 +2417,6 @@
     "team": "WAS"
    },
    {
-    "id": "17479",
-    "name": "Moss, Le'Veon",
-    "position": "RB",
-    "status": "R",
-    "team": "MIA"
-   },
-   {
     "id": "7836",
     "name": "Rodgers, Aaron",
     "position": "QB",
@@ -2434,6 +2433,13 @@
     "name": "Stafford, Matthew",
     "position": "QB",
     "team": "LAR"
+   },
+   {
+    "id": "17479",
+    "name": "Moss, Le'Veon",
+    "position": "RB",
+    "status": "R",
+    "team": "MIA"
    },
    {
     "id": "17481",
@@ -2847,6 +2853,13 @@
     "position": "WR",
     "status": "R",
     "team": "LVR"
+   },
+   {
+    "id": "17707",
+    "name": "Sturdivant, J Michael",
+    "position": "WR",
+    "status": "R",
+    "team": "GBP"
    },
    {
     "id": "17709",
