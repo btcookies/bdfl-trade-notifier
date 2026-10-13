@@ -37,7 +37,7 @@
    "count": "12",
    "franchise": [
     {
-     "bbidAvailableBalance": "871.00",
+     "bbidAvailableBalance": "867.00",
      "division": "00",
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2019/65522_franchise_icon0001.png",
      "id": "0001",
@@ -55,11 +55,11 @@
      "waiverSortOrder": "1"
     },
     {
-     "bbidAvailableBalance": "605.00",
+     "bbidAvailableBalance": "602.00",
      "division": "00",
      "id": "0003",
      "name": "Jeff Janis Fan Club",
-     "waiverSortOrder": "3"
+     "waiverSortOrder": "5"
     },
     {
      "bbidAvailableBalance": "409.00",
@@ -67,11 +67,11 @@
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2021/65522_franchise_icon0004.jpg",
      "id": "0004",
      "name": "WhatDaTruck",
-     "waiverSortOrder": "7"
+     "waiverSortOrder": "11"
     },
     {
      "abbrev": "FH",
-     "bbidAvailableBalance": "291.00",
+     "bbidAvailableBalance": "234.00",
      "division": "00",
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_icon0005.jpg",
      "id": "0005",
@@ -81,20 +81,20 @@
     },
     {
      "abbrev": "DYJ",
-     "bbidAvailableBalance": "954.00",
+     "bbidAvailableBalance": "897.00",
      "division": "01",
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2016/79873_franchise_icon0006.jpg",
      "id": "0006",
      "name": "Do Your Job",
-     "waiverSortOrder": "8"
+     "waiverSortOrder": "10"
     },
     {
-     "bbidAvailableBalance": "289.00",
+     "bbidAvailableBalance": "284.00",
      "division": "02",
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2026/65522_franchise_icon0007.jpg",
      "id": "0007",
      "name": "you know why i'm here",
-     "waiverSortOrder": "10"
+     "waiverSortOrder": "7"
     },
     {
      "abbrev": "FTK",
@@ -106,10 +106,10 @@
      "name": "Fuck the King",
      "sound": "https://www45.myfantasyleague.com/fflnetdynamic2019/65522_franchise_sound0008.mp3",
      "stadium": "Root's third asshole",
-     "waiverSortOrder": "5"
+     "waiverSortOrder": "4"
     },
     {
-     "bbidAvailableBalance": "728.00",
+     "bbidAvailableBalance": "722.00",
      "division": "02",
      "id": "0009",
      "name": "Suck My Ditka",
@@ -123,7 +123,7 @@
      "name": "Marcus Peters' Peter Peckers",
      "sound": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_sound0010.mp3",
      "stadium": "The Bone Dome",
-     "waiverSortOrder": "11"
+     "waiverSortOrder": "8"
     },
     {
      "abbrev": "SSA",
@@ -134,7 +134,7 @@
      "logo": "https://www45.myfantasyleague.com/fflnetdynamic2026/65522_franchise_logo0011.jpg",
      "name": "Second Stringers Anonymous",
      "stadium": "Ligma Capital LLC Headquarters",
-     "waiverSortOrder": "4"
+     "waiverSortOrder": "3"
     },
     {
      "bbidAvailableBalance": "680.00",

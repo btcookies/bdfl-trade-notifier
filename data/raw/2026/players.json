@@ -65,7 +65,13 @@
     "id": "11679",
     "name": "Beckham, Odell",
     "position": "WR",
-    "team": "FA"
+    "team": "MIN"
+   },
+   {
+    "id": "12140",
+    "name": "Winston, Jameis",
+    "position": "QB",
+    "team": "NYG"
    },
    {
     "id": "12141",
@@ -264,6 +270,12 @@
     "name": "Ekeler, Austin",
     "position": "RB",
     "team": "WAS"
+   },
+   {
+    "id": "13418",
+    "name": "Bourne, Kendrick",
+    "position": "WR",
+    "team": "ARI"
    },
    {
     "id": "13424",
@@ -1388,10 +1400,16 @@
     "team": "NEP"
    },
    {
+    "id": "16384",
+    "name": "Bagent, Tyson",
+    "position": "QB",
+    "team": "CHI"
+   },
+   {
     "id": "16385",
     "name": "Demercado, Emari",
     "position": "RB",
-    "team": "DAL"
+    "team": "FA"
    },
    {
     "id": "16387",
@@ -1547,7 +1565,7 @@
     "id": "16614",
     "name": "Harrison Jr., Marvin",
     "position": "WR",
-    "team": "ARI"
+    "team": "HOU"
    },
    {
     "id": "16615",
@@ -1601,7 +1619,7 @@
     "id": "16624",
     "name": "Thrash, Jamari",
     "position": "WR",
-    "team": "FA"
+    "team": "LVR"
    },
    {
     "id": "16625",
@@ -1835,7 +1853,7 @@
     "id": "16975",
     "name": "Oliver, Bryce",
     "position": "WR",
-    "team": "HOU"
+    "team": "FA"
    },
    {
     "id": "17030",
@@ -2396,6 +2414,24 @@
     "team": "IND"
    },
    {
+    "id": "7836",
+    "name": "Rodgers, Aaron",
+    "position": "QB",
+    "team": "PIT"
+   },
+   {
+    "id": "9064",
+    "name": "Flacco, Joe",
+    "position": "QB",
+    "team": "CIN"
+   },
+   {
+    "id": "9431",
+    "name": "Stafford, Matthew",
+    "position": "QB",
+    "team": "LAR"
+   },
+   {
     "id": "17476",
     "name": "Singleton, Nicholas",
     "position": "RB",
@@ -2414,25 +2450,7 @@
     "name": "Allen, Kaytron",
     "position": "RB",
     "status": "R",
-    "team": "WAS"
-   },
-   {
-    "id": "7836",
-    "name": "Rodgers, Aaron",
-    "position": "QB",
-    "team": "PIT"
-   },
-   {
-    "id": "9064",
-    "name": "Flacco, Joe",
-    "position": "QB",
-    "team": "CIN"
-   },
-   {
-    "id": "9431",
-    "name": "Stafford, Matthew",
-    "position": "QB",
-    "team": "LAR"
+    "team": "MIA"
    },
    {
     "id": "17479",
@@ -2467,7 +2485,7 @@
     "name": "Miller, Jam",
     "position": "RB",
     "status": "R",
-    "team": "FA"
+    "team": "ATL"
    },
    {
     "id": "17487",
@@ -2866,7 +2884,7 @@
     "name": "Henry, Robert",
     "position": "RB",
     "status": "R",
-    "team": "WAS"
+    "team": "SEA"
    },
    {
     "id": "17752",
