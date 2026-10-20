@@ -473,7 +473,7 @@
     "id": "14122",
     "name": "Slayton, Darius",
     "position": "WR",
-    "team": "IND"
+    "team": "FA"
    },
    {
     "id": "14127",
@@ -818,6 +818,12 @@
     "team": "SFO"
    },
    {
+    "id": "15702",
+    "name": "McKee, Tanner",
+    "position": "QB",
+    "team": "PHI"
+   },
+   {
     "id": "15708",
     "name": "Hall, Breece",
     "position": "RB",
@@ -845,7 +851,7 @@
     "id": "15713",
     "name": "Ford, Jerome",
     "position": "RB",
-    "team": "MIN"
+    "team": "ARI"
    },
    {
     "id": "15715",
@@ -1409,7 +1415,7 @@
     "id": "16385",
     "name": "Demercado, Emari",
     "position": "RB",
-    "team": "FA"
+    "team": "DAL"
    },
    {
     "id": "16387",
@@ -1853,7 +1859,7 @@
     "id": "16975",
     "name": "Oliver, Bryce",
     "position": "WR",
-    "team": "FA"
+    "team": "HOU"
    },
    {
     "id": "17030",
@@ -1931,7 +1937,7 @@
     "id": "17046",
     "name": "Neal, Devin",
     "position": "RB",
-    "team": "MIN"
+    "team": "WAS"
    },
    {
     "id": "17047",
@@ -2039,7 +2045,7 @@
     "id": "17064",
     "name": "Hunter, Jarquez",
     "position": "RB",
-    "team": "MIA"
+    "team": "NOS"
    },
    {
     "id": "17066",
@@ -2407,13 +2413,6 @@
     "team": "KCC"
    },
    {
-    "id": "17475",
-    "name": "McGowan, Seth",
-    "position": "RB",
-    "status": "R",
-    "team": "IND"
-   },
-   {
     "id": "7836",
     "name": "Rodgers, Aaron",
     "position": "QB",
@@ -2430,6 +2429,13 @@
     "name": "Stafford, Matthew",
     "position": "QB",
     "team": "LAR"
+   },
+   {
+    "id": "17475",
+    "name": "McGowan, Seth",
+    "position": "RB",
+    "status": "R",
+    "team": "IND"
    },
    {
     "id": "17476",
