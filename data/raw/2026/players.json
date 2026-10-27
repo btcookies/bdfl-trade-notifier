@@ -548,6 +548,12 @@
     "team": "PHI"
    },
    {
+    "id": "14789",
+    "name": "Huntley, Tyler",
+    "position": "QB",
+    "team": "BAL"
+   },
+   {
     "id": "14797",
     "name": "Swift, D'Andre",
     "position": "RB",
@@ -683,7 +689,7 @@
     "id": "15254",
     "name": "Harris, Najee",
     "position": "RB",
-    "team": "NYG"
+    "team": "FA"
    },
    {
     "id": "15255",
@@ -1500,6 +1506,12 @@
     "name": "Benson, Trey",
     "position": "RB",
     "team": "ARI"
+   },
+   {
+    "id": "16595",
+    "name": "Estime, Audric",
+    "position": "RB",
+    "team": "CLE"
    },
    {
     "id": "16596",
@@ -2399,20 +2411,6 @@
     "team": "ARI"
    },
    {
-    "id": "17473",
-    "name": "Price, Jadarian",
-    "position": "RB",
-    "status": "R",
-    "team": "SEA"
-   },
-   {
-    "id": "17474",
-    "name": "Johnson, Emmett",
-    "position": "RB",
-    "status": "R",
-    "team": "KCC"
-   },
-   {
     "id": "7836",
     "name": "Rodgers, Aaron",
     "position": "QB",
@@ -2429,6 +2427,20 @@
     "name": "Stafford, Matthew",
     "position": "QB",
     "team": "LAR"
+   },
+   {
+    "id": "17473",
+    "name": "Price, Jadarian",
+    "position": "RB",
+    "status": "R",
+    "team": "SEA"
+   },
+   {
+    "id": "17474",
+    "name": "Johnson, Emmett",
+    "position": "RB",
+    "status": "R",
+    "team": "KCC"
    },
    {
     "id": "17475",

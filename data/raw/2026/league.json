@@ -37,13 +37,13 @@
    "count": "12",
    "franchise": [
     {
-     "bbidAvailableBalance": "867.00",
+     "bbidAvailableBalance": "866.00",
      "division": "00",
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2019/65522_franchise_icon0001.png",
      "id": "0001",
      "logo": "http://www.cafcc.org/LOGO[1].jpg",
      "name": "The Youth Academy",
-     "waiverSortOrder": "10"
+     "waiverSortOrder": "12"
     },
     {
      "bbidAvailableBalance": "1381.00",
@@ -55,11 +55,11 @@
      "waiverSortOrder": "1"
     },
     {
-     "bbidAvailableBalance": "602.00",
+     "bbidAvailableBalance": "595.00",
      "division": "00",
      "id": "0003",
      "name": "Jeff Janis Fan Club",
-     "waiverSortOrder": "5"
+     "waiverSortOrder": "7"
     },
     {
      "bbidAvailableBalance": "409.00",
@@ -67,7 +67,7 @@
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2021/65522_franchise_icon0004.jpg",
      "id": "0004",
      "name": "WhatDaTruck",
-     "waiverSortOrder": "8"
+     "waiverSortOrder": "9"
     },
     {
      "abbrev": "FH",
@@ -77,11 +77,11 @@
      "id": "0005",
      "logo": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_logo0005.jpg",
      "name": "Free Hernandez Bad Boyz ",
-     "waiverSortOrder": "12"
+     "waiverSortOrder": "10"
     },
     {
      "abbrev": "DYJ",
-     "bbidAvailableBalance": "880.00",
+     "bbidAvailableBalance": "864.00",
      "division": "01",
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2016/79873_franchise_icon0006.jpg",
      "id": "0006",
@@ -89,16 +89,16 @@
      "waiverSortOrder": "11"
     },
     {
-     "bbidAvailableBalance": "260.00",
+     "bbidAvailableBalance": "205.00",
      "division": "02",
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2026/65522_franchise_icon0007.jpg",
      "id": "0007",
      "name": "you know why i'm here",
-     "waiverSortOrder": "7"
+     "waiverSortOrder": "6"
     },
     {
      "abbrev": "FTK",
-     "bbidAvailableBalance": "650.00",
+     "bbidAvailableBalance": "698.00",
      "division": "01",
      "icon": "https://s-media-cache-ak0.pinimg.com/564x/24/a7/06/24a706e363581b918793bbe23ab21335.jpg",
      "id": "0008",
@@ -106,28 +106,28 @@
      "name": "Fuck the King",
      "sound": "https://www45.myfantasyleague.com/fflnetdynamic2019/65522_franchise_sound0008.mp3",
      "stadium": "Root's third asshole",
-     "waiverSortOrder": "4"
+     "waiverSortOrder": "3"
     },
     {
      "bbidAvailableBalance": "722.00",
      "division": "02",
      "id": "0009",
      "name": "Suck My Ditka",
-     "waiverSortOrder": "6"
+     "waiverSortOrder": "5"
     },
     {
-     "bbidAvailableBalance": "844.00",
+     "bbidAvailableBalance": "793.00",
      "division": "02",
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_icon0010.jpg",
      "id": "0010",
      "name": "Marcus Peters' Peter Peckers",
      "sound": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_sound0010.mp3",
      "stadium": "The Bone Dome",
-     "waiverSortOrder": "9"
+     "waiverSortOrder": "8"
     },
     {
      "abbrev": "SSA",
-     "bbidAvailableBalance": "486.00",
+     "bbidAvailableBalance": "485.00",
      "division": "02",
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2026/65522_franchise_icon0011.jpg",
      "id": "0011",
@@ -143,7 +143,7 @@
      "id": "0012",
      "name": "Rodger Goodella",
      "sound": "https://youtu.be/R2zC3dKQ42Y",
-     "waiverSortOrder": "3"
+     "waiverSortOrder": "4"
     }
    ]
   },
