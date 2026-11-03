@@ -1421,7 +1421,7 @@
     "id": "16385",
     "name": "Demercado, Emari",
     "position": "RB",
-    "team": "DAL"
+    "team": "HOU"
    },
    {
     "id": "16387",
@@ -1754,6 +1754,12 @@
     "team": "CIN"
    },
    {
+    "id": "16647",
+    "name": "Spann-Ford, Brevyn",
+    "position": "TE",
+    "team": "DAL"
+   },
+   {
     "id": "16648",
     "name": "Wiley, Jared",
     "position": "TE",
@@ -1794,6 +1800,12 @@
     "name": "Barner, AJ",
     "position": "TE",
     "team": "SEA"
+   },
+   {
+    "id": "16746",
+    "name": "Ali, Rasheen",
+    "position": "RB",
+    "team": "BAL"
    },
    {
     "id": "16747",
@@ -2397,20 +2409,6 @@
     "team": "TBB"
    },
    {
-    "id": "17470",
-    "name": "Altmyer, Luke",
-    "position": "QB",
-    "status": "R",
-    "team": "DET"
-   },
-   {
-    "id": "17472",
-    "name": "Love, Jeremiyah",
-    "position": "RB",
-    "status": "R",
-    "team": "ARI"
-   },
-   {
     "id": "7836",
     "name": "Rodgers, Aaron",
     "position": "QB",
@@ -2427,6 +2425,20 @@
     "name": "Stafford, Matthew",
     "position": "QB",
     "team": "LAR"
+   },
+   {
+    "id": "17470",
+    "name": "Altmyer, Luke",
+    "position": "QB",
+    "status": "R",
+    "team": "DET"
+   },
+   {
+    "id": "17472",
+    "name": "Love, Jeremiyah",
+    "position": "RB",
+    "status": "R",
+    "team": "ARI"
    },
    {
     "id": "17473",
@@ -2476,6 +2488,13 @@
     "position": "RB",
     "status": "R",
     "team": "MIA"
+   },
+   {
+    "id": "17480",
+    "name": "Ott, Jaydn",
+    "position": "RB",
+    "status": "R",
+    "team": "KCC"
    },
    {
     "id": "17481",
@@ -2909,6 +2928,13 @@
     "name": "Meyers, Dohnte",
     "position": "WR",
     "team": "CIN"
+   },
+   {
+    "id": "17791",
+    "name": "Tyus, Anthony",
+    "position": "RB",
+    "status": "R",
+    "team": "CAR"
    }
   ]
  }
