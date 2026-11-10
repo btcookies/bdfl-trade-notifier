@@ -8,262 +8,369 @@
      {
       "id": "0004",
       "isHome": "0",
-      "nonstarters": "13189,15889,15742,16212,16747,16178,11150,17068,17134,17060,17053,17171,17076,16627,12616,14059,17541,17644,17468,17671,17545,16678,",
+      "nonstarters": "13189,15762,15889,15742,16212,16747,16178,11150,17068,17134,17060,17171,17076,16627,12616,14056,14059,17541,17468,17671,17545,16678,",
+      "opt_pts": "132",
+      "optimal": "14782,15789,16641,16162,16192,17053,15889,14836,",
       "player": [
        {
-        "id": "14056",
+        "id": "14782",
+        "score": "36.2",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "16162",
+        "score": "13.4",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "17059",
+        "score": "6.9",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "17053",
+        "score": "7.9",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "14836",
-        "status": "starter"
-       },
-       {
-        "id": "15762",
+        "score": "7.3",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "16192",
+        "score": "13.1",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "15789",
+        "score": "26.6",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "16641",
+        "score": "18.8",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "13189",
+        "score": "5.3",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "15762",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15889",
+        "score": "8.7",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "15742",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16212",
+        "score": "3.2",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16747",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16178",
+        "score": "6.2",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "11150",
+        "score": "7.4",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17068",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17134",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17060",
-        "status": "nonstarter"
-       },
-       {
-        "id": "17053",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17171",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17076",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16627",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "12616",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "14056",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14059",
+        "score": "10.3",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17541",
-        "status": "nonstarter"
-       },
-       {
-        "id": "17644",
+        "score": "3.7",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17468",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17671",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17545",
+        "score": "0.9",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16678",
+        "score": "3.1",
+        "shouldStart": "0",
         "status": "nonstarter"
        }
       ],
-      "result": "T",
-      "spread": "-37.9",
-      "starters": "14056,16162,17059,14836,15762,16192,15789,16641,"
+      "result": "W",
+      "score": "130.2",
+      "starters": "14782,16162,17059,17053,14836,16192,15789,16641,"
      },
      {
       "id": "0003",
       "isHome": "1",
-      "nonstarters": "16195,17078,17082,15240,16451,16604,16778,17063,17043,16148,17074,17064,17475,14840,17510,17031,17353,17469,15717,17498,12678,16647,",
+      "nonstarters": "16195,17078,17082,15240,16604,17063,17043,16148,17074,17064,17501,17475,14840,17510,17031,17353,17498,12678,16647,15263,17069,16585,",
+      "opt_pts": "106.7",
+      "optimal": "17031,17477,17501,17082,17475,17104,17473,17052,",
       "player": [
        {
         "id": "16580",
+        "score": "18.3",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "17477",
+        "score": "16.8",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "17042",
+        "score": "4.5",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "17473",
+        "score": "9.8",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "17052",
+        "score": "8.9",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
-        "id": "17501",
+        "id": "16778",
+        "score": "6.3",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "16190",
+        "score": "3.8",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "17104",
+        "score": "7.4",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "16195",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17078",
+        "score": "1.4",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17082",
+        "score": "13.6",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "15240",
-        "status": "nonstarter"
-       },
-       {
-        "id": "16451",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16604",
-        "status": "nonstarter"
-       },
-       {
-        "id": "16778",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17063",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17043",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16148",
+        "score": "20.3",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17074",
+        "score": "-1.6",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17064",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17501",
+        "score": "16.8",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "17475",
+        "score": "10.7",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "14840",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17510",
+        "score": "0.5",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17031",
+        "score": "22.7",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "17353",
-        "status": "nonstarter"
-       },
-       {
-        "id": "17469",
-        "status": "nonstarter"
-       },
-       {
-        "id": "15717",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17498",
+        "score": "3.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "12678",
+        "score": "1.8",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16647",
+        "score": "3.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "15263",
+        "score": "4.1",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17069",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "16585",
+        "score": "13.2",
+        "shouldStart": "0",
         "status": "nonstarter"
        }
       ],
-      "result": "T",
-      "spread": "37.9",
-      "starters": "16580,17477,17042,17473,17052,17501,16190,17104,"
+      "result": "L",
+      "score": "75.8",
+      "starters": "16580,17477,17042,17473,17052,16778,16190,17104,"
      }
     ],
     "regularSeason": "1"
@@ -274,261 +381,364 @@
       "id": "0012",
       "isHome": "0",
       "nonstarters": "14136,15254,15241,13133,14104,14127,16390,16333,12677,16635,17107,17157,17039,9064,17109,17333,15734,12801,16644,17485,17685,16850,",
+      "opt_pts": "76.7",
+      "optimal": "17039,15259,17499,14127,17485,15329,16620,16287,",
       "player": [
        {
         "id": "13589",
+        "score": "12.9",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "15259",
+        "score": "13.3",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "14802",
+        "score": "6.9",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "17072",
+        "score": "2.1",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "17499",
+        "score": "9.1",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "16287",
+        "score": "7.5",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "16620",
+        "score": "7.8",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "15329",
+        "score": "3.8",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "14136",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15254",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15241",
+        "score": "-0.3",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "13133",
+        "score": "4.3",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14104",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14127",
+        "score": "8.5",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "16390",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16333",
+        "score": "2.1",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "12677",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16635",
+        "score": "1.1",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17107",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17157",
+        "score": "1.4",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17039",
+        "score": "19.7",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "9064",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17109",
+        "score": "3.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17333",
+        "score": "3.5",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15734",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "12801",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16644",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17485",
+        "score": "7.0",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "17685",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16850",
+        "shouldStart": "0",
         "status": "nonstarter"
        }
       ],
-      "result": "T",
-      "spread": "13.8",
+      "result": "L",
+      "score": "63.4",
       "starters": "13589,15259,14802,17072,17499,16287,16620,15329,"
      },
      {
       "id": "0001",
       "isHome": "1",
-      "nonstarters": "16166,14823,14122,15786,16613,14779,16387,13130,14783,17103,15331,17066,11244,11671,14800,16583,17497,17500,17511,16384,13418,15727,",
+      "nonstarters": "13604,16166,14823,14122,15786,16613,14779,16387,14783,17103,15331,17066,11244,11671,14800,16583,17497,17500,17511,16384,13418,15727,",
+      "opt_pts": "128.4",
+      "optimal": "14832,13130,17070,11244,16583,13604,17500,17103,",
       "player": [
        {
         "id": "10700",
-        "status": "starter"
-       },
-       {
-        "id": "13604",
+        "score": "12.6",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "12626",
+        "score": "5.6",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "17051",
+        "score": "5.0",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "13130",
+        "score": "21.7",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "15721",
+        "score": "5.9",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "17070",
+        "score": "17.2",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "14832",
+        "score": "28.5",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "15794",
+        "score": "8.9",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
+        "id": "13604",
+        "score": "8.2",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
         "id": "16166",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14823",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14122",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15786",
+        "score": "1.9",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16613",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14779",
+        "score": "10.4",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16387",
-        "status": "nonstarter"
-       },
-       {
-        "id": "13130",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14783",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17103",
+        "score": "11.2",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "15331",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17066",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "11244",
+        "score": "15.3",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "11671",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14800",
+        "score": "2.7",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16583",
+        "score": "13.5",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "17497",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17500",
+        "score": "12.8",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "17511",
+        "score": "5.5",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16384",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "13418",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15727",
+        "shouldStart": "0",
         "status": "nonstarter"
        }
       ],
-      "result": "T",
-      "spread": "-13.8",
-      "starters": "10700,13604,12626,17051,15721,17070,14832,15794,"
+      "result": "W",
+      "score": "105.4",
+      "starters": "10700,12626,17051,13130,15721,17070,14832,15794,"
      }
     ],
     "regularSeason": "1"
@@ -538,266 +748,368 @@
      {
       "id": "0010",
       "isHome": "0",
-      "nonstarters": "13633,14860,14137,15758,15797,15319,16219,13192,16616,17102,17045,17049,17192,14105,17268,7836,16645,14071,17518,15761,15702,15752,16169,",
+      "nonstarters": "13633,14860,14137,15758,15797,15319,16219,13192,16616,17045,17049,17192,14105,17268,7836,16645,14071,17518,15761,15702,15752,16169,14138,",
+      "opt_pts": "120.3",
+      "optimal": "15711,17192,13116,16616,16593,17102,15261,16169,",
       "player": [
        {
         "id": "13116",
+        "score": "16.5",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "16593",
+        "score": "11.8",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "15261",
+        "score": "11.6",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "14797",
+        "score": "3.1",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "15711",
+        "score": "34.3",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "16194",
+        "score": "7.4",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "16185",
+        "score": "8.6",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
-        "id": "14138",
+        "id": "17102",
+        "score": "6.4",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "13633",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14860",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14137",
+        "score": "1.7",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15758",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15797",
+        "score": "2.4",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15319",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16219",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "13192",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16616",
-        "status": "nonstarter"
-       },
-       {
-        "id": "17102",
+        "score": "14.0",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "17045",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17049",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17192",
+        "score": "16.6",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "14105",
+        "score": "2.1",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17268",
+        "score": "0.8",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "7836",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16645",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14071",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17518",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15761",
+        "score": "7.8",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15702",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15752",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16169",
+        "score": "9.1",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "14138",
+        "score": "5.3",
+        "shouldStart": "0",
         "status": "nonstarter"
        }
       ],
-      "result": "T",
-      "spread": "-53.2",
-      "starters": "13116,16593,15261,14797,15711,16194,16185,14138,"
+      "result": "W",
+      "score": "99.7",
+      "starters": "13116,16593,15261,14797,15711,16194,16185,17102,"
      },
      {
       "id": "0002",
       "isHome": "1",
-      "nonstarters": "14778,15779,16189,16584,16164,16809,15788,17075,17108,17080,17079,16204,17462,17506,17520,17481,17508,17519,17529,17706,17627,17542,",
+      "nonstarters": "14778,15779,16189,16164,16809,15788,17075,17108,17080,17079,16204,17462,17506,17520,17481,17508,17519,17529,17706,17627,17542,17644,",
+      "opt_pts": "78.1",
+      "optimal": "17075,16204,16584,17644,17055,16610,16342,17079,",
       "player": [
        {
-        "id": "14782",
+        "id": "16584",
+        "score": "7.3",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "17055",
+        "score": "1.1",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "16610",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "15293",
+        "score": "1.1",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "16342",
+        "score": "12.7",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "17081",
+        "score": "5.4",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "16684",
+        "score": "3.1",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "17106",
+        "score": "1.6",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "14778",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15779",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16189",
-        "status": "nonstarter"
-       },
-       {
-        "id": "16584",
+        "score": "1.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16164",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16809",
+        "score": "4.6",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15788",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17075",
+        "score": "27.4",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "17108",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17080",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17079",
+        "score": "8.6",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "16204",
+        "score": "18.5",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "17462",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17506",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17520",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17481",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17508",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17519",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17529",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17706",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17627",
+        "score": "1.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17542",
+        "score": "0.0",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17644",
+        "score": "2.5",
+        "shouldStart": "1",
         "status": "nonstarter"
        }
       ],
-      "result": "T",
-      "spread": "53.2",
-      "starters": "14782,17055,16610,15293,16342,17081,16684,17106,"
+      "result": "L",
+      "score": "32.3",
+      "starters": "16584,17055,16610,15293,16342,17081,16684,17106,"
      }
     ],
     "regularSeason": "1"
@@ -807,258 +1119,368 @@
      {
       "id": "0011",
       "isHome": "0",
-      "nonstarters": "13590,16150,17048,17105,15738,16618,17507,17505,17567,17526,17620,17605,17504,17463,17593,13131,16630,16649,17480,17791,16746,",
+      "nonstarters": "13590,16150,17048,17105,15738,16618,17507,17505,17567,17526,17620,17605,17504,17463,17593,13131,16630,17056,16649,17480,17791,",
+      "opt_pts": "97.2",
+      "optimal": "16150,14835,16188,17048,16757,16222,17599,17254,",
       "player": [
        {
         "id": "16579",
+        "score": "12.8",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
-        "id": "17056",
+        "id": "16746",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "16757",
+        "score": "4.1",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "17599",
+        "score": "10.0",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "14835",
+        "score": "17.7",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "16188",
+        "score": "12.8",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "17254",
+        "score": "3.0",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "16222",
+        "score": "1.4",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "13590",
+        "score": "7.7",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16150",
+        "score": "35.4",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "17048",
+        "score": "12.8",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "17105",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15738",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16618",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17507",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17505",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17567",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17526",
+        "score": "3.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17620",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17605",
+        "score": "1.1",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17504",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17463",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17593",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "13131",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16630",
+        "score": "0.4",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17056",
+        "score": "0.7",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16649",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17480",
+        "score": "1.9",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17791",
-        "status": "nonstarter"
-       },
-       {
-        "id": "16746",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        }
       ],
-      "result": "T",
-      "spread": "49.3",
-      "starters": "16579,17056,16757,17599,14835,16188,17254,16222,"
+      "result": "L",
+      "score": "61.8",
+      "starters": "16579,16746,16757,17599,14835,16188,17254,16222,"
      },
      {
       "id": "0006",
       "isHome": "1",
-      "nonstarters": "12611,13772,13132,16752,16603,16723,15802,15237,17073,17096,17099,16628,16171,17544,17512,17474,17752,14086,16216,17269,17274,17087,",
+      "nonstarters": "12611,13132,16752,16603,16723,15802,15237,17073,17096,17099,16628,16171,17544,17512,17474,17607,17752,14086,16216,17269,17274,17087,",
+      "opt_pts": "165.2",
+      "optimal": "14777,16211,15281,15256,15715,16723,14086,17269,",
       "player": [
        {
         "id": "14777",
+        "score": "29.5",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "15715",
+        "score": "16.7",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "15256",
+        "score": "20.4",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "15281",
+        "score": "26.5",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "12186",
+        "score": "6.6",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "16211",
+        "score": "28.0",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "15287",
+        "score": "12.6",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
-        "id": "17607",
+        "id": "13772",
+        "score": "5.2",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "12611",
-        "status": "nonstarter"
-       },
-       {
-        "id": "13772",
+        "score": "5.3",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "13132",
+        "score": "6.4",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16752",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16603",
+        "score": "0.2",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16723",
+        "score": "14.0",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "15802",
+        "score": "4.5",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15237",
+        "score": "13.6",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17073",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17096",
+        "score": "11.3",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17099",
+        "score": "2.7",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16628",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16171",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17544",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17512",
+        "score": "4.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17474",
+        "score": "9.4",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17607",
+        "score": "6.7",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17752",
+        "score": "7.3",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14086",
+        "score": "16.7",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "16216",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17269",
+        "score": "13.4",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "17274",
+        "score": "11.5",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17087",
+        "shouldStart": "0",
         "status": "nonstarter"
        }
       ],
-      "result": "T",
-      "spread": "-49.3",
-      "starters": "14777,15715,15256,15281,12186,16211,15287,17607,"
+      "result": "W",
+      "score": "145.5",
+      "starters": "14777,15715,15256,15281,12186,16211,15287,13772,"
      }
     ],
     "regularSeason": "1"
@@ -1068,258 +1490,357 @@
      {
       "id": "0009",
       "isHome": "0",
-      "nonstarters": "13138,15301,16639,17030,17086,16193,12263,15730,16385,17184,16615,17478,17547,17548,16643,17046,17465,14867,17234,17546,17709,17517,",
+      "nonstarters": "13138,15301,16186,16639,17030,17086,16193,12263,15730,16385,17184,17478,17547,17548,16643,17046,17465,14867,17234,17546,17709,17517,",
+      "opt_pts": "107.1",
+      "optimal": "16193,12620,12263,17071,15730,17478,16206,16615,",
       "player": [
        {
         "id": "12620",
+        "score": "19.5",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "14095",
+        "score": "4.7",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "17482",
-        "status": "starter"
-       },
-       {
-        "id": "16186",
+        "score": "-0.3",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "17071",
+        "score": "13.6",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "16615",
+        "score": "6.8",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "15756",
+        "score": "4.5",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "16206",
+        "score": "9.0",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "12676",
+        "score": "5.0",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "13138",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15301",
+        "score": "2.6",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "16186",
+        "score": "3.8",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16639",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17030",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17086",
+        "score": "2.8",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16193",
+        "score": "26.5",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "12263",
+        "score": "19.0",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "15730",
+        "score": "7.7",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "16385",
+        "score": "2.9",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17184",
-        "status": "nonstarter"
-       },
-       {
-        "id": "16615",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17478",
+        "score": "5.0",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "17547",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17548",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16643",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17046",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17465",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14867",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17234",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17546",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17709",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17517",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        }
       ],
-      "result": "T",
-      "spread": "-23.6",
-      "starters": "12620,14095,17482,16186,17071,15756,16206,12676,"
+      "result": "W",
+      "score": "62.8",
+      "starters": "12620,14095,17482,17071,16615,15756,16206,12676,"
      },
      {
       "id": "0008",
       "isHome": "1",
-      "nonstarters": "15757,16614,16619,16629,16601,16201,15332,16597,17032,17033,16636,14143,15798,17502,17503,17476,17528,17521,17467,16595,16773,",
+      "nonstarters": "15757,16619,16629,16601,16201,15332,16597,17032,17033,16636,14143,15798,17472,17502,17503,17476,17528,17521,17467,16595,16773,",
+      "opt_pts": "71.5",
+      "optimal": "16595,15798,16201,17502,17044,16152,15332,17543,",
       "player": [
        {
         "id": "16152",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "16596",
+        "score": "4.4",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "17044",
-        "status": "starter"
-       },
-       {
-        "id": "17472",
+        "score": "6.0",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "16617",
+        "score": "3.2",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "16187",
+        "score": "3.9",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "16614",
+        "score": "3.0",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "16626",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "17543",
+        "score": "6.9",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "15757",
-        "status": "nonstarter"
-       },
-       {
-        "id": "16614",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16619",
+        "score": "4.6",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16629",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16601",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16201",
+        "score": "10.4",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "15332",
+        "score": "10.4",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "16597",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17032",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17033",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16636",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14143",
+        "score": "5.7",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15798",
+        "score": "13.8",
+        "shouldStart": "1",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17472",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17502",
+        "score": "9.8",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "17503",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17476",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17528",
+        "score": "1.6",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17521",
+        "score": "1.8",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17467",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16595",
+        "score": "14.2",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "16773",
+        "shouldStart": "0",
         "status": "nonstarter"
        }
       ],
-      "result": "T",
-      "spread": "23.6",
-      "starters": "16152,16596,17044,17472,16617,16187,16626,17543,"
+      "result": "L",
+      "score": "27.4",
+      "starters": "16152,16596,17044,16617,16187,16614,16626,17543,"
      }
     ],
     "regularSeason": "1"
@@ -1329,262 +1850,371 @@
      {
       "id": "0005",
       "isHome": "0",
-      "nonstarters": "15253,11222,9431,15238,13674,11675,16581,14102,13672,14833,14109,14080,16608,15799,16213,13319,17466,17591,13113,15255,16432,13592,",
+      "nonstarters": "15253,11222,9431,15238,13674,11675,16581,14102,13672,14833,14109,16608,15799,16213,13319,15753,17466,17591,13113,15255,16432,13592,",
+      "opt_pts": "102.4",
+      "optimal": "16598,15698,15708,15751,15799,13635,15255,13299,",
       "player": [
        {
         "id": "15698",
+        "score": "25.3",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "15708",
+        "score": "10.2",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "16598",
+        "score": "26.5",
+        "shouldStart": "1",
+        "status": "starter"
+       },
+       {
+        "id": "14080",
+        "score": "4.9",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "15710",
+        "score": "7.6",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "15751",
+        "score": "9.3",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "13635",
-        "status": "starter"
-       },
-       {
-        "id": "15753",
+        "score": "5.1",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "13299",
+        "score": "7.8",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "15253",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "11222",
+        "score": "4.6",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "9431",
+        "score": "11.2",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15238",
+        "score": "-2.1",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "13674",
+        "score": "7.5",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "11675",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16581",
+        "score": "14.6",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14102",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "13672",
+        "score": "2.1",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14833",
+        "score": "4.7",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14109",
-        "status": "nonstarter"
-       },
-       {
-        "id": "14080",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16608",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15799",
+        "score": "9.1",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "16213",
+        "score": "4.3",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "13319",
+        "score": "2.6",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "15753",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17466",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17591",
+        "score": "7.1",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "13113",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15255",
+        "score": "9.1",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "16432",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "13592",
+        "shouldStart": "0",
         "status": "nonstarter"
        }
       ],
-      "result": "T",
-      "spread": "9.2",
-      "starters": "15698,15708,16598,15710,15751,13635,15753,13299,"
+      "result": "W",
+      "score": "96.7",
+      "starters": "15698,15708,16598,14080,15710,15751,13635,13299,"
      },
      {
       "id": "0007",
       "isHome": "1",
-      "nonstarters": "13593,13163,15712,15716,16582,16080,17058,13630,17098,14085,17061,16165,15284,13671,16174,15282,14861,17549,16788,17527,15972,13164,",
+      "nonstarters": "13593,13163,15716,16582,16080,17058,13630,17098,14085,17061,16165,15284,13671,16269,16174,15282,14861,17549,16788,17527,15972,14067,",
+      "opt_pts": "108.8",
+      "optimal": "16161,16582,15290,15754,14861,16174,13630,16181,",
       "player": [
        {
         "id": "15694",
+        "score": "3.8",
+        "shouldStart": "0",
+        "status": "starter"
+       },
+       {
+        "id": "15712",
+        "score": "5.6",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "16181",
+        "score": "9.0",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "14073",
+        "score": "0.5",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "16161",
+        "score": "23.7",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "15290",
+        "score": "13.5",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "15754",
+        "score": "13.3",
+        "shouldStart": "1",
         "status": "starter"
        },
        {
         "id": "16214",
-        "status": "starter"
-       },
-       {
-        "id": "16269",
+        "score": "5.2",
+        "shouldStart": "0",
         "status": "starter"
        },
        {
         "id": "13593",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "13163",
-        "status": "nonstarter"
-       },
-       {
-        "id": "15712",
+        "score": "3.8",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15716",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16582",
+        "score": "15.7",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "16080",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17058",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "13630",
+        "score": "13.0",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "17098",
+        "score": "3.2",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14085",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17061",
+        "score": "0.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16165",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15284",
+        "score": "2.7",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "13671",
+        "score": "2.9",
+        "shouldStart": "0",
+        "status": "nonstarter"
+       },
+       {
+        "id": "16269",
+        "score": "3.2",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16174",
+        "score": "10.2",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "15282",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "14861",
+        "score": "10.4",
+        "shouldStart": "1",
         "status": "nonstarter"
        },
        {
         "id": "17549",
+        "score": "3.3",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "16788",
+        "score": "2.7",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "17527",
+        "score": "1.1",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
         "id": "15972",
+        "score": "5.2",
+        "shouldStart": "0",
         "status": "nonstarter"
        },
        {
-        "id": "13164",
+        "id": "14067",
+        "score": "7.0",
+        "shouldStart": "0",
         "status": "nonstarter"
        }
       ],
-      "result": "T",
-      "spread": "-9.2",
-      "starters": "15694,16181,14073,16161,15290,15754,16214,16269,"
+      "result": "L",
+      "score": "74.6",
+      "starters": "15694,15712,16181,14073,16161,15290,15754,16214,"
      }
     ],
     "regularSeason": "1"

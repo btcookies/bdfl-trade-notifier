@@ -113,7 +113,7 @@
     "id": "12616",
     "name": "Brissett, Jacoby",
     "position": "QB",
-    "team": "ARI"
+    "team": "BAL"
    },
    {
     "id": "12620",
@@ -377,7 +377,7 @@
     "id": "13963",
     "name": "Hodge, KhaDarel",
     "position": "WR",
-    "team": "FA"
+    "team": "SFO"
    },
    {
     "id": "14056",
@@ -722,6 +722,12 @@
     "team": "CAR"
    },
    {
+    "id": "15263",
+    "name": "Mitchell, Elijah",
+    "position": "RB",
+    "team": "PHI"
+   },
+   {
     "id": "15281",
     "name": "Chase, Ja'Marr",
     "position": "WR",
@@ -875,7 +881,7 @@
     "id": "15717",
     "name": "Pierce, Dameon",
     "position": "RB",
-    "team": "PHI"
+    "team": "FA"
    },
    {
     "id": "15721",
@@ -1205,7 +1211,7 @@
     "id": "16171",
     "name": "Miller, Kendre",
     "position": "RB",
-    "team": "NOS"
+    "team": "FA"
    },
    {
     "id": "16174",
@@ -1490,6 +1496,12 @@
     "team": "NYG"
    },
    {
+    "id": "16585",
+    "name": "Milton, Joe",
+    "position": "QB",
+    "team": "PHI"
+   },
+   {
     "id": "16586",
     "name": "Rattler, Spencer",
     "position": "QB",
@@ -1511,7 +1523,7 @@
     "id": "16595",
     "name": "Estime, Audric",
     "position": "RB",
-    "team": "CLE"
+    "team": "NOS"
    },
    {
     "id": "16596",
@@ -1877,7 +1889,7 @@
     "id": "16957",
     "name": "Jennings, Terrell",
     "position": "RB",
-    "team": "FA"
+    "team": "NEP"
    },
    {
     "id": "16975",
@@ -2395,20 +2407,6 @@
     "team": "NYJ"
    },
    {
-    "id": "17468",
-    "name": "Allar, Drew",
-    "position": "QB",
-    "status": "R",
-    "team": "PIT"
-   },
-   {
-    "id": "17469",
-    "name": "Daniels, Jalon",
-    "position": "QB",
-    "status": "R",
-    "team": "TBB"
-   },
-   {
     "id": "7836",
     "name": "Rodgers, Aaron",
     "position": "QB",
@@ -2425,6 +2423,20 @@
     "name": "Stafford, Matthew",
     "position": "QB",
     "team": "LAR"
+   },
+   {
+    "id": "17468",
+    "name": "Allar, Drew",
+    "position": "QB",
+    "status": "R",
+    "team": "PIT"
+   },
+   {
+    "id": "17469",
+    "name": "Daniels, Jalon",
+    "position": "QB",
+    "status": "R",
+    "team": "TBB"
    },
    {
     "id": "17470",
@@ -2921,7 +2933,7 @@
     "name": "Henry, Robert",
     "position": "RB",
     "status": "R",
-    "team": "SEA"
+    "team": "WAS"
    },
    {
     "id": "17752",
