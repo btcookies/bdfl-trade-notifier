@@ -5,7 +5,7 @@
     "id": "10700",
     "name": "Cousins, Kirk",
     "position": "QB",
-    "team": "LVR"
+    "team": "MIN"
    },
    {
     "id": "10703",
@@ -23,7 +23,7 @@
     "id": "11222",
     "name": "Allen, Keenan",
     "position": "WR",
-    "team": "IND"
+    "team": "SFO"
    },
    {
     "id": "11232",
@@ -386,6 +386,12 @@
     "team": "MIN"
    },
    {
+    "id": "14057",
+    "name": "Lock, Drew",
+    "position": "QB",
+    "team": "SEA"
+   },
+   {
     "id": "14059",
     "name": "Jones, Daniel",
     "position": "QB",
@@ -455,7 +461,7 @@
     "id": "14105",
     "name": "Brown, Marquise",
     "position": "WR",
-    "team": "PHI"
+    "team": "FA"
    },
    {
     "id": "14108",
@@ -707,7 +713,7 @@
     "id": "15258",
     "name": "Carter, Michael",
     "position": "RB",
-    "team": "TEN"
+    "team": "FA"
    },
    {
     "id": "15259",
@@ -1211,7 +1217,7 @@
     "id": "16171",
     "name": "Miller, Kendre",
     "position": "RB",
-    "team": "FA"
+    "team": "DAL"
    },
    {
     "id": "16174",
@@ -1259,7 +1265,7 @@
     "id": "16187",
     "name": "Downs, Josh",
     "position": "WR",
-    "team": "IND"
+    "team": "KCC"
    },
    {
     "id": "16188",
@@ -2099,7 +2105,7 @@
     "id": "17069",
     "name": "Blue, Jaydon",
     "position": "RB",
-    "team": "PHI"
+    "team": "FA"
    },
    {
     "id": "17070",
@@ -2400,13 +2406,6 @@
     "team": "ARI"
    },
    {
-    "id": "17467",
-    "name": "Klubnik, Cade",
-    "position": "QB",
-    "status": "R",
-    "team": "NYJ"
-   },
-   {
     "id": "7836",
     "name": "Rodgers, Aaron",
     "position": "QB",
@@ -2423,6 +2422,13 @@
     "name": "Stafford, Matthew",
     "position": "QB",
     "team": "LAR"
+   },
+   {
+    "id": "17467",
+    "name": "Klubnik, Cade",
+    "position": "QB",
+    "status": "R",
+    "team": "NYJ"
    },
    {
     "id": "17468",
@@ -2747,6 +2753,13 @@
     "team": "HOU"
    },
    {
+    "id": "17538",
+    "name": "Wallace, Harrison",
+    "position": "WR",
+    "status": "R",
+    "team": "ARI"
+   },
+   {
     "id": "17541",
     "name": "Brown, Barion",
     "position": "WR",
@@ -2934,6 +2947,13 @@
     "position": "RB",
     "status": "R",
     "team": "WAS"
+   },
+   {
+    "id": "17750",
+    "name": "Brown, Camden",
+    "position": "WR",
+    "status": "R",
+    "team": "DAL"
    },
    {
     "id": "17752",

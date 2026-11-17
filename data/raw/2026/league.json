@@ -62,12 +62,12 @@
      "waiverSortOrder": "7"
     },
     {
-     "bbidAvailableBalance": "609.00",
+     "bbidAvailableBalance": "559.00",
      "division": "01",
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2021/65522_franchise_icon0004.jpg",
      "id": "0004",
      "name": "WhatDaTruck",
-     "waiverSortOrder": "10"
+     "waiverSortOrder": "8"
     },
     {
      "abbrev": "FH",
@@ -77,11 +77,11 @@
      "id": "0005",
      "logo": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_logo0005.jpg",
      "name": "Free Hernandez Bad Boyz ",
-     "waiverSortOrder": "9"
+     "waiverSortOrder": "10"
     },
     {
      "abbrev": "DYJ",
-     "bbidAvailableBalance": "864.00",
+     "bbidAvailableBalance": "856.00",
      "division": "01",
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2016/79873_franchise_icon0006.jpg",
      "id": "0006",
@@ -89,7 +89,7 @@
      "waiverSortOrder": "12"
     },
     {
-     "bbidAvailableBalance": "196.00",
+     "bbidAvailableBalance": "239.00",
      "division": "02",
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2026/65522_franchise_icon0007.jpg",
      "id": "0007",
@@ -123,11 +123,11 @@
      "name": "Marcus Peters' Peter Peckers",
      "sound": "https://www45.myfantasyleague.com/fflnetdynamic2022/65522_franchise_sound0010.mp3",
      "stadium": "The Bone Dome",
-     "waiverSortOrder": "8"
+     "waiverSortOrder": "9"
     },
     {
      "abbrev": "SSA",
-     "bbidAvailableBalance": "482.00",
+     "bbidAvailableBalance": "480.00",
      "division": "02",
      "icon": "https://www45.myfantasyleague.com/fflnetdynamic2026/65522_franchise_icon0011.jpg",
      "id": "0011",
