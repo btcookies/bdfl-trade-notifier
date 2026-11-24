@@ -9,13 +9,13 @@
       "id": "0003",
       "isHome": "0",
       "result": "T",
-      "spread": "31.8"
+      "spread": "28.7"
      },
      {
       "id": "0001",
       "isHome": "1",
       "result": "T",
-      "spread": "-31.8"
+      "spread": "-28.7"
      }
     ],
     "regularSeason": "1"
@@ -26,13 +26,133 @@
       "id": "0005",
       "isHome": "0",
       "result": "T",
-      "spread": "-46.8"
+      "spread": "-52.4"
      },
      {
       "id": "0002",
       "isHome": "1",
+      "nonstarters": "14778,15293,16189,16684,15788,17106,17108,17080,17055,17079,16204,17462,17506,17520,17481,17508,17519,17529,17706,17627,17542,",
+      "player": [
+       {
+        "id": "16584",
+        "status": "starter"
+       },
+       {
+        "id": "16164",
+        "status": "starter"
+       },
+       {
+        "id": "16610",
+        "status": "starter"
+       },
+       {
+        "id": "16809",
+        "status": "starter"
+       },
+       {
+        "id": "15779",
+        "status": "starter"
+       },
+       {
+        "id": "16342",
+        "status": "starter"
+       },
+       {
+        "id": "17081",
+        "status": "starter"
+       },
+       {
+        "id": "17644",
+        "status": "starter"
+       },
+       {
+        "id": "14778",
+        "status": "nonstarter"
+       },
+       {
+        "id": "15293",
+        "status": "nonstarter"
+       },
+       {
+        "id": "16189",
+        "status": "nonstarter"
+       },
+       {
+        "id": "16684",
+        "status": "nonstarter"
+       },
+       {
+        "id": "15788",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17106",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17108",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17080",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17055",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17079",
+        "status": "nonstarter"
+       },
+       {
+        "id": "16204",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17462",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17506",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17520",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17481",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17508",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17519",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17529",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17706",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17627",
+        "status": "nonstarter"
+       },
+       {
+        "id": "17542",
+        "status": "nonstarter"
+       }
+      ],
       "result": "T",
-      "spread": "46.8"
+      "spread": "52.4",
+      "starters": "16584,16164,16610,16809,15779,16342,17081,17644,"
      }
     ],
     "regularSeason": "1"
@@ -43,13 +163,13 @@
       "id": "0006",
       "isHome": "0",
       "result": "T",
-      "spread": "-33.3"
+      "spread": "-35.2"
      },
      {
       "id": "0012",
       "isHome": "1",
       "result": "T",
-      "spread": "33.3"
+      "spread": "35.2"
      }
     ],
     "regularSeason": "1"
@@ -60,13 +180,13 @@
       "id": "0008",
       "isHome": "0",
       "result": "T",
-      "spread": "53.2"
+      "spread": "54.1"
      },
      {
       "id": "0004",
       "isHome": "1",
       "result": "T",
-      "spread": "-53.2"
+      "spread": "-54.1"
      }
     ],
     "regularSeason": "1"
@@ -76,18 +196,14 @@
      {
       "id": "0007",
       "isHome": "0",
-      "nonstarters": "13163,15712,16582,16080,17058,13630,17098,17061,16165,15284,13671,16269,16174,15282,14861,17549,16788,17527,15972,17256,17652,14057,14835,",
+      "nonstarters": "13163,15712,16582,16080,17058,13630,17098,17061,16165,14073,13671,16269,16174,14861,17549,16788,17527,15972,15694,17652,15755,15708,",
       "player": [
        {
-        "id": "15694",
+        "id": "9431",
         "status": "starter"
        },
        {
-        "id": "14073",
-        "status": "starter"
-       },
-       {
-        "id": "14085",
+        "id": "17256",
         "status": "starter"
        },
        {
@@ -100,6 +216,14 @@
        },
        {
         "id": "15754",
+        "status": "starter"
+       },
+       {
+        "id": "15282",
+        "status": "starter"
+       },
+       {
+        "id": "15284",
         "status": "starter"
        },
        {
@@ -143,7 +267,7 @@
         "status": "nonstarter"
        },
        {
-        "id": "15284",
+        "id": "14073",
         "status": "nonstarter"
        },
        {
@@ -156,10 +280,6 @@
        },
        {
         "id": "16174",
-        "status": "nonstarter"
-       },
-       {
-        "id": "15282",
         "status": "nonstarter"
        },
        {
@@ -183,7 +303,7 @@
         "status": "nonstarter"
        },
        {
-        "id": "17256",
+        "id": "15694",
         "status": "nonstarter"
        },
        {
@@ -191,23 +311,23 @@
         "status": "nonstarter"
        },
        {
-        "id": "14057",
+        "id": "15755",
         "status": "nonstarter"
        },
        {
-        "id": "14835",
+        "id": "15708",
         "status": "nonstarter"
        }
       ],
       "result": "T",
-      "spread": "45",
-      "starters": "15694,14073,14085,16161,15290,15754,16214,"
+      "spread": "23",
+      "starters": "9431,17256,16161,15290,15754,15282,15284,16214,"
      },
      {
       "id": "0010",
       "isHome": "1",
       "result": "T",
-      "spread": "-45"
+      "spread": "-23"
      }
     ],
     "regularSeason": "1"
@@ -218,13 +338,13 @@
       "id": "0009",
       "isHome": "0",
       "result": "T",
-      "spread": "-13.4"
+      "spread": "-16.8"
      },
      {
       "id": "0011",
       "isHome": "1",
       "result": "T",
-      "spread": "13.4"
+      "spread": "16.8"
      }
     ],
     "regularSeason": "1"

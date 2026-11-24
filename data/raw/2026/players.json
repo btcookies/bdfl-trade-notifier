@@ -53,7 +53,7 @@
     "id": "11674",
     "name": "Cooks, Brandin",
     "position": "WR",
-    "team": "SFO"
+    "team": "FA"
    },
    {
     "id": "11675",
@@ -713,7 +713,7 @@
     "id": "15258",
     "name": "Carter, Michael",
     "position": "RB",
-    "team": "FA"
+    "team": "TEN"
    },
    {
     "id": "15259",
@@ -1451,7 +1451,7 @@
     "id": "16416",
     "name": "Gipson, Xavier",
     "position": "WR",
-    "team": "PHI"
+    "team": "NYG"
    },
    {
     "id": "16432",
@@ -1655,7 +1655,7 @@
     "id": "16624",
     "name": "Thrash, Jamari",
     "position": "WR",
-    "team": "LVR"
+    "team": "TEN"
    },
    {
     "id": "16625",
@@ -2105,7 +2105,7 @@
     "id": "17069",
     "name": "Blue, Jaydon",
     "position": "RB",
-    "team": "FA"
+    "team": "PHI"
    },
    {
     "id": "17070",
@@ -2363,7 +2363,7 @@
     "id": "17348",
     "name": "Carter, Nathan",
     "position": "RB",
-    "team": "ATL"
+    "team": "KCC"
    },
    {
     "id": "17353",
@@ -2376,6 +2376,12 @@
     "name": "Williams, Josh",
     "position": "RB",
     "team": "TBB"
+   },
+   {
+    "id": "17360",
+    "name": "Price, Myles",
+    "position": "WR",
+    "team": "MIN"
    },
    {
     "id": "17462",
@@ -2399,13 +2405,6 @@
     "team": "KCC"
    },
    {
-    "id": "17466",
-    "name": "Beck, Carson",
-    "position": "QB",
-    "status": "R",
-    "team": "ARI"
-   },
-   {
     "id": "7836",
     "name": "Rodgers, Aaron",
     "position": "QB",
@@ -2422,6 +2421,13 @@
     "name": "Stafford, Matthew",
     "position": "QB",
     "team": "LAR"
+   },
+   {
+    "id": "17466",
+    "name": "Beck, Carson",
+    "position": "QB",
+    "status": "R",
+    "team": "ARI"
    },
    {
     "id": "17467",
@@ -2898,6 +2904,13 @@
     "position": "WR",
     "status": "R",
     "team": "DET"
+   },
+   {
+    "id": "17651",
+    "name": "Cuevas, Josh",
+    "position": "TE",
+    "status": "R",
+    "team": "BAL"
    },
    {
     "id": "17652",
